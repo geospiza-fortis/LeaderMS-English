@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# set CLASSPATH=.;dist\Leaderms.jar;dist\exttools.jar;mina-core.jar;slf4j-api.jar;slf4j-jdk14.jar;mysql-connector-java-bin.jar;jpcap.jar
-java \
--Drecvops=recvops.properties \
--Dsendops=sendops.properties \
--Dwzpath=wz/ \
-tools.MonsterDropCreator \
-false
+cd "$(dirname "${BASH_SOURCE[0]}")"/..
+export MAVEN_OPTS="-Xmx600m"
+mvn exec:java -Dexec.mainClass="tools.MonsterDropCreator" \
+    -Drecvops=recvops.properties \
+    -Dsendops=sendops.properties \
+    -Dwzpath=wz/ \
+    false

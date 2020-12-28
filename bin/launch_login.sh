@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
-# set CLASSPATH=.;dist\LeaderMS.jar;dist\mina-core.jar;dist\slf4j-api.jar;dist\slf4j-jdk14.jar;dist\mysql-connector-java-bin.jar
-java -Xmx600m \
+cd "$(dirname "${BASH_SOURCE[0]}")"/..
+export MAVEN_OPTS="-Xmx600m"
+mvn exec:java -Dexec.mainClass="handling.login.LoginServer" \
     -Drecvops=recvops.properties \
     -Dsendops=sendops.properties \
     -Dwzpath=wz/ \
-    -Dlogin.config=login.properties \
-    -Djavax.net.ssl.keyStore=filename.keystore \
-    -Djavax.net.ssl.keyStorePassword=passwd \
-    -Djavax.net.ssl.trustStore=filename.keystore \
-    -Djavax.net.ssl.trustStorePassword=passwd \
-    handling.login.LoginServer
+    -Dlogin.config=conf/login.properties
