@@ -4,6 +4,7 @@
 /Reports/
 /scripts/MAPLECAKES_npc/
 /Tools/
+target/
 
 LeaderMS.lnk
 build.xml
