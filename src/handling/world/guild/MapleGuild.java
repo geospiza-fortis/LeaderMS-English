@@ -357,7 +357,7 @@ public class MapleGuild implements java.io.Serializable {
 
         try {
             Properties dbProp = new Properties();
-            InputStreamReader is = new FileReader("Game/Database/db.properties");
+            InputStreamReader is = new FileReader(System.getProperty("db.config"));
             dbProp.load(is);
             con = DatabaseConnection.getConnection();
 

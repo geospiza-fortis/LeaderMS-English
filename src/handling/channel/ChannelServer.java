@@ -184,32 +184,32 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
                 System.out.println("Reconnecting to world server");
                 synchronized (wci) {
                     try {
-						initialProp = new Properties();
-						FileReader fr = new FileReader(System.getProperty("channel.config"));
-						initialProp.load(fr);
-						fr.close();
-						Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
-						worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
-						cwi = new ChannelWorldInterfaceImpl(this);
-						wci = worldRegistry.registerChannelServer(key, cwi);
-						props = wci.getGameProperties();
-                                                expRate = Integer.parseInt(props.getProperty("world.exp"));
-                                                QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
-                                                mesoRate = Integer.parseInt(props.getProperty("world.meso"));
-                                                dropRate = Integer.parseInt(props.getProperty("world.drop"));
-						bossdropRate = Integer.parseInt(props.getProperty("world.bossdrop"));
-						petExpRate = Integer.parseInt(props.getProperty("world.petExp"));
-                                                mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
-						serverMessage = props.getProperty("world.serverMessage");
-						dropUndroppables = Boolean.parseBoolean(props.getProperty("world.alldrop", "false"));
-						moreThanOne = Boolean.parseBoolean(props.getProperty("world.morethanone", "false"));
-						gmWhiteText = Boolean.parseBoolean(props.getProperty("world.gmWhiteText", "true"));
-						cashshop = Boolean.parseBoolean(props.getProperty("world.cashshop", "false"));
-						mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
-						Properties dbProp = new Properties();
-						fr = new FileReader("Game/Database/db.properties");
-						dbProp.load(fr);
-                                                fr.close();
+                        initialProp = new Properties();
+                        FileReader fr = new FileReader(System.getProperty("channel.config"));
+                        initialProp.load(fr);
+                        fr.close();
+                        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
+                        worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
+                        cwi = new ChannelWorldInterfaceImpl(this);
+                        wci = worldRegistry.registerChannelServer(key, cwi);
+                        props = wci.getGameProperties();
+                        expRate = Integer.parseInt(props.getProperty("world.exp"));
+                        QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
+                        mesoRate = Integer.parseInt(props.getProperty("world.meso"));
+                        dropRate = Integer.parseInt(props.getProperty("world.drop"));
+                        bossdropRate = Integer.parseInt(props.getProperty("world.bossdrop"));
+                        petExpRate = Integer.parseInt(props.getProperty("world.petExp"));
+                        mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
+                        serverMessage = props.getProperty("world.serverMessage");
+                        dropUndroppables = Boolean.parseBoolean(props.getProperty("world.alldrop", "false"));
+                        moreThanOne = Boolean.parseBoolean(props.getProperty("world.morethanone", "false"));
+                        gmWhiteText = Boolean.parseBoolean(props.getProperty("world.gmWhiteText", "true"));
+                        cashshop = Boolean.parseBoolean(props.getProperty("world.cashshop", "false"));
+                        mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
+                        Properties dbProp = new Properties();
+                        fr = new FileReader(System.getProperty("db.config"));
+                        dbProp.load(fr);
+                        fr.close();
                         DatabaseConnection.setProps(dbProp);
                         DatabaseConnection.getConnection();
                         wci.serverReady();
@@ -225,33 +225,34 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
         }
     }
 
-                        @Override
-                        public void run() {
-                        try {
-                        cwi = new ChannelWorldInterfaceImpl(this);
-                        wci = worldRegistry.registerChannelServer(key, cwi);
-                        props = wci.getGameProperties();
+    @Override
+    public void run() {
+        try {
+            cwi = new ChannelWorldInterfaceImpl(this);
+            wci = worldRegistry.registerChannelServer(key, cwi);
+            props = wci.getGameProperties();
 	 		expRate = Integer.parseInt(props.getProperty("world.exp"));
-                        QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
+            QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
 			mesoRate = Integer.parseInt(props.getProperty("world.meso"));
 			dropRate = Integer.parseInt(props.getProperty("world.drop"));
 			bossdropRate = Integer.parseInt(props.getProperty("world.bossdrop"));
 			petExpRate = Integer.parseInt(props.getProperty("world.petExp"));
-                        mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
+            mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
 			serverMessage = props.getProperty("world.serverMessage");
 			dropUndroppables = Boolean.parseBoolean(props.getProperty("world.alldrop", "false"));
 			moreThanOne = Boolean.parseBoolean(props.getProperty("world.morethanone", "false"));
 			eventSM = new EventScriptManager(this, props.getProperty("channel.events").split(","));
 			gmWhiteText = Boolean.parseBoolean(props.getProperty("world.gmWhiteText", "false"));
 			cashshop = Boolean.parseBoolean(props.getProperty("world.cashshop", "false"));
-			mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
-	                Properties dbProp = new Properties();
-                        FileReader fileReader = new FileReader("Game/Database/db.properties");
-                        dbProp.load(fileReader);
-                        fileReader.close();
-                        DatabaseConnection.setProps(dbProp);
-                        DatabaseConnection.getConnection();
-                        Connection c = DatabaseConnection.getConnection();
+            mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
+
+            Properties dbProp = new Properties();
+            FileReader fileReader = new FileReader(System.getProperty("db.config"));
+            dbProp.load(fileReader);
+            fileReader.close();
+            DatabaseConnection.setProps(dbProp);
+            DatabaseConnection.getConnection();
+            Connection c = DatabaseConnection.getConnection();
             try {
                 PreparedStatement ps = c.prepareStatement("UPDATE accounts SET loggedin = 0");
                 ps.executeUpdate();

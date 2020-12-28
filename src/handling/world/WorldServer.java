@@ -22,12 +22,12 @@ public class WorldServer {
 
     private WorldServer() {
         try {
-            InputStreamReader is = new FileReader("Game/Database/db.properties");
+            InputStreamReader is = new FileReader(System.getProperty("db.config"));
             dbProp.load(is);
             is.close();
             DatabaseConnection.setProps(dbProp);
             DatabaseConnection.getConnection();
-            is = new FileReader("Game/Configuration/world.properties");
+            is = new FileReader(System.getProperty("world.config"));
             worldProp.load(is);
             is.close();
         } catch (Exception e) {
