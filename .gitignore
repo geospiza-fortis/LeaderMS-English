@@ -11,3 +11,6 @@ build.xml
 nbbuild.xml
 GM_Command_Log.rtf
 Broken_Stuff.txt
+
+# random generated script for modifying monster drops
+monsterDrops.sql
