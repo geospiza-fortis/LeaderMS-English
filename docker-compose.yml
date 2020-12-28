@@ -41,11 +41,41 @@ services:
       - MYSQL_DATABASE
     depends_on:
       - db
-    ports:
-      - "8484:8484"
     command: >
       bash -x -c "
         sleep 5 &&
         bin/run_leaderms_sql.sh &&
         exec bin/launch_world.sh
       "
+  login:
+    build:
+      context: .
+    restart: always
+    volumes:
+      - ./:/app
+      - /app/target
+    environment:
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    depends_on:
+      - db
+      - world
+    command: bash -c "sleep 5 && exec bin/launch_channel.sh"
+  channel:
+    build:
+      context: .
+    restart: always
+    volumes:
+      - ./:/app
+      - /app/target
+    environment:
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    depends_on:
+      - db
+      - world
+    ports:
+      - "7575:7575"
+    command: bash -c "sleep 5 && exec bin/launch_channel.sh"

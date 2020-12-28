@@ -88,7 +88,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
 	
 	private Map<Integer, MapleAlliance> alliances = new LinkedHashMap<Integer, MapleAlliance>(); // contains id and alliance info.
 
-        private WorldRegistryImpl() throws RemoteException {
+    private WorldRegistryImpl() throws RemoteException {
         super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
         DatabaseConnection.setProps(WorldServer.getInstance().getDbProp());
 
