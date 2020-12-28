@@ -47,9 +47,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
-
 import database.DatabaseConnection;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -89,7 +86,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
 	private Map<Integer, MapleAlliance> alliances = new LinkedHashMap<Integer, MapleAlliance>(); // contains id and alliance info.
 
     private WorldRegistryImpl() throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+        super(0);
         DatabaseConnection.setProps(WorldServer.getInstance().getDbProp());
 
         Connection con = DatabaseConnection.getConnection();

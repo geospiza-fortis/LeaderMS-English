@@ -38,9 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
-
 import database.DatabaseConnection;
 import handling.MaplePacket;
 import handling.channel.remote.ChannelWorldInterface;
@@ -65,11 +62,11 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
     private boolean ready = false;
 
     public WorldChannelInterfaceImpl() throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+        super(0);
     }
 
     public WorldChannelInterfaceImpl(ChannelWorldInterface cb, int dbId) throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+        super(0);
         this.cb = cb;
         this.dbId = dbId;
     }

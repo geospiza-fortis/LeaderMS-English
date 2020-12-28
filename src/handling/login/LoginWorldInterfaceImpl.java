@@ -2,15 +2,13 @@ package handling.login;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
 import handling.login.remote.LoginWorldInterface;
 
 public class LoginWorldInterfaceImpl extends UnicastRemoteObject implements LoginWorldInterface {
     private static final long serialVersionUID = -3405666366539470037L;
 
     public LoginWorldInterfaceImpl() throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+        super(0);
     }
 
     public void channelOnline(int channel, String ip) throws RemoteException {

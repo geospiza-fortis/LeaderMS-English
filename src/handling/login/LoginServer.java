@@ -35,7 +35,6 @@ import java.util.Set;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
 import client.SkillFactory;
 
 import database.DatabaseConnection;
@@ -141,7 +140,7 @@ public class LoginServer implements Runnable, LoginServerMBean {
                         FileReader fileReader = new FileReader(System.getProperty("login.config"));
                         initialProp.load(fileReader);
                         fileReader.close();
-                        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
+                        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT);
                         worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
                         lwi = new LoginWorldInterfaceImpl();
                         wli = worldRegistry.registerLoginServer(initialProp.getProperty("login.key"), lwi);
@@ -179,7 +178,7 @@ public class LoginServer implements Runnable, LoginServerMBean {
             FileReader fileReader = new FileReader(System.getProperty("login.config"));
             initialProp.load(fileReader);
             fileReader.close();
-            Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
+            Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT);
             worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
             lwi = new LoginWorldInterfaceImpl();
             wli = worldRegistry.registerLoginServer(initialProp.getProperty("login.key"), lwi);

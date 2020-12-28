@@ -51,7 +51,6 @@ import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.SkillFactory;
@@ -188,7 +187,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
                         FileReader fr = new FileReader(System.getProperty("channel.config"));
                         initialProp.load(fr);
                         fr.close();
-                        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
+                        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT);
                         worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
                         cwi = new ChannelWorldInterfaceImpl(this);
                         wci = worldRegistry.registerChannelServer(key, cwi);
@@ -742,7 +741,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
             NotCompliantMBeanException, MalformedObjectNameException {
         initialProp = new Properties();
         initialProp.load(new FileReader(System.getProperty("channel.config")));
-        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
+        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT);
         worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
         for (int i = 0; i < Integer.parseInt(initialProp.getProperty("channel.count", "0")); i++) {
             newInstance(initialProp.getProperty("channel." + i + ".key")).run();

@@ -28,9 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
-
 import client.BuddyList;
 import client.BuddylistEntry;
 import client.MapleCharacter;
@@ -65,11 +62,11 @@ public class ChannelWorldInterfaceImpl extends UnicastRemoteObject implements Ch
 	private ChannelServer server;
 	
 	public ChannelWorldInterfaceImpl() throws RemoteException {
-		super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+		super(0);
 	}
 	
 	public ChannelWorldInterfaceImpl(ChannelServer server) throws RemoteException {
-		super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+		super(0);
 		this.server = server;
 	}
 	
