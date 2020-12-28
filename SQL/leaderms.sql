@@ -20,11 +20,6 @@ SET time_zone = "+00:00";
 -- Database: `leaderms`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `accounts`
---
 
 CREATE TABLE IF NOT EXISTS `accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -70,11 +65,6 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   KEY `ranking1` (`id`,`banned`,`gm`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `alliance`
---
 
 CREATE TABLE IF NOT EXISTS `alliance` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -94,11 +84,6 @@ CREATE TABLE IF NOT EXISTS `alliance` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `bosslog`
---
 
 CREATE TABLE IF NOT EXISTS `bosslog` (
   `bosslogid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -108,11 +93,6 @@ CREATE TABLE IF NOT EXISTS `bosslog` (
   PRIMARY KEY (`bosslogid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `buddies`
---
 
 CREATE TABLE IF NOT EXISTS `buddies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -123,11 +103,6 @@ CREATE TABLE IF NOT EXISTS `buddies` (
   KEY `buddies_ibfk_1` (`characterid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cashshop`
---
 
 CREATE TABLE IF NOT EXISTS `cashshop` (
   `sn` int(11) NOT NULL,
@@ -137,11 +112,6 @@ CREATE TABLE IF NOT EXISTS `cashshop` (
   PRIMARY KEY (`sn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `channelconfig`
---
 
 CREATE TABLE IF NOT EXISTS `channelconfig` (
   `channelconfigid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -152,11 +122,6 @@ CREATE TABLE IF NOT EXISTS `channelconfig` (
   KEY `channelid` (`channelid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `channels`
---
 
 CREATE TABLE IF NOT EXISTS `channels` (
   `channelid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -166,11 +131,6 @@ CREATE TABLE IF NOT EXISTS `channels` (
   PRIMARY KEY (`channelid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `characters`
---
 
 CREATE TABLE IF NOT EXISTS `characters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -258,11 +218,6 @@ CREATE TABLE IF NOT EXISTS `characters` (
   KEY `ranking2` (`gm`,`job`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cheatlog`
---
 
 CREATE TABLE IF NOT EXISTS `cheatlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -275,11 +230,6 @@ CREATE TABLE IF NOT EXISTS `cheatlog` (
   KEY `cid` (`characterid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cooldowns`
---
 
 CREATE TABLE IF NOT EXISTS `cooldowns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -293,11 +243,6 @@ CREATE TABLE IF NOT EXISTS `cooldowns` (
   UNIQUE KEY `charid_3` (`charid`,`SkillID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `dueyitems`
---
 
 CREATE TABLE IF NOT EXISTS `dueyitems` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -326,11 +271,6 @@ CREATE TABLE IF NOT EXISTS `dueyitems` (
   KEY `PackageId` (`PackageId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `dueypackages`
---
 
 CREATE TABLE IF NOT EXISTS `dueypackages` (
   `PackageId` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -343,11 +283,6 @@ CREATE TABLE IF NOT EXISTS `dueypackages` (
   PRIMARY KEY (`PackageId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `engagements`
---
 
 CREATE TABLE IF NOT EXISTS `engagements` (
   `engagementid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -356,11 +291,6 @@ CREATE TABLE IF NOT EXISTS `engagements` (
   PRIMARY KEY (`engagementid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `eventstats`
---
 
 CREATE TABLE IF NOT EXISTS `eventstats` (
   `eventstatid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -372,11 +302,6 @@ CREATE TABLE IF NOT EXISTS `eventstats` (
   PRIMARY KEY (`eventstatid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `famelog`
---
 
 CREATE TABLE IF NOT EXISTS `famelog` (
   `famelogid` int(11) NOT NULL AUTO_INCREMENT,
@@ -387,11 +312,6 @@ CREATE TABLE IF NOT EXISTS `famelog` (
   KEY `characterid` (`characterid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `gmlog`
---
 
 CREATE TABLE IF NOT EXISTS `gmlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -401,11 +321,6 @@ CREATE TABLE IF NOT EXISTS `gmlog` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `guilds`
---
 
 CREATE TABLE IF NOT EXISTS `guilds` (
   `guildid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -428,11 +343,6 @@ CREATE TABLE IF NOT EXISTS `guilds` (
   PRIMARY KEY (`guildid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `hiredmerchant`
---
 
 CREATE TABLE IF NOT EXISTS `hiredmerchant` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -461,11 +371,6 @@ CREATE TABLE IF NOT EXISTS `hiredmerchant` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `hiredmerchanttemp`
---
 
 CREATE TABLE IF NOT EXISTS `hiredmerchanttemp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -494,11 +399,6 @@ CREATE TABLE IF NOT EXISTS `hiredmerchanttemp` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `htsquads`
---
 
 CREATE TABLE IF NOT EXISTS `htsquads` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -509,11 +409,6 @@ CREATE TABLE IF NOT EXISTS `htsquads` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `inventoryequipment`
---
 
 CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   `inventoryequipmentid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -541,11 +436,6 @@ CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   KEY `inventoryitemid` (`inventoryitemid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `inventoryitems`
---
 
 CREATE TABLE IF NOT EXISTS `inventoryitems` (
   `inventoryitemid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -566,11 +456,6 @@ CREATE TABLE IF NOT EXISTS `inventoryitems` (
   KEY `characterid_2` (`characterid`,`inventorytype`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ipbans`
---
 
 CREATE TABLE IF NOT EXISTS `ipbans` (
   `ipbanid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -578,11 +463,6 @@ CREATE TABLE IF NOT EXISTS `ipbans` (
   PRIMARY KEY (`ipbanid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `iplog`
---
 
 CREATE TABLE IF NOT EXISTS `iplog` (
   `iplogid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -594,11 +474,6 @@ CREATE TABLE IF NOT EXISTS `iplog` (
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `jobchanges`
---
 
 CREATE TABLE IF NOT EXISTS `jobchanges` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -607,11 +482,6 @@ CREATE TABLE IF NOT EXISTS `jobchanges` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `jobs`
---
 
 CREATE TABLE IF NOT EXISTS `jobs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -620,11 +490,6 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `keymap`
---
 
 CREATE TABLE IF NOT EXISTS `keymap` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -636,11 +501,6 @@ CREATE TABLE IF NOT EXISTS `keymap` (
   KEY `keymap_ibfk_1` (`characterid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `loginserver`
---
 
 CREATE TABLE IF NOT EXISTS `loginserver` (
   `loginserverid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -650,11 +510,6 @@ CREATE TABLE IF NOT EXISTS `loginserver` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 
--- --------------------------------------------------------
-
---
--- Table structure for table `macbans`
---
 
 CREATE TABLE IF NOT EXISTS `macbans` (
   `macbanid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -663,11 +518,6 @@ CREATE TABLE IF NOT EXISTS `macbans` (
   UNIQUE KEY `mac_2` (`mac`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `macfilters`
---
 
 CREATE TABLE IF NOT EXISTS `macfilters` (
   `macfilterid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -675,11 +525,6 @@ CREATE TABLE IF NOT EXISTS `macfilters` (
   PRIMARY KEY (`macfilterid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `marriages`
---
 
 CREATE TABLE IF NOT EXISTS `marriages` (
   `marriageid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -688,11 +533,6 @@ CREATE TABLE IF NOT EXISTS `marriages` (
   PRIMARY KEY (`marriageid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `monsterdrops`
---
 
 CREATE TABLE IF NOT EXISTS `monsterdrops` (
   `monsterdropid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -702,11 +542,6 @@ CREATE TABLE IF NOT EXISTS `monsterdrops` (
   PRIMARY KEY (`monsterdropid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=294783 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `monsterquestdrops`
---
 
 CREATE TABLE IF NOT EXISTS `monsterquestdrops` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -717,11 +552,6 @@ CREATE TABLE IF NOT EXISTS `monsterquestdrops` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `mts_cart`
---
 
 CREATE TABLE IF NOT EXISTS `mts_cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -730,11 +560,6 @@ CREATE TABLE IF NOT EXISTS `mts_cart` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `mts_items`
---
 
 CREATE TABLE IF NOT EXISTS `mts_items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -773,11 +598,6 @@ CREATE TABLE IF NOT EXISTS `mts_items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `notes`
---
 
 CREATE TABLE IF NOT EXISTS `notes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -788,11 +608,6 @@ CREATE TABLE IF NOT EXISTS `notes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `nxcode`
---
 
 CREATE TABLE IF NOT EXISTS `nxcode` (
   `code` varchar(15) NOT NULL,
@@ -803,11 +618,6 @@ CREATE TABLE IF NOT EXISTS `nxcode` (
   PRIMARY KEY (`code`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `nxcode_track`
---
 
 CREATE TABLE IF NOT EXISTS `nxcode_track` (
   `ID` int(6) NOT NULL AUTO_INCREMENT,
@@ -817,11 +627,6 @@ CREATE TABLE IF NOT EXISTS `nxcode_track` (
   KEY `IP` (`IP`,`Day`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `pets`
---
 
 CREATE TABLE IF NOT EXISTS `pets` (
   `petid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -832,11 +637,6 @@ CREATE TABLE IF NOT EXISTS `pets` (
   PRIMARY KEY (`petid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `playernpcs`
---
 
 CREATE TABLE IF NOT EXISTS `playernpcs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -857,11 +657,6 @@ CREATE TABLE IF NOT EXISTS `playernpcs` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `playernpcs_equip`
---
 
 CREATE TABLE IF NOT EXISTS `playernpcs_equip` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -872,11 +667,6 @@ CREATE TABLE IF NOT EXISTS `playernpcs_equip` (
   KEY `FK_playernpcs_equip_1` (`npcid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `player_variables`
---
 
 CREATE TABLE IF NOT EXISTS `player_variables` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -886,11 +676,6 @@ CREATE TABLE IF NOT EXISTS `player_variables` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `questactions`
---
 
 CREATE TABLE IF NOT EXISTS `questactions` (
   `questactionid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -900,11 +685,6 @@ CREATE TABLE IF NOT EXISTS `questactions` (
   PRIMARY KEY (`questactionid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `questrequirements`
---
 
 CREATE TABLE IF NOT EXISTS `questrequirements` (
   `questrequirementid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -914,11 +694,6 @@ CREATE TABLE IF NOT EXISTS `questrequirements` (
   PRIMARY KEY (`questrequirementid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `queststatus`
---
 
 CREATE TABLE IF NOT EXISTS `queststatus` (
   `queststatusid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -931,11 +706,6 @@ CREATE TABLE IF NOT EXISTS `queststatus` (
   KEY `characterid` (`characterid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `queststatusmobs`
---
 
 CREATE TABLE IF NOT EXISTS `queststatusmobs` (
   `queststatusmobid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -946,11 +716,6 @@ CREATE TABLE IF NOT EXISTS `queststatusmobs` (
   KEY `queststatusid` (`queststatusid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `reactordrops`
---
 
 CREATE TABLE IF NOT EXISTS `reactordrops` (
   `reactordropid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -962,11 +727,6 @@ CREATE TABLE IF NOT EXISTS `reactordrops` (
   KEY `reactorid` (`reactorid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=611 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `reports`
---
 
 CREATE TABLE IF NOT EXISTS `reports` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -979,11 +739,6 @@ CREATE TABLE IF NOT EXISTS `reports` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `rings`
---
 
 CREATE TABLE IF NOT EXISTS `rings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -994,11 +749,6 @@ CREATE TABLE IF NOT EXISTS `rings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `savedlocations`
---
 
 CREATE TABLE IF NOT EXISTS `savedlocations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1015,11 +765,6 @@ CREATE TABLE IF NOT EXISTS `savedlocations` (
   KEY `savedlocations_ibfk_1` (`characterid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `shopitems`
---
 
 CREATE TABLE IF NOT EXISTS `shopitems` (
   `shopitemid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1039,9 +784,6 @@ CREATE TABLE IF NOT EXISTS `shopitems` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=996534 ;
 
 
---
--- Table structure for table `shops`
---
 
 CREATE TABLE IF NOT EXISTS `shops` (
   `shopid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1049,11 +791,6 @@ CREATE TABLE IF NOT EXISTS `shops` (
   PRIMARY KEY (`shopid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1093001 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `skillmacros`
---
 
 CREATE TABLE IF NOT EXISTS `skillmacros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1067,11 +804,6 @@ CREATE TABLE IF NOT EXISTS `skillmacros` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `skills`
---
 
 CREATE TABLE IF NOT EXISTS `skills` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1088,11 +820,6 @@ CREATE TABLE IF NOT EXISTS `skills` (
   KEY `skills_ibfk_1` (`characterid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `spawns`
---
 
 CREATE TABLE IF NOT EXISTS `spawns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1110,11 +837,6 @@ CREATE TABLE IF NOT EXISTS `spawns` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=59 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `storages`
---
 
 CREATE TABLE IF NOT EXISTS `storages` (
   `storageid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1125,11 +847,6 @@ CREATE TABLE IF NOT EXISTS `storages` (
   KEY `accountid` (`accountid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `trocklocations`
---
 
 CREATE TABLE IF NOT EXISTS `trocklocations` (
   `trockid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1138,11 +855,6 @@ CREATE TABLE IF NOT EXISTS `trocklocations` (
   PRIMARY KEY (`trockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `viprockmaps`
---
 
 CREATE TABLE IF NOT EXISTS `viprockmaps` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1154,11 +866,6 @@ CREATE TABLE IF NOT EXISTS `viprockmaps` (
   UNIQUE KEY `cid_2` (`cid`,`mapid`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `website_events`
---
 
 CREATE TABLE IF NOT EXISTS `website_events` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -1172,11 +879,6 @@ CREATE TABLE IF NOT EXISTS `website_events` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `website_news`
---
 
 CREATE TABLE IF NOT EXISTS `website_news` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -1189,11 +891,6 @@ CREATE TABLE IF NOT EXISTS `website_news` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `wishlist`
---
 
 CREATE TABLE IF NOT EXISTS `wishlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1207,11 +904,6 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   UNIQUE KEY `charid_5` (`characterid`,`sn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `zaksquads`
---
 
 CREATE TABLE IF NOT EXISTS `zaksquads` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1222,91 +914,46 @@ CREATE TABLE IF NOT EXISTS `zaksquads` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `buddies`
---
 ALTER TABLE `buddies`
   ADD CONSTRAINT `buddies_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `channelconfig`
---
 ALTER TABLE `channelconfig`
   ADD CONSTRAINT `channelconfig_ibfk_1` FOREIGN KEY (`channelid`) REFERENCES `channels` (`channelid`) ON DELETE CASCADE;
 
---
--- Constraints for table `dueyitems`
---
 ALTER TABLE `dueyitems`
   ADD CONSTRAINT `dueyitems_ibfk_1` FOREIGN KEY (`PackageId`) REFERENCES `dueypackages` (`PackageId`) ON DELETE CASCADE;
 
---
--- Constraints for table `famelog`
---
 ALTER TABLE `famelog`
   ADD CONSTRAINT `famelog_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `inventoryequipment`
---
 ALTER TABLE `inventoryequipment`
   ADD CONSTRAINT `inventoryequipment_ibfk_1` FOREIGN KEY (`inventoryitemid`) REFERENCES `inventoryitems` (`inventoryitemid`) ON DELETE CASCADE;
 
---
--- Constraints for table `inventoryitems`
---
 ALTER TABLE `inventoryitems`
   ADD CONSTRAINT `inventoryitems_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `iplog`
---
 ALTER TABLE `iplog`
   ADD CONSTRAINT `iplog_ibfk_1` FOREIGN KEY (`accountid`) REFERENCES `accounts` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `keymap`
---
 ALTER TABLE `keymap`
   ADD CONSTRAINT `keymap_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `playernpcs_equip`
---
 ALTER TABLE `playernpcs_equip`
   ADD CONSTRAINT `FK_playernpcs_equip_1` FOREIGN KEY (`npcid`) REFERENCES `playernpcs` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `queststatus`
---
 ALTER TABLE `queststatus`
   ADD CONSTRAINT `queststatus_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `queststatusmobs`
---
 ALTER TABLE `queststatusmobs`
   ADD CONSTRAINT `queststatusmobs_ibfk_1` FOREIGN KEY (`queststatusid`) REFERENCES `queststatus` (`queststatusid`) ON DELETE CASCADE;
 
---
--- Constraints for table `savedlocations`
---
 ALTER TABLE `savedlocations`
   ADD CONSTRAINT `savedlocations_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `skills`
---
 ALTER TABLE `skills`
   ADD CONSTRAINT `skills_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `storages`
---
 ALTER TABLE `storages`
   ADD CONSTRAINT `storages_ibfk_1` FOREIGN KEY (`accountid`) REFERENCES `accounts` (`id`) ON DELETE CASCADE;
 
