@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 cd "$(dirname "${BASH_SOURCE[0]}")"/..
 
 bin/run_sql.sh <sql/leaderms.sql
