@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `buddies` (
   `buddyid` int(11) NOT NULL,
   `pending` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `buddies_ibfk_1` (`characterid`)
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `channelconfig` (
   `name` tinytext NOT NULL,
   `value` tinytext NOT NULL,
   PRIMARY KEY (`channelconfigid`),
-  KEY `channelid` (`channelid`)
+  FOREIGN KEY (`channelid`) REFERENCES `channels` (`channelid`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 
@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `dueyitems` (
   `jump` int(11) DEFAULT '0',
   `owner` varchar(13) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `PackageId` (`PackageId`)
+  FOREIGN KEY (`PackageId`) REFERENCES `dueypackages` (`PackageId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -309,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `famelog` (
   `characterid_to` int(11) NOT NULL DEFAULT '0',
   `when` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`famelogid`),
-  KEY `characterid` (`characterid`)
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   `ringid` int(11) NOT NULL DEFAULT '-1',
   `locked` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`inventoryequipmentid`),
-  KEY `inventoryitemid` (`inventoryitemid`)
+  FOREIGN KEY (`inventoryitemid`) REFERENCES `inventoryitems` (`inventoryitemid`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -449,8 +449,7 @@ CREATE TABLE IF NOT EXISTS `inventoryitems` (
   `petid` int(11) NOT NULL DEFAULT '-1',
   `expiration` bigint(20) unsigned DEFAULT '0',
   PRIMARY KEY (`inventoryitemid`),
-  KEY `inventoryitems_ibfk_1` (`characterid`),
-  KEY `characterid` (`characterid`),
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE,
   KEY `inventorytype` (`inventorytype`),
   KEY `storageid` (`storageid`),
   KEY `characterid_2` (`characterid`,`inventorytype`)
@@ -470,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `iplog` (
   `ip` varchar(30) NOT NULL DEFAULT '',
   `login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`iplogid`),
-  KEY `accountid` (`accountid`,`ip`),
+  FOREIGN KEY (`accountid`) REFERENCES `accounts` (`id`) ON DELETE CASCADE,
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -498,7 +497,7 @@ CREATE TABLE IF NOT EXISTS `keymap` (
   `type` int(11) NOT NULL DEFAULT '0',
   `action` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `keymap_ibfk_1` (`characterid`)
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -664,7 +663,7 @@ CREATE TABLE IF NOT EXISTS `playernpcs_equip` (
   `equipid` int(11) NOT NULL,
   `equippos` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_playernpcs_equip_1` (`npcid`)
+  FOREIGN KEY (`npcid`) REFERENCES `playernpcs` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -703,7 +702,7 @@ CREATE TABLE IF NOT EXISTS `queststatus` (
   `time` int(11) NOT NULL DEFAULT '0',
   `forfeited` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`queststatusid`),
-  KEY `characterid` (`characterid`)
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -713,8 +712,8 @@ CREATE TABLE IF NOT EXISTS `queststatusmobs` (
   `mob` int(11) NOT NULL DEFAULT '0',
   `count` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`queststatusmobid`),
-  KEY `queststatusid` (`queststatusid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  FOREIGN KEY (`queststatusid`) REFERENCES `queststatus` (`queststatusid`) ON DELETE CASCADE
+ ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `reactordrops` (
@@ -756,13 +755,8 @@ CREATE TABLE IF NOT EXISTS `savedlocations` (
   `locationtype` enum('FREE_MARKET','WORLDTOUR','FLORINA','MONSTER_CARNIVAL','ARIANT_PQ','EVENTO','RANDOM_EVENT') NOT NULL,
   `map` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `characterid` (`characterid`,`map`,`locationtype`),
-  UNIQUE KEY `characterid_2` (`characterid`,`map`,`locationtype`),
-  UNIQUE KEY `characterid_3` (`characterid`,`map`,`locationtype`),
-  UNIQUE KEY `characterid_4` (`characterid`,`map`,`locationtype`),
-  UNIQUE KEY `characterid_5` (`characterid`,`map`,`locationtype`),
-  UNIQUE KEY `characterid_6` (`characterid`,`map`,`locationtype`),
-  KEY `savedlocations_ibfk_1` (`characterid`)
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE,
+  UNIQUE (`characterid`,`map`,`locationtype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -775,12 +769,8 @@ CREATE TABLE IF NOT EXISTS `shopitems` (
   `refresh` bigint(12) NOT NULL DEFAULT '0',
   `availible` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`shopitemid`),
-  UNIQUE KEY `shopid_2` (`shopid`,`itemid`),
-  UNIQUE KEY `shopid_3` (`shopid`,`itemid`),
-  UNIQUE KEY `shopid_4` (`shopid`,`itemid`),
-  UNIQUE KEY `shopid_5` (`shopid`,`itemid`),
-  UNIQUE KEY `shopid_6` (`shopid`,`itemid`),
   KEY `shopid` (`shopid`)
+  UNIQUE KEY `shopid_unique` (`shopid`,`itemid`),
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=996534 ;
 
 
@@ -812,12 +802,8 @@ CREATE TABLE IF NOT EXISTS `skills` (
   `skilllevel` int(11) NOT NULL DEFAULT '0',
   `masterlevel` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `characterid` (`characterid`,`skillid`),
-  UNIQUE KEY `characterid_2` (`characterid`,`skillid`),
-  UNIQUE KEY `characterid_3` (`characterid`,`skillid`),
-  UNIQUE KEY `characterid_4` (`characterid`,`skillid`),
-  UNIQUE KEY `characterid_5` (`characterid`,`skillid`),
-  KEY `skills_ibfk_1` (`characterid`)
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
+  UNIQUE (`characterid`,`skillid`),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -844,7 +830,7 @@ CREATE TABLE IF NOT EXISTS `storages` (
   `slots` int(11) NOT NULL DEFAULT '0',
   `meso` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`storageid`),
-  KEY `accountid` (`accountid`)
+  FOREIGN KEY (`accountid`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -867,41 +853,12 @@ CREATE TABLE IF NOT EXISTS `viprockmaps` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `website_events` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
-  `author` varchar(16) NOT NULL,
-  `date` varchar(32) NOT NULL,
-  `type` varchar(100) NOT NULL,
-  `status` varchar(32) NOT NULL,
-  `content` text NOT NULL,
-  `views` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
-CREATE TABLE IF NOT EXISTS `website_news` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
-  `author` varchar(16) NOT NULL,
-  `date` varchar(32) NOT NULL,
-  `type` varchar(50) NOT NULL,
-  `content` text NOT NULL,
-  `views` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
 CREATE TABLE IF NOT EXISTS `wishlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `characterid` int(11) NOT NULL,
   `sn` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `charid` (`characterid`,`sn`),
-  UNIQUE KEY `charid_2` (`characterid`,`sn`),
-  UNIQUE KEY `charid_3` (`characterid`,`sn`),
-  UNIQUE KEY `charid_4` (`characterid`,`sn`),
-  UNIQUE KEY `charid_5` (`characterid`,`sn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -913,49 +870,6 @@ CREATE TABLE IF NOT EXISTS `zaksquads` (
   `members` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
-ALTER TABLE `buddies`
-  ADD CONSTRAINT `buddies_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `channelconfig`
-  ADD CONSTRAINT `channelconfig_ibfk_1` FOREIGN KEY (`channelid`) REFERENCES `channels` (`channelid`) ON DELETE CASCADE;
-
-ALTER TABLE `dueyitems`
-  ADD CONSTRAINT `dueyitems_ibfk_1` FOREIGN KEY (`PackageId`) REFERENCES `dueypackages` (`PackageId`) ON DELETE CASCADE;
-
-ALTER TABLE `famelog`
-  ADD CONSTRAINT `famelog_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `inventoryequipment`
-  ADD CONSTRAINT `inventoryequipment_ibfk_1` FOREIGN KEY (`inventoryitemid`) REFERENCES `inventoryitems` (`inventoryitemid`) ON DELETE CASCADE;
-
-ALTER TABLE `inventoryitems`
-  ADD CONSTRAINT `inventoryitems_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `iplog`
-  ADD CONSTRAINT `iplog_ibfk_1` FOREIGN KEY (`accountid`) REFERENCES `accounts` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `keymap`
-  ADD CONSTRAINT `keymap_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `playernpcs_equip`
-  ADD CONSTRAINT `FK_playernpcs_equip_1` FOREIGN KEY (`npcid`) REFERENCES `playernpcs` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `queststatus`
-  ADD CONSTRAINT `queststatus_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `queststatusmobs`
-  ADD CONSTRAINT `queststatusmobs_ibfk_1` FOREIGN KEY (`queststatusid`) REFERENCES `queststatus` (`queststatusid`) ON DELETE CASCADE;
-
-ALTER TABLE `savedlocations`
-  ADD CONSTRAINT `savedlocations_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `skills`
-  ADD CONSTRAINT `skills_ibfk_1` FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `storages`
-  ADD CONSTRAINT `storages_ibfk_1` FOREIGN KEY (`accountid`) REFERENCES `accounts` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
