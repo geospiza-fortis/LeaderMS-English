@@ -6,4 +6,4 @@ mvn exec:java -Dexec.mainClass="handling.world.WorldServer" \
     -Dwzpath=wz/ \
     -Djava.util.logging.config.file=conf/logging.properties \
     -Ddb.config=conf/db.properties \
-    -Dlogin.config=conf/world.properties
+    -Dworld.config=conf/world.properties
