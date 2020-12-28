@@ -421,8 +421,7 @@ CREATE TABLE IF NOT EXISTS `inventoryitems` (
   PRIMARY KEY (`inventoryitemid`),
   FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE,
   KEY `inventorytype` (`inventorytype`),
-  KEY `storageid` (`storageid`),
-  KEY `characterid_2` (`characterid`,`inventorytype`)
+  KEY `storageid` (`storageid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -471,20 +470,20 @@ CREATE TABLE IF NOT EXISTS `iplog` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `jobchanges` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cid` int(10) unsigned NOT NULL,
-  `jobid` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- CREATE TABLE IF NOT EXISTS `jobchanges` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `cid` int(10) unsigned NOT NULL,
+--   `jobid` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `jobs` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `characterid` int(11) NOT NULL DEFAULT '0',
-  `jobid` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- CREATE TABLE IF NOT EXISTS `jobs` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `characterid` int(11) NOT NULL DEFAULT '0',
+--   `jobid` int(11) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `keymap` (
@@ -615,13 +614,13 @@ CREATE TABLE IF NOT EXISTS `nxcode` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-CREATE TABLE IF NOT EXISTS `nxcode_track` (
-  `ID` int(6) NOT NULL AUTO_INCREMENT,
-  `IP` varchar(15) NOT NULL DEFAULT '000.000.000.000',
-  `Day` int(2) NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `IP` (`IP`,`Day`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- CREATE TABLE IF NOT EXISTS `nxcode_track` (
+--   `ID` int(6) NOT NULL AUTO_INCREMENT,
+--   `IP` varchar(15) NOT NULL DEFAULT '000.000.000.000',
+--   `Day` int(2) NOT NULL,
+--   PRIMARY KEY (`ID`),
+--   KEY `IP` (`IP`,`Day`)
+-- ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `pets` (
@@ -845,8 +844,7 @@ CREATE TABLE IF NOT EXISTS `viprockmaps` (
   `mapid` int(10) unsigned DEFAULT NULL,
   `type` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `cid` (`cid`,`mapid`,`type`),
-  UNIQUE KEY `cid_2` (`cid`,`mapid`,`type`)
+  UNIQUE (`cid`,`mapid`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -855,7 +853,7 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   `characterid` int(11) NOT NULL,
   `sn` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `charid` (`characterid`,`sn`)
+  UNIQUE (`characterid`,`sn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
