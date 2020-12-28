@@ -94,16 +94,6 @@ CREATE TABLE IF NOT EXISTS `bosslog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `buddies` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `characterid` int(11) NOT NULL,
-  `buddyid` int(11) NOT NULL,
-  `pending` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
 CREATE TABLE IF NOT EXISTS `cashshop` (
   `sn` int(11) NOT NULL,
   `arg1` int(11) NOT NULL DEFAULT '0',
@@ -111,6 +101,15 @@ CREATE TABLE IF NOT EXISTS `cashshop` (
   `arg3` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`sn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `channels` (
+  `channelid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `world` int(11) NOT NULL DEFAULT '0',
+  `number` int(11) DEFAULT NULL,
+  `key` varchar(40) NOT NULL DEFAULT '',
+  PRIMARY KEY (`channelid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 
 CREATE TABLE IF NOT EXISTS `channelconfig` (
@@ -121,15 +120,6 @@ CREATE TABLE IF NOT EXISTS `channelconfig` (
   PRIMARY KEY (`channelconfigid`),
   FOREIGN KEY (`channelid`) REFERENCES `channels` (`channelid`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
-
-
-CREATE TABLE IF NOT EXISTS `channels` (
-  `channelid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `world` int(11) NOT NULL DEFAULT '0',
-  `number` int(11) DEFAULT NULL,
-  `key` varchar(40) NOT NULL DEFAULT '',
-  PRIMARY KEY (`channelid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 
 CREATE TABLE IF NOT EXISTS `characters` (
@@ -218,6 +208,15 @@ CREATE TABLE IF NOT EXISTS `characters` (
   KEY `ranking2` (`gm`,`job`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `buddies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `characterid` int(11) NOT NULL,
+  `buddyid` int(11) NOT NULL,
+  `pending` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 
 CREATE TABLE IF NOT EXISTS `cheatlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -231,17 +230,27 @@ CREATE TABLE IF NOT EXISTS `cheatlog` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `cooldowns` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `charid` int(11) NOT NULL,
-  `SkillID` int(11) NOT NULL,
-  `length` bigint(20) unsigned NOT NULL,
-  `StartTime` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `charid` (`charid`,`SkillID`),
-  UNIQUE KEY `charid_2` (`charid`,`SkillID`),
-  UNIQUE KEY `charid_3` (`charid`,`SkillID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- CREATE TABLE IF NOT EXISTS `cooldowns` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `charid` int(11) NOT NULL,
+--   `SkillID` int(11) NOT NULL,
+--   `length` bigint(20) unsigned NOT NULL,
+--   `StartTime` bigint(20) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   UNIQUE KEY `charid` (`charid`,`SkillID`),
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `dueypackages` (
+  `PackageId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `RecieverId` int(10) unsigned NOT NULL,
+  `SenderName` varchar(13) NOT NULL,
+  `Mesos` int(10) unsigned DEFAULT '0',
+  `TimeStamp` varchar(10) NOT NULL,
+  `Checked` tinyint(1) unsigned DEFAULT '1',
+  `Type` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`PackageId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `dueyitems` (
@@ -270,18 +279,6 @@ CREATE TABLE IF NOT EXISTS `dueyitems` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`PackageId`) REFERENCES `dueypackages` (`PackageId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
-CREATE TABLE IF NOT EXISTS `dueypackages` (
-  `PackageId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `RecieverId` int(10) unsigned NOT NULL,
-  `SenderName` varchar(13) NOT NULL,
-  `Mesos` int(10) unsigned DEFAULT '0',
-  `TimeStamp` varchar(10) NOT NULL,
-  `Checked` tinyint(1) unsigned DEFAULT '1',
-  `Type` tinyint(1) unsigned NOT NULL,
-  PRIMARY KEY (`PackageId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `engagements` (
@@ -410,6 +407,25 @@ CREATE TABLE IF NOT EXISTS `htsquads` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
+CREATE TABLE IF NOT EXISTS `inventoryitems` (
+  `inventoryitemid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `characterid` int(11) DEFAULT NULL,
+  `storageid` int(10) unsigned DEFAULT NULL,
+  `itemid` int(11) NOT NULL DEFAULT '0',
+  `inventorytype` int(11) NOT NULL DEFAULT '0',
+  `position` int(11) NOT NULL DEFAULT '0',
+  `quantity` int(11) NOT NULL DEFAULT '0',
+  `owner` tinytext NOT NULL,
+  `petid` int(11) NOT NULL DEFAULT '-1',
+  `expiration` bigint(20) unsigned DEFAULT '0',
+  PRIMARY KEY (`inventoryitemid`),
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE,
+  KEY `inventorytype` (`inventorytype`),
+  KEY `storageid` (`storageid`),
+  KEY `characterid_2` (`characterid`,`inventorytype`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
 CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   `inventoryequipmentid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `inventoryitemid` int(10) unsigned NOT NULL DEFAULT '0',
@@ -434,25 +450,6 @@ CREATE TABLE IF NOT EXISTS `inventoryequipment` (
   `locked` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`inventoryequipmentid`),
   FOREIGN KEY (`inventoryitemid`) REFERENCES `inventoryitems` (`inventoryitemid`) ON DELETE CASCADE
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
-CREATE TABLE IF NOT EXISTS `inventoryitems` (
-  `inventoryitemid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `characterid` int(11) DEFAULT NULL,
-  `storageid` int(10) unsigned DEFAULT NULL,
-  `itemid` int(11) NOT NULL DEFAULT '0',
-  `inventorytype` int(11) NOT NULL DEFAULT '0',
-  `position` int(11) NOT NULL DEFAULT '0',
-  `quantity` int(11) NOT NULL DEFAULT '0',
-  `owner` tinytext NOT NULL,
-  `petid` int(11) NOT NULL DEFAULT '-1',
-  `expiration` bigint(20) unsigned DEFAULT '0',
-  PRIMARY KEY (`inventoryitemid`),
-  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE,
-  KEY `inventorytype` (`inventorytype`),
-  KEY `storageid` (`storageid`),
-  KEY `characterid_2` (`characterid`,`inventorytype`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -769,8 +766,8 @@ CREATE TABLE IF NOT EXISTS `shopitems` (
   `refresh` bigint(12) NOT NULL DEFAULT '0',
   `availible` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`shopitemid`),
-  KEY `shopid` (`shopid`)
-  UNIQUE KEY `shopid_unique` (`shopid`,`itemid`),
+  KEY `shopid` (`shopid`),
+  UNIQUE (`shopid`,`itemid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=996534 ;
 
 
@@ -802,8 +799,8 @@ CREATE TABLE IF NOT EXISTS `skills` (
   `skilllevel` int(11) NOT NULL DEFAULT '0',
   `masterlevel` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE
-  UNIQUE (`characterid`,`skillid`),
+  FOREIGN KEY (`characterid`) REFERENCES `characters` (`id`) ON DELETE CASCADE,
+  UNIQUE (`characterid`,`skillid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
@@ -858,7 +855,7 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   `characterid` int(11) NOT NULL,
   `sn` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `charid` (`characterid`,`sn`),
+  UNIQUE KEY `charid` (`characterid`,`sn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
