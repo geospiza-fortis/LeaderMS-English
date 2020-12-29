@@ -66,11 +66,11 @@ import handling.world.remote.WorldRegistry;
  */
 public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegistry {
 
-        private static final long serialVersionUID = -5170574938159280746L;
-        private static WorldRegistryImpl instance = null;
-        private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorldRegistryImpl.class);
-       // private Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
-        private final Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
+    private static final long serialVersionUID = -5170574938159280746L;
+    private static WorldRegistryImpl instance = null;
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorldRegistryImpl.class);
+    // private Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
+    private final Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
 	private List<LoginWorldInterface> loginServer = new LinkedList<LoginWorldInterface>();
 
 	private Map<Integer, MapleParty> parties = new HashMap<Integer, MapleParty>();
