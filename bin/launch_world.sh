@@ -10,4 +10,6 @@ mvn exec:exec -Dexec.executable="java" \
         -Djava.util.logging.config.file=conf/logging.properties \
         -Ddb.config=conf/db.properties \
         -Dworld.config=conf/world.properties \
+        -Dlogin.config=conf/login.properties \
+        -Dchannel.config=conf/channel.properties \
         handling.world.WorldServer"
