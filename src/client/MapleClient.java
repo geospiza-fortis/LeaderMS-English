@@ -200,11 +200,6 @@ public class MapleClient {
 
 	private Calendar getTempBanCalendar(ResultSet rs) throws SQLException {
 		Calendar lTempban = Calendar.getInstance();
-		long blubb = rs.getLong("tempban");
-		if (blubb == 0) { // basically if timestamp in db is 0000-00-00
-			lTempban.setTimeInMillis(0);
-			return lTempban;
-		}
 		Calendar today = Calendar.getInstance();
 		lTempban.setTimeInMillis(rs.getTimestamp("tempban").getTime());
 		if (today.getTimeInMillis() < lTempban.getTimeInMillis()) {
