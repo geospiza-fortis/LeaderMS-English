@@ -3,4 +3,4 @@
 --
 
 INSERT IGNORE INTO `channelconfig` (`channelconfigid`, `channelid`, `name`, `value`) VALUES
-(1, 2, 'channel.net.port', '7576');
+(1, 1, 'channel.net.port', '7575');

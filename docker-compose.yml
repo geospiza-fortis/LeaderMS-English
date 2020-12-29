@@ -53,10 +53,12 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DATABASE
+    ports:
+      - "8484:8484"
     depends_on:
       - db
       - world
-    command: bin/launch_channel.sh
+    command: bash -c "sleep 15 && bin/launch_login.sh"
   channel:
     build:
       context: .
@@ -73,4 +75,4 @@ services:
       - world
     ports:
       - "7575:7575"
-    command: bin/launch_channel.sh
+    command: bash -c "sleep 15 && bin/launch_channel.sh"

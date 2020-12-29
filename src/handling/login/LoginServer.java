@@ -58,33 +58,33 @@ import org.apache.mina.transport.socket.nio.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 
 public class LoginServer implements Runnable, LoginServerMBean {
-	public static final int PORT = 8484;
-	private IoAcceptor acceptor;
-	static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LoginServer.class);
-	private static WorldRegistry worldRegistry = null;
-	private Map<Integer, String> channelServer = new HashMap<Integer, String>();
-	private LoginWorldInterface lwi;
-	private WorldLoginInterface wli;
-	private Properties prop = new Properties();
-	private Properties initialProp = new Properties();
-	private Boolean worldReady = Boolean.TRUE;
-	private Properties subnetInfo = new Properties();
-	private Map<Integer, Integer> load = new HashMap<Integer, Integer>();
-	private String serverName;
-	private String eventMessage;
-	int flag;
-	int maxCharacters;
-        private boolean pin; 
-        private boolean AutoReg;
-        private byte AutoRegLimit;
-        private boolean twoWorlds;
-        private boolean resetStats;
+    public static final int PORT = 8484;
+    private IoAcceptor acceptor;
+    static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LoginServer.class);
+    private static WorldRegistry worldRegistry = null;
+    private Map<Integer, String> channelServer = new HashMap<Integer, String>();
+    private LoginWorldInterface lwi;
+    private WorldLoginInterface wli;
+    private Properties prop = new Properties();
+    private Properties initialProp = new Properties();
+    private Boolean worldReady = Boolean.TRUE;
+    private Properties subnetInfo = new Properties();
+    private Map<Integer, Integer> load = new HashMap<Integer, Integer>();
+    private String serverName;
+    private String eventMessage;
+    int flag;
+    int maxCharacters;
+    private boolean pin; 
+    private boolean AutoReg;
+    private byte AutoRegLimit;
+    private boolean twoWorlds;
+    private boolean resetStats;
 
-	int userLimit;
-	int loginInterval;
-	private long rankingInterval;
-        private boolean serverCheck;
-	private static LoginServer instance = new LoginServer();
+    int userLimit;
+    int loginInterval;
+    private long rankingInterval;
+    private boolean serverCheck;
+    private static LoginServer instance = new LoginServer();
 
 
     static {
@@ -183,21 +183,21 @@ public class LoginServer implements Runnable, LoginServerMBean {
             lwi = new LoginWorldInterfaceImpl();
             wli = worldRegistry.registerLoginServer(initialProp.getProperty("login.key"), lwi);
             Properties dbProp = new Properties();
-            fileReader = new FileReader("Game/Database/db.config");
+            fileReader = new FileReader(System.getProperty("db.config"));
             dbProp.load(fileReader);
             fileReader.close();
             DatabaseConnection.setProps(dbProp);
             DatabaseConnection.getConnection();
             prop = wli.getWorldProperties();
             userLimit = Integer.parseInt(prop.getProperty("login.userlimit"));
-	    serverName = prop.getProperty("login.serverName");
-	    eventMessage = prop.getProperty("login.eventMessage");
-	    flag = Integer.parseInt(prop.getProperty("login.flag"));
-	    maxCharacters = Integer.parseInt(prop.getProperty("login.maxCharacters"));
+            serverName = prop.getProperty("login.serverName");
+            eventMessage = prop.getProperty("login.eventMessage");
+            flag = Integer.parseInt(prop.getProperty("login.flag"));
+            maxCharacters = Integer.parseInt(prop.getProperty("login.maxCharacters"));
             AutoReg = Boolean.parseBoolean(prop.getProperty("login.AutoRegister", "false"));
             AutoRegLimit = Byte.parseByte(prop.getProperty("login.AutoRegisterLimit", "5"));
             twoWorlds = Boolean.parseBoolean(prop.getProperty("world.twoWorlds", "false"));
-           } catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Could not connect to world server.", e);
         }
         ByteBuffer.setUseDirectBuffers(false);
@@ -213,8 +213,7 @@ public class LoginServer implements Runnable, LoginServerMBean {
         tMan.register(new RankingWorker(), rankingInterval);
         try {
             acceptor.bind(new InetSocketAddress(PORT), new MapleServerHandler(PacketProcessor.getProcessor(PacketProcessor.Mode.LOGINSERVER)), cfg);
-        System.out.println("Server listening on port (" + PORT + ")");
-        
+            System.out.println("Server listening on port (" + PORT + ")");
         } catch (IOException e) {
             System.out.println("Binding on port " + PORT + " failed: " + e);
         }
