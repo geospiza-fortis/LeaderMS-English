@@ -41,6 +41,8 @@ services:
       - MYSQL_DATABASE
     depends_on:
       - db
+    ports:
+      - "1098:1098"
     command: >
       bash -x -c "
         sleep 5 &&
