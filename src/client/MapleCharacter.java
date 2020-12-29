@@ -805,7 +805,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             // connections are thread local now, no need to synchronize anymore =)
             con.setAutoCommit(false);
             PreparedStatement ps;
-            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpApUsed = ?, mpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness = ? WHERE id = ?");
+            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpApUsed = ?, mpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, level);
             ps.setInt(2, fame);
@@ -911,7 +911,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             if (update) {
                 ps = con.prepareStatement("UPDATE characters " + "SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, " + "exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, " + "gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, " + "meso = ?, hpApUsed = ?, mpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, married = ?, partnerid = ?, cantalk = ?, zakumlvl = ?, marriagequest = ?, mountlevel = ?, mountexp = ?, mounttiredness = ?, alliancerank = ?, LeaderPoints = ?, pqPoints = ?, votePoints = ?, occupation = ?, jqpoints = ?, CashPoints = ?, jqrank =?, bosspoints = ? WHERE id = ?");
              } else {
-                ps = con.prepareStatement("INSERT INTO characters (" + "level, fame, str, dex, luk, `int`, exp, hp, mp, " + "maxhp, maxmp, sp, ap, gm, skincolor, gender, job, hair, face, map, meso, hpApUsed, mpApUsed, spawnpoint, party, buddyCapacity, messengerid, messengerposition, married, partnerid, cantalk, zakumlvl, marriagequest,  mountlevel, mounttiredness, mountexp, alliancerank, LeaderPoints, pqPoints, votePoints, occupation, jqpoints, CashPoints, jqrank, bosspoints, accountid, name, world" + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                ps = con.prepareStatement("INSERT INTO characters (" + "level, fame, str, dex, luk, `int`, exp, hp, mp, " + "maxhp, maxmp, sp, ap, gm, skincolor, gender, job, hair, face, map, meso, hpApUsed, mpApUsed, spawnpoint, party, buddyCapacity, messengerid, messengerposition, married, partnerid, cantalk, zakumlvl, marriagequest,  mountlevel, mounttiredness, mountexp, alliancerank, LeaderPoints, pqPoints, votePoints, occupation, jqpoints, CashPoints, jqrank, bosspoints, accountid, name, world" + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             }
             ps.setInt(1, level);
             ps.setInt(2, fame);
@@ -1045,7 +1045,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
                     }
             }
            deleteWhereCharacterId(con, "DELETE FROM inventoryitems WHERE characterid = ?");
-                ps = con.prepareStatement("INSERT INTO inventoryitems (characterid, itemid, inventorytype, position, quantity, owner, petid, expiration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                ps = con.prepareStatement("INSERT INTO inventoryitems (characterid, itemid, inventorytype, position, quantity, owner, petid, expiration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 PreparedStatement pse = con.prepareStatement("INSERT INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 for (MapleInventory iv : inventory) {
                 ps.setInt(3, iv.getType().getType());

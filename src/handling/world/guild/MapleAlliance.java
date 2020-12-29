@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import java.sql.ResultSet;
 import java.util.LinkedList;
@@ -126,7 +127,7 @@ public class MapleAlliance implements java.io.Serializable {
         int guild1 = chr1.getGuildId();
         int guild2 = chr2.getGuildId();
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO `alliance` (`name`, `guild1`, `guild2`) VALUES (?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO `alliance` (`name`, `guild1`, `guild2`) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, name);
             ps.setInt(2, guild1);
             ps.setInt(3, guild2);
