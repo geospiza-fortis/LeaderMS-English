@@ -1,6 +1,6 @@
 /*
 	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
                        Matthias Butz <matze@odinms.de>
                        Jan Christian Meyer <vimes@odinms.de>
 
@@ -28,6 +28,8 @@ package scripting;
 
 import java.io.File;
 import java.io.FileReader;
+import java.lang.StringBuilder;
+import java.util.Scanner;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -78,10 +80,18 @@ public abstract class AbstractScriptManager {
                             if (c != null) {
                                     c.setScriptEngine(scriptPath, engine);
                             }
-                            FileReader fr = new FileReader(scriptFile);
-                            engine.eval(fr);
-                            fr.close();
-                    }		
+                            // Add javascript compatibility shims for importPackage statements.
+                            // http://forum.ragezone.com/f566/importpackage-defined-1111351/#post8676489
+                            // https://stackoverflow.com/a/4716556
+                            // https://stackoverflow.com/a/14169690
+                            StringBuilder sb = new StringBuilder();
+                            sb.append("load('nashorn:mozilla_compat.js');" + System.lineSeparator());
+                            Scanner in = new Scanner(new FileReader(scriptFile));
+                            in.useDelimiter("\\Z");
+                            sb.append(in.next());
+                            in.close();
+                            engine.eval(sb.toString());
+                    }
                     return (Invocable) engine;
             } catch (Exception e) {
                     log.error("Error executing script.", e);
