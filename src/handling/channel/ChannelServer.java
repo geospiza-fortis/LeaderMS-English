@@ -180,7 +180,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
                     if (worldReady)
                         return;
                 }
-                System.out.println("Reconnecting to world server");
+                log.info("Reconnecting to world server");
                 synchronized (wci) {
                     try {
                         initialProp = new Properties();
@@ -213,7 +213,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
                         DatabaseConnection.getConnection();
                         wci.serverReady();
                     } catch (Exception e) {
-                        System.out.println("Reconnecting failed " + e);
+                        log.error("Reconnecting failed " + e);
                     }
                     worldReady = true;
                 }
@@ -259,7 +259,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
                 ps.executeUpdate();
                 ps.close();
             } catch (SQLException ex) {
-                System.out.println("Could not reset databases " + ex);
+                log.error("Could not reset databases " + ex);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -281,12 +281,12 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
         SkillFactory.cacheSkills();
         MapleItemInformationProvider.getInstance().getAllItems();
         CashItemFactory.getInstance();
-        System.out.println("[INFO] Loaded items in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds.");
+        log.info("Loaded items in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds.");
         
         try {
             final MapleServerHandler serverHandler = new MapleServerHandler(PacketProcessor.getProcessor(PacketProcessor.Mode.CHANNELSERVER), channel);
             acceptor.bind(new InetSocketAddress(port), serverHandler, cfg);
-            System.out.println("[INFO] Channel (" + getChannel() + ") listening on port (" + port + ").");
+            log.info("Channel (" + getChannel() + ") listening on port (" + port + ") at " + ip);
             wci.serverReady();
             eventSM.init();
             final ChannelServer serv = this;
@@ -301,7 +301,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
 				}
 			}, 3 * 60000);
         } catch (IOException e) {
-            System.out.println("Connection at port " + port + " failed (ch: " + getChannel() + ")" + e);
+            log.error("Connection at port " + port + " failed (ch: " + getChannel() + ")" + e);
         }
         Runtime.getRuntime().addShutdownHook(new Thread(new ShutDown()));
     }
@@ -524,7 +524,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
         try {
             return getWorldInterface().getIP(channel);
         } catch (RemoteException e) {
-            System.out.println("Lost connection to world server " + e);
+            log.error("Lost connection to world server " + e);
             throw new RuntimeException("Lost connection to world server");
         }
     }

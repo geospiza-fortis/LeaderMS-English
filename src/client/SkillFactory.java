@@ -34,8 +34,9 @@ import provider.MapleDataTool;
 import tools.StringUtil;
 
 public class SkillFactory {
+	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SkillFactory.class);
 	private static Map<Integer, ISkill> skills = new HashMap<Integer, ISkill>();
-        private static final Map<Integer, SummonSkillEntry> SummonSkillInformation = new HashMap<Integer, SummonSkillEntry>();
+    private static final Map<Integer, SummonSkillEntry> SummonSkillInformation = new HashMap<Integer, SummonSkillEntry>();
 	private static MapleDataProvider datasource = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/Skill.wz"));
 	private static MapleData stringData = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/String.wz")).getData("Skill.img");
 
@@ -43,7 +44,7 @@ public class SkillFactory {
 	if (skills.size() != 0) {
 	    return skills.get(Integer.valueOf(id));
 	}
-	System.out.println("[INFO] Loading SkillFactory :::");
+	log.info("Loading SkillFactory :::");
 	final MapleDataProvider datasource = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/Skill.wz"));
 	final MapleDataDirectoryEntry root = datasource.getRoot();
 
@@ -90,7 +91,7 @@ public class SkillFactory {
      public static void cacheSkills(){
         long now = System.currentTimeMillis();
         int skillid = 1000;
-        System.out.println("[INFO] Loading skills...");
+        log.info("Loading skills...");
         for(MapleData skillData : stringData){
             skillid = Integer.parseInt(skillData.getName());
             try{
@@ -102,7 +103,7 @@ public class SkillFactory {
             }
         }
 
-        System.out.println("[INFO] Loaded " + skills.size() + " skills. Took " + (System.currentTimeMillis() - now) + " ms.");
+        log.info("Loaded " + skills.size() + " skills. Took " + (System.currentTimeMillis() - now) + " ms.");
     }
 
     public static boolean isExist(int skillid) throws RuntimeException{

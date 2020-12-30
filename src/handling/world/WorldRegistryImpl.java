@@ -154,7 +154,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
             rs.close();
             ps.close();
         } catch (SQLException ex) {
-            System.out.println("Encountered database error while authenticating channelserver " + ex);
+            log.error("Encountered database error while authenticating channelserver " + ex);
         }
         throw new RuntimeException("Couldn't find a channel with the given key (" + authKey + ")");
     }
@@ -163,7 +163,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
         channelServer.remove(channel);
         for (LoginWorldInterface wli : loginServer)
             wli.channelOffline(channel);
-        System.out.println("Channel " + channel + " is offline.");
+        log.info("Channel " + channel + " is offline.");
     }
 
 	public WorldLoginInterface registerLoginServer(String authKey, LoginWorldInterface cb) throws RemoteException {
@@ -183,7 +183,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
             ps.close();
             ret = new WorldLoginInterfaceImpl();
         } catch (Exception e) {
-            System.out.println("Encountered database error while authenticating loginserver " + e);
+            log.error("Encountered database error while authenticating loginserver " + e);
         }
         return ret;
     }
@@ -283,7 +283,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
             for (ChannelWorldInterface cwi : this.getAllChannelServers())
                 cwi.reloadGuildCharacters();
         } catch (RemoteException re) {
-            System.out.println("RemoteException occurred while attempting to reload guilds. " + re);
+            log.error("RemoteException occurred while attempting to reload guilds. " + re);
         }
     }
 	

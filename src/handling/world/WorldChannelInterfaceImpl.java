@@ -56,7 +56,8 @@ import tools.CollectionUtil;
  */
 public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements WorldChannelInterface {
 
-    private static final long serialVersionUID = -5568606556235590482L;
+	private static final long serialVersionUID = -5568606556235590482L;
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorldChannelInterfaceImpl.class);
     private ChannelWorldInterface cb;
     private int dbId;
     private boolean ready = false;
@@ -88,7 +89,7 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
             rs.close();
             ps.close();
         } catch (SQLException ex) {
-            System.out.println("Could not retrieve channel configuration: " + ex);
+            log.error("Could not retrieve channel configuration: " + ex);
         }
         return ret;
     }
@@ -102,7 +103,7 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
                 WorldRegistryImpl.getInstance().deregisterLoginServer(wli);
             }
         }
-        System.out.println("[INFO] Channel " + cb.getChannelId() + " is online.");
+        log.info("Channel " + cb.getChannelId() + " is online.");
     }
 
     public boolean isReady() {
