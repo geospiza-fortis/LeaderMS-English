@@ -8,6 +8,6 @@ WORKDIR /app
 # https://stackoverflow.com/a/39336178
 RUN mvn exec:help
 COPY pom.xml pom.xml
-RUN mvn dependency:go-offline
+RUN mvn dependency:go-offline package
 ADD . /app
 RUN mvn package
