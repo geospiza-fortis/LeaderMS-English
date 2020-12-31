@@ -19,6 +19,8 @@ public class MapleServerHandler extends IoHandlerAdapter {
     private PacketProcessor processor;
     private int channel = -1;
     private boolean trace = false;
+	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MapleServerHandler.class);
+
 
     public MapleServerHandler(PacketProcessor processor) {
         this.processor = processor;
@@ -94,14 +96,10 @@ public class MapleServerHandler extends IoHandlerAdapter {
         MaplePacketHandler packetHandler = processor.getHandler(packetId);
         if (packetHandler != null && packetHandler.validateState(client))
             try {
-                if (trace) {
-                    @SuppressWarnings("unused")
-                    String from = "";
-                    if (client.getPlayer() != null)
-                        from = "from " + client.getPlayer().getName() + " ";
-                }
+                log.trace("op " + packetId + " handled by " + packetHandler.getClass().getName());
                 packetHandler.handlePacket(slea, client);
-            } catch (Throwable t) {
+            } catch (Exception ex) {
+                log.error("caught error while handling packet", ex);
             }
     }
 

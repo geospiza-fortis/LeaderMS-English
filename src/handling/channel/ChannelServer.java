@@ -428,6 +428,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
 	}
 	
     private static ChannelServer newInstance(String key) throws InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException, MalformedObjectNameException {
+        log.trace("Creating new instance for " + key);
         ChannelServer instance = new ChannelServer(key);
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         mBeanServer.registerMBean(instance, new ObjectName("net.channel:type=ChannelServer,name=ChannelServer" + uniqueID++));
@@ -507,6 +508,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
             pendingInstances.remove(key);
         if (instances.containsKey(channel))
             instances.remove(channel);
+        log.trace("setting channel " + channel);
         instances.put(channel, this);
         this.channel = channel;
         this.mapFactory.setChannel(channel);

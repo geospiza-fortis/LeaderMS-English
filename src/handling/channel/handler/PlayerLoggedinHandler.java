@@ -69,7 +69,7 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 	@Override
 	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
 		int cid = slea.readInt();
-		MapleCharacter player = null;
+        MapleCharacter player = null;
 		try {
 			player = MapleCharacter.loadCharFromDB(cid, c, true);
 			c.setPlayer(player);
@@ -133,12 +133,12 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
         } catch (SQLException se) {
             se.printStackTrace();
         }
-            if (player.isGM()) {
+        if (player.isGM()) {
             //GMs hide when logged in. Uncomment to enable.
             //player.Hide(true, true);
             //SkillFactory.getSkill(9101004).getEffect(1).applyTo(player, true, true);
             player.setChatMode(1);
-               }
+        }
 		player.getMap().addPlayer(player);
 		try {
 			Collection<BuddylistEntry> buddies = player.getBuddylist().getBuddies();

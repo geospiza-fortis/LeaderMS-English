@@ -117,7 +117,7 @@ import tools.FilePrinter;
 
 public class MapleCharacter extends AbstractAnimatedMapleMapObject implements InventoryContainer {
 
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PacketProcessor.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MapleCharacter.class);
     private static final Lock save_mutex = new ReentrantLock();
     public static final double MAX_VIEW_RANGE_SQ = 850 * 850;
     private int world;

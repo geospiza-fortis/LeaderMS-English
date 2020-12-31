@@ -914,6 +914,7 @@ public class MapleClient {
 
 	public int getChannelByWorld() {
 		int chnl = channel;
+		log.trace("getting channel " + chnl + " for world " + world);
 		switch (world) {
 			case 1:
 				chnl += 2;
