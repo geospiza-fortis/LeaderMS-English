@@ -21,10 +21,11 @@
 
 package handling.world.remote;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface WorldChannelCommonOperations {
+public interface WorldChannelCommonOperations extends Remote {
 	public boolean isConnected(String charName) throws RemoteException;
         
 	public void broadcastMessage(String sender, byte[] message) throws RemoteException;
