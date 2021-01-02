@@ -149,6 +149,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
                 WorldChannelInterface ret = new WorldChannelInterfaceImpl(cb, rs.getInt("channelid"));
                 rs.close();
                 ps.close();
+                log.info("Registered channel " + channelId);
                 return ret;
             }
             rs.close();
@@ -176,12 +177,16 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 loginServer.add(cb);
-                for (ChannelWorldInterface cwi : channelServer.values())
-                    cb.channelOnline(cwi.getChannelId(), authKey);
+                for (ChannelWorldInterface cwi : channelServer.values()) {
+                    int channelId = cwi.getChannelId();
+                    log.info("adding channel " + channelId + " with authKey " + authKey);
+                    cb.channelOnline(channelId, authKey);
+                }
             }
             rs.close();
             ps.close();
             ret = new WorldLoginInterfaceImpl();
+            log.info("registered login server");
         } catch (Exception e) {
             log.error("Encountered database error while authenticating loginserver " + e);
         }

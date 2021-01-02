@@ -98,7 +98,9 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
         ready = true;
         for (LoginWorldInterface wli : WorldRegistryImpl.getInstance().getLoginServer()) {
             try {
-                wli.channelOnline(cb.getChannelId(), cb.getIP());
+				int channelId = cb.getChannelId();
+				log.info("adding channel " + channelId + " with ip " + cb.getIP());
+				wli.channelOnline(channelId, cb.getIP());
             } catch (RemoteException e) {
                 WorldRegistryImpl.getInstance().deregisterLoginServer(wli);
             }

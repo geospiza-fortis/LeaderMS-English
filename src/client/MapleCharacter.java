@@ -477,6 +477,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         ret.buddylist = new BuddyList(buddyCapacity);
         ret.bossPoints = rs.getInt("bosspoints");
 
+        log.trace("connected to " + ret.name + "from " + client.getSessionIPAddress());
         if (channelserver) {
            // ret.chatlog = ChatLog.load(ret.name);
             MapleMapFactory mapFactory = ChannelServer.getInstance(client.getChannel()).getMapFactory();
