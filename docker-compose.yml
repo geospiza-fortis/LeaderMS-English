@@ -39,6 +39,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DATABASE
+      - DEBUG=false
     depends_on:
       - db
     command: bash -c "bin/run_leaderms_sql.sh && exec bin/launch_world.sh"
@@ -53,6 +54,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DATABASE
+      - DEBUG=false
     ports:
       - "8484:8484"
     depends_on:
