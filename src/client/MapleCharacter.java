@@ -5961,7 +5961,8 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             rs.close();
             ps.close();
         } catch (SQLException e) {
-            return null;
+            log.trace("Unable to find VIP rock maps", e);
+            return new LinkedList<Integer>();
         }
         return rockmaps;
     }
