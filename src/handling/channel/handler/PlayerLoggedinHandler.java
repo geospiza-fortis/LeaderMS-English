@@ -1,6 +1,6 @@
 /*
 	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
                        Matthias Butz <matze@odinms.de>
                        Jan Christian Meyer <vimes@odinms.de>
 
@@ -68,6 +68,7 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 
 	@Override
 	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+        log.trace("player logged in");
 		int cid = slea.readInt();
         MapleCharacter player = null;
 		try {
@@ -93,11 +94,13 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 					}
 				}
 			} catch (RemoteException e) {
+                log.error("Issue connecting to the world channel interface", e);
 				channelServer.reconnectWorld();
 				allowLogin = false;
 			}
 			if (state != MapleClient.LOGIN_SERVER_TRANSITION || !allowLogin) {
-				c.setPlayer(null); 
+                log.trace("the client login state is bad, closing the session");
+				c.setPlayer(null);
 				c.getSession().close();
 				return;
 			}
@@ -116,9 +119,10 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 				c.getPlayer().giveCoolDowns(cooldowns);
 			}
 		} catch (RemoteException e) {
+            log.error("Issues getting buffs and cooldowns", e);
 			c.getChannelServer().reconnectWorld();
 		}
-		
+
        Connection con = DatabaseConnection.getConnection();
        c.getSession().write(MaplePacketCreator.getCharInfo(player));
         try {
@@ -131,6 +135,7 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
             ps.close();
             rs.close();
         } catch (SQLException se) {
+            log.error("issues with duey packages", se);
             se.printStackTrace();
         }
         if (player.isGM()) {
@@ -176,8 +181,9 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 }
             }
          } catch (RemoteException e) {
-                cserv.reconnectWorld();
-            }
+            log.error("issues with buddies and guilds", e);
+            cserv.reconnectWorld();
+        }
         try {
             c.getPlayer().showNote();
             if (player.getParty() != null) {
@@ -185,6 +191,7 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
             }
             player.updatePartyMemberHP();
         } catch (RemoteException e) {
+            log.error("issue getting the party", e);
             cserv.reconnectWorld();
         }
 		player.updatePartyMemberHP();
@@ -219,7 +226,7 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 			c.getSession().write(MaplePacketCreator.serverNotice(5, Configuration.Player_Buffed));
 		}
                 */
-             
+
        MaplePet[] petz = PetStorage.getPetz(player.getId());
         if (petz != null) {
             for (int i = 0; i < 3; i++) {
@@ -264,7 +271,7 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     }
                 }
             }
-        }       
+        }
      }
 }
 

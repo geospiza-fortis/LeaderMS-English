@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-debug=${DEBUG:-false}
 cd "$(dirname "${BASH_SOURCE[0]}")"/..
 mvn exec:exec -Dexec.executable="java" \
     -Dexec.workingdir=$PWD \
