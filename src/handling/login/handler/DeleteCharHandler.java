@@ -21,27 +21,30 @@
 
 package handling.login.handler;
 
-import java.util.Calendar;
-
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
+import java.util.Calendar;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public final class DeleteCharHandler extends AbstractMaplePacketHandler {
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int idate = slea.readInt();
-        int year = idate / 10000;
-        int month = (idate - year * 10000) / 100;
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(0);
-        cal.set(year, month - 1, idate - year * 10000 - month * 100);
-        boolean state = false;
-        if (c.checkBirthDate(cal)) {
-            state = true;
-        }
-        int cid = slea.readInt();
-        c.getSession().write(MaplePacketCreator.deleteCharResponse(cid, state));
-        c.deleteCharacter(cid);
+
+  public final void handlePacket(
+    SeekableLittleEndianAccessor slea,
+    MapleClient c
+  ) {
+    int idate = slea.readInt();
+    int year = idate / 10000;
+    int month = (idate - year * 10000) / 100;
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeInMillis(0);
+    cal.set(year, month - 1, idate - year * 10000 - month * 100);
+    boolean state = false;
+    if (c.checkBirthDate(cal)) {
+      state = true;
     }
+    int cid = slea.readInt();
+    c.getSession().write(MaplePacketCreator.deleteCharResponse(cid, state));
+    c.deleteCharacter(cid);
+  }
 }

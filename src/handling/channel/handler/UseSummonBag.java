@@ -21,18 +21,18 @@
 
 package handling.channel.handler;
 
-import java.util.List;
 import client.IItem;
 import client.MapleClient;
 import client.inventory.MapleInventoryType;
 import handling.AbstractMaplePacketHandler;
+import java.util.List;
 import server.MapleInventoryManipulator;
 import server.MapleItemInformationProvider;
 import server.MapleItemInformationProvider.SummonEntry;
 import server.life.MapleLifeFactory;
 import server.life.MapleMonster;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 /**
  *
@@ -41,37 +41,48 @@ import tools.data.input.SeekableLittleEndianAccessor;
 
 public class UseSummonBag extends AbstractMaplePacketHandler {
 
-    public UseSummonBag() {
-    }
+  public UseSummonBag() {}
 
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        if (!c.getPlayer().isAlive()) {
-            c.getSession().write(MaplePacketCreator.enableActions());
-            return;
-        }
-        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-        slea.readInt();
-        byte slot = (byte) slea.readShort();
-        int itemId = slea.readInt();
-        IItem toUse = c.getPlayer().getInventory(MapleInventoryType.USE).getItem(slot);
-        if (toUse != null && toUse.getQuantity() > 0) {
-            if (toUse.getItemId() != itemId) {
-      //          c.getPlayer().ban("Trying to use a summonbag not in item inventory.");
-                return;
-            }
-            MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.USE, slot, (short) 1, false);
-            List<SummonEntry> toSpawn = ii.getSummonMobs(itemId);
-           for (int z = 0; z < toSpawn.size(); z++) {
-                    SummonEntry se = toSpawn.get(z);
-                if ((int) Math.ceil(Math.random() * 100) <= se.getChance()) {
-                    MapleMonster mob = MapleLifeFactory.getMonster(se.getMobId());
-                    c.getPlayer().getMap().spawnMonsterOnGroundBelow(mob, c.getPlayer().getPosition());
-                }
-            }
-        } else {
-            ///c.getPlayer().ban("Trying to use a summonbag not in item inventory.");
-            return;
-        }
-        c.getSession().write(MaplePacketCreator.enableActions());
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    if (!c.getPlayer().isAlive()) {
+      c.getSession().write(MaplePacketCreator.enableActions());
+      return;
     }
+    MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+    slea.readInt();
+    byte slot = (byte) slea.readShort();
+    int itemId = slea.readInt();
+    IItem toUse = c
+      .getPlayer()
+      .getInventory(MapleInventoryType.USE)
+      .getItem(slot);
+    if (toUse != null && toUse.getQuantity() > 0) {
+      if (toUse.getItemId() != itemId) {
+        //          c.getPlayer().ban("Trying to use a summonbag not in item inventory.");
+        return;
+      }
+      MapleInventoryManipulator.removeFromSlot(
+        c,
+        MapleInventoryType.USE,
+        slot,
+        (short) 1,
+        false
+      );
+      List<SummonEntry> toSpawn = ii.getSummonMobs(itemId);
+      for (int z = 0; z < toSpawn.size(); z++) {
+        SummonEntry se = toSpawn.get(z);
+        if ((int) Math.ceil(Math.random() * 100) <= se.getChance()) {
+          MapleMonster mob = MapleLifeFactory.getMonster(se.getMobId());
+          c
+            .getPlayer()
+            .getMap()
+            .spawnMonsterOnGroundBelow(mob, c.getPlayer().getPosition());
+        }
+      }
+    } else {
+      ///c.getPlayer().ban("Trying to use a summonbag not in item inventory.");
+      return;
+    }
+    c.getSession().write(MaplePacketCreator.enableActions());
+  }
 }

@@ -23,12 +23,13 @@ package handling.login.handler;
 
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class ServerStatusRequestHandler extends AbstractMaplePacketHandler {
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		c.getSession().write(MaplePacketCreator.getServerStatus(0));
-	}
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    c.getSession().write(MaplePacketCreator.getServerStatus(0));
+  }
 }

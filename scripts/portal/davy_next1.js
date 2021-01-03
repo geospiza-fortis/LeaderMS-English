@@ -28,28 +28,44 @@ importPackage(Packages.tools.packet);
 */
 
 function enter(pi) {
-	var nextMap = 925100200;
-	var eim = pi.getPlayer().getEventInstance();
-	var party = eim.getPlayers();
-	var target = eim.getMapInstance(nextMap);
-	var targetPortal = target.getPortal("sp");
-	var playerS = pi.isLeader();
-	// only let people through if the eim is ready
-	var avail = eim.getProperty("1stageclear");
-	if (playerS == false) {
-		// do nothing; send message to player
-		pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(6, "Only the party leader may enter this portal."));
-		return false;
-	}if (avail == null) {
-		// do nothing; send message to player
-		pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(6, "This door is closed."));
-		return false;
-	}else {
-		eim.setProperty("entryTimeStamp", 1000 * 60 * 6);
-		for(var g=0; g<party.size(); g++) {
-			party.get(g).changeMap(target, targetPortal);
-			party.get(g).getClient().getSession().write(MaplePacketCreator.getClock(360));
-		}
-		return true;
-	}
+  var nextMap = 925100200;
+  var eim = pi.getPlayer().getEventInstance();
+  var party = eim.getPlayers();
+  var target = eim.getMapInstance(nextMap);
+  var targetPortal = target.getPortal("sp");
+  var playerS = pi.isLeader();
+  // only let people through if the eim is ready
+  var avail = eim.getProperty("1stageclear");
+  if (playerS == false) {
+    // do nothing; send message to player
+    pi.getPlayer()
+      .getClient()
+      .getSession()
+      .write(
+        MaplePacketCreator.serverNotice(
+          6,
+          "Only the party leader may enter this portal."
+        )
+      );
+    return false;
+  }
+  if (avail == null) {
+    // do nothing; send message to player
+    pi.getPlayer()
+      .getClient()
+      .getSession()
+      .write(MaplePacketCreator.serverNotice(6, "This door is closed."));
+    return false;
+  } else {
+    eim.setProperty("entryTimeStamp", 1000 * 60 * 6);
+    for (var g = 0; g < party.size(); g++) {
+      party.get(g).changeMap(target, targetPortal);
+      party
+        .get(g)
+        .getClient()
+        .getSession()
+        .write(MaplePacketCreator.getClock(360));
+    }
+    return true;
+  }
 }

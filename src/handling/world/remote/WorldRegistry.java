@@ -26,18 +26,28 @@
 
 package handling.world.remote;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import handling.channel.remote.ChannelWorldInterface;
 import handling.login.remote.LoginWorldInterface;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
  * @author Matze
  */
 public interface WorldRegistry extends Remote {
-    public WorldChannelInterface registerChannelServer(String authKey, ChannelWorldInterface cb) throws RemoteException;
-    public WorldLoginInterface registerLoginServer(String authKey, LoginWorldInterface cb) throws RemoteException;
-    public void deregisterChannelServer(int channel) throws RemoteException;
-    public void deregisterLoginServer(LoginWorldInterface cb) throws RemoteException;
+  public WorldChannelInterface registerChannelServer(
+    String authKey,
+    ChannelWorldInterface cb
+  ) throws RemoteException;
+
+  public WorldLoginInterface registerLoginServer(
+    String authKey,
+    LoginWorldInterface cb
+  ) throws RemoteException;
+
+  public void deregisterChannelServer(int channel) throws RemoteException;
+
+  public void deregisterLoginServer(LoginWorldInterface cb)
+    throws RemoteException;
 }

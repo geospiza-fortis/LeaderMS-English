@@ -23,54 +23,56 @@ package handling.channel.handler;
 
 import client.MapleBuffStat;
 import client.MapleCharacter;
-import java.rmi.RemoteException;
-
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
 import handling.world.remote.WorldChannelInterface;
-import tools.packet.*;
+import java.rmi.RemoteException;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.*;
 
 /**
-*
-* @author Acrylic (Terry Han)
-*/
+ *
+ * @author Acrylic (Terry Han)
+ */
 
 /**
  *
  * @author Acrylic
  */
 public class EnterCashShopHandler extends AbstractMaplePacketHandler {
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        MapleCharacter player = c.getPlayer();
-        if (player.getNoPets() > 0) {
-            player.unequipAllPets();
-        }
-        if (player.getBuffedValue(MapleBuffStat.MONSTER_RIDING) != null) {
-            player.cancelEffectFromBuffStat(MapleBuffStat.MONSTER_RIDING);
-        } if (player.getBuffedValue(MapleBuffStat.SUMMON) != null) {
-            player.cancelEffectFromBuffStat(MapleBuffStat.SUMMON);
-        } if (player.getBuffedValue(MapleBuffStat.PUPPET) != null) {
-            player.cancelEffectFromBuffStat(MapleBuffStat.PUPPET);
-        }
-        try {
-            WorldChannelInterface wci = c.getChannelServer().getWorldInterface();
-            wci.addBuffsToStorage(player.getId(), player.getAllBuffs());
-            wci.addCooldownsToStorage(player.getId(), player.getAllCooldowns());
-        } catch (RemoteException e) {
-            c.getChannelServer().reconnectWorld();
-        }
-        
-        player.getMap().removePlayer(player);
-        c.getSession().write(MTSCSPacket.warpCS(c, false));
-        player.setInCS(true);
-        c.getSession().write(MTSCSPacket.enableCSUse0());
-        c.getSession().write(MTSCSPacket.enableCSUse1());
-        c.getSession().write(MTSCSPacket.enableCSUse2());
-        c.getSession().write(MTSCSPacket.enableCSUse3());
-        c.getSession().write(MTSCSPacket.showNXMapleTokens(player));
-        c.getSession().write(MTSCSPacket.sendWishList(player.getId(), false));
-        player.saveToDB(true, true);
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    MapleCharacter player = c.getPlayer();
+    if (player.getNoPets() > 0) {
+      player.unequipAllPets();
     }
+    if (player.getBuffedValue(MapleBuffStat.MONSTER_RIDING) != null) {
+      player.cancelEffectFromBuffStat(MapleBuffStat.MONSTER_RIDING);
+    }
+    if (player.getBuffedValue(MapleBuffStat.SUMMON) != null) {
+      player.cancelEffectFromBuffStat(MapleBuffStat.SUMMON);
+    }
+    if (player.getBuffedValue(MapleBuffStat.PUPPET) != null) {
+      player.cancelEffectFromBuffStat(MapleBuffStat.PUPPET);
+    }
+    try {
+      WorldChannelInterface wci = c.getChannelServer().getWorldInterface();
+      wci.addBuffsToStorage(player.getId(), player.getAllBuffs());
+      wci.addCooldownsToStorage(player.getId(), player.getAllCooldowns());
+    } catch (RemoteException e) {
+      c.getChannelServer().reconnectWorld();
+    }
+
+    player.getMap().removePlayer(player);
+    c.getSession().write(MTSCSPacket.warpCS(c, false));
+    player.setInCS(true);
+    c.getSession().write(MTSCSPacket.enableCSUse0());
+    c.getSession().write(MTSCSPacket.enableCSUse1());
+    c.getSession().write(MTSCSPacket.enableCSUse2());
+    c.getSession().write(MTSCSPacket.enableCSUse3());
+    c.getSession().write(MTSCSPacket.showNXMapleTokens(player));
+    c.getSession().write(MTSCSPacket.sendWishList(player.getId(), false));
+    player.saveToDB(true, true);
+  }
 }

@@ -28,12 +28,11 @@ Sharen III's Grave Exit - Guild Quest
 */
 
 function enter(pi) {
-        if (pi.getPlayer().getMap().getReactorByName("ghostgate").getState() == 1) {
-                pi.warp(990000800);
-                return true;
-        }
-        else {
-                pi.playerMessage("This route has not opened yet.");
-                return false;
-        }
+  if (pi.getPlayer().getMap().getReactorByName("ghostgate").getState() == 1) {
+    pi.warp(990000800);
+    return true;
+  } else {
+    pi.playerMessage("This route has not opened yet.");
+    return false;
+  }
 }

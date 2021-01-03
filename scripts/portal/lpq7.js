@@ -24,11 +24,10 @@ Ludi PQ: 5th stage to 6th stage portal
 */
 
 function enter(pi) {
-	var eim = pi.getPlayer().getEventInstance()
-	var target = eim.getMapInstance(922010800);
-	if (eim.getProperty("7stageclear") != null) {
-		pi.getPlayer().changeMap(target, target.getPortal("st00"));
-		return true;
-	} else
-		return false;
+  var eim = pi.getPlayer().getEventInstance();
+  var target = eim.getMapInstance(922010800);
+  if (eim.getProperty("7stageclear") != null) {
+    pi.getPlayer().changeMap(target, target.getPortal("st00"));
+    return true;
+  } else return false;
 }

@@ -1,52 +1,57 @@
 package handling.world;
 
+import handling.channel.remote.ChannelWorldInterface;
+import handling.world.guild.MapleGuildCharacter;
+import handling.world.remote.WorldLoginInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import handling.channel.remote.ChannelWorldInterface;
-import handling.world.guild.MapleGuildCharacter;
-import handling.world.remote.WorldLoginInterface;
 
 /**
  *
  * @author Matze
  */
-public class WorldLoginInterfaceImpl extends UnicastRemoteObject implements WorldLoginInterface {
-    private static final long serialVersionUID = -4965323089596332908L;
+public class WorldLoginInterfaceImpl
+  extends UnicastRemoteObject
+  implements WorldLoginInterface {
 
-    public WorldLoginInterfaceImpl() throws RemoteException {
-        super(0);
-    }
+  private static final long serialVersionUID = -4965323089596332908L;
 
-    public Properties getDatabaseProperties() throws RemoteException {
-        return WorldServer.getInstance().getDbProp();
-    }
+  public WorldLoginInterfaceImpl() throws RemoteException {
+    super(0);
+  }
 
-    public Properties getWorldProperties() throws RemoteException {
-        return WorldServer.getInstance().getWorldProp();
-    }
+  public Properties getDatabaseProperties() throws RemoteException {
+    return WorldServer.getInstance().getDbProp();
+  }
 
-    public boolean isAvailable() throws RemoteException {
-        return true;
+  public Properties getWorldProperties() throws RemoteException {
+    return WorldServer.getInstance().getWorldProp();
+  }
+
+  public boolean isAvailable() throws RemoteException {
+    return true;
+  }
+
+  public Map<Integer, Integer> getChannelLoad() throws RemoteException {
+    Map<Integer, Integer> ret = new HashMap<Integer, Integer>();
+    for (ChannelWorldInterface cwi : WorldRegistryImpl
+      .getInstance()
+      .getAllChannelServers()) {
+      ret.put(cwi.getChannelId(), cwi.getConnected());
     }
- 
-    public Map<Integer, Integer> getChannelLoad() throws RemoteException {
-        Map<Integer, Integer> ret = new HashMap<Integer, Integer>();
-        for (ChannelWorldInterface cwi : WorldRegistryImpl.getInstance().getAllChannelServers()) {
-            ret.put(cwi.getChannelId(), cwi.getConnected());
-        }
-        return ret;
-    }
-	
-	@Override
-	public void deleteGuildCharacter(MapleGuildCharacter mgc) throws RemoteException{
-		WorldRegistryImpl wr = WorldRegistryImpl.getInstance();
-		wr.setGuildMemberOnline(mgc, false, -1);
-		if (mgc.getGuildRank() > 1)
-			wr.leaveGuild(mgc);
-		else
-			wr.disbandGuild(mgc.getGuildId());
-	}
+    return ret;
+  }
+
+  @Override
+  public void deleteGuildCharacter(MapleGuildCharacter mgc)
+    throws RemoteException {
+    WorldRegistryImpl wr = WorldRegistryImpl.getInstance();
+    wr.setGuildMemberOnline(mgc, false, -1);
+    if (mgc.getGuildRank() > 1) wr.leaveGuild(mgc); else wr.disbandGuild(
+      mgc.getGuildId()
+    );
+  }
 }

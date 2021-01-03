@@ -30,6 +30,6 @@ Save location to return.
 */
 
 function enter(pi) {
-	pi.warp(990000700, "st00");
-	return true;
+  pi.warp(990000700, "st00");
+  return true;
 }

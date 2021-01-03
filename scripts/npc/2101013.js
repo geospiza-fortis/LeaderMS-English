@@ -22,30 +22,32 @@
 /* 
 	Karcasa
 	Some dude
-*/ 
-
+*/
 
 var status = 0;
-  
+
 function start() {
-	action(1, 0, 0);
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (status == 0) {
-		cm.sendYesNo("Do you want to go to Ellinia?");
-		status++;
-	} else {
-		if ((status == 1 && type == 1 && selection == -1 && mode == 0) || mode == -1) {
-			cm.dispose();
-		} else {
-			if (status == 1) {
-				cm.sendNext ("Until next time...");
-				status++
-			} else if (status == 2) {
-				cm.warp(101000000, 0);
-				cm.dispose();
-			}
-		}
-	}
+  if (status == 0) {
+    cm.sendYesNo("Do you want to go to Ellinia?");
+    status++;
+  } else {
+    if (
+      (status == 1 && type == 1 && selection == -1 && mode == 0) ||
+      mode == -1
+    ) {
+      cm.dispose();
+    } else {
+      if (status == 1) {
+        cm.sendNext("Until next time...");
+        status++;
+      } else if (status == 2) {
+        cm.warp(101000000, 0);
+        cm.dispose();
+      }
+    }
+  }
 }

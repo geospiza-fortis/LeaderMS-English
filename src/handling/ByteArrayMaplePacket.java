@@ -3,28 +3,29 @@ package handling;
 import tools.HexTool;
 
 public class ByteArrayMaplePacket implements MaplePacket {
-    private byte[] data;
-    private Runnable onSend;
 
-    public ByteArrayMaplePacket(byte[] data) {
-        this.data = data;
-    }
+  private byte[] data;
+  private Runnable onSend;
 
-    @Override
-    public byte[] getBytes() {
-        return data;
-    }
+  public ByteArrayMaplePacket(byte[] data) {
+    this.data = data;
+  }
 
-    @Override
-    public String toString() {
-        return HexTool.toString(data);
-    }
+  @Override
+  public byte[] getBytes() {
+    return data;
+  }
 
-    public Runnable getOnSend() {
-        return onSend;
-    }
+  @Override
+  public String toString() {
+    return HexTool.toString(data);
+  }
 
-    public void setOnSend(Runnable onSend) {
-        this.onSend = onSend;
-    }
+  public Runnable getOnSend() {
+    return onSend;
+  }
+
+  public void setOnSend(Runnable onSend) {
+    this.onSend = onSend;
+  }
 }

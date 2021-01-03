@@ -10,35 +10,36 @@ import java.io.ObjectOutput;
  * @author Frz
  */
 public class CharacterIdChannelPair implements Externalizable {
-    private int charid;
-    private int channel;
 
-    public CharacterIdChannelPair() {
-    }
+  private int charid;
+  private int channel;
 
-    public CharacterIdChannelPair(int charid, int channel) {
-        super();
-        this.charid = charid;
-        this.channel = channel;
-    }
+  public CharacterIdChannelPair() {}
 
-    public int getCharacterId() {
-        return charid;
-    }
+  public CharacterIdChannelPair(int charid, int channel) {
+    super();
+    this.charid = charid;
+    this.channel = channel;
+  }
 
-    public int getChannel() {
-        return channel;
-    }
+  public int getCharacterId() {
+    return charid;
+  }
 
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        charid = in.readInt();
-        channel = in.readByte();
-    }
+  public int getChannel() {
+    return channel;
+  }
 
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeInt(charid);
-        out.writeByte(channel);
-    }
+  @Override
+  public void readExternal(ObjectInput in)
+    throws IOException, ClassNotFoundException {
+    charid = in.readInt();
+    channel = in.readByte();
+  }
+
+  @Override
+  public void writeExternal(ObjectOutput out) throws IOException {
+    out.writeInt(charid);
+    out.writeByte(channel);
+  }
 }

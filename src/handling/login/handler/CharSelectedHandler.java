@@ -21,39 +21,46 @@
 
 package handling.login.handler;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
 import handling.login.LoginServer;
-import tools.packet.MaplePacketCreator;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class CharSelectedHandler extends AbstractMaplePacketHandler {
-	private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CharSelectedHandler.class);
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		int charId = slea.readInt();
-		String macs = slea.readMapleAsciiString();
-		c.updateMacs(macs);
-		if (c.hasBannedMac()) {
-			c.getSession().close();
-			return;
-		}
-		try {
-			if (c.getIdleTask() != null) {
-				c.getIdleTask().cancel(true);
-			}
-			c.updateLoginState(MapleClient.LOGIN_SERVER_TRANSITION);
-			
-			String[] socket = LoginServer.getInstance().getIP(c.getChannelByWorld()).split(":");
-			InetAddress serverIp = InetAddress.getByName(socket[0]);
-			Integer port = Integer.parseInt(socket[1]);
-			c.getSession().write(MaplePacketCreator.getServerIP(serverIp, port, charId));
-		} catch (UnknownHostException e) {
-			log.error("Host not found", e);
-		}
-	}
+  private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
+    CharSelectedHandler.class
+  );
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    int charId = slea.readInt();
+    String macs = slea.readMapleAsciiString();
+    c.updateMacs(macs);
+    if (c.hasBannedMac()) {
+      c.getSession().close();
+      return;
+    }
+    try {
+      if (c.getIdleTask() != null) {
+        c.getIdleTask().cancel(true);
+      }
+      c.updateLoginState(MapleClient.LOGIN_SERVER_TRANSITION);
+
+      String[] socket = LoginServer
+        .getInstance()
+        .getIP(c.getChannelByWorld())
+        .split(":");
+      InetAddress serverIp = InetAddress.getByName(socket[0]);
+      Integer port = Integer.parseInt(socket[1]);
+      c
+        .getSession()
+        .write(MaplePacketCreator.getServerIP(serverIp, port, charId));
+    } catch (UnknownHostException e) {
+      log.error("Host not found", e);
+    }
+  }
 }

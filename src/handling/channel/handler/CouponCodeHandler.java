@@ -21,86 +21,100 @@
 
 package handling.channel.handler;
 
-import java.sql.SQLException;
-
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
+import java.sql.SQLException;
 import server.MapleInventoryManipulator;
-import tools.packet.*;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.*;
 
 /**
-*
-* @author Penguins (Acrylic)
-*/
+ *
+ * @author Penguins (Acrylic)
+ */
 public class CouponCodeHandler extends AbstractMaplePacketHandler {
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		slea.skip(2);
-		String code = slea.readMapleAsciiString();
-		boolean validcode = false;
-		int type = -1;
-		int item = -1;
-		
-		try {
-			validcode = c.getPlayer().getNXCodeValid(code.toUpperCase(), validcode);
-		} catch (SQLException e) {}
-		
-		if (validcode) {
-			try {
-				type = c.getPlayer().getNXCodeType(code);
-			} catch (SQLException e) {}
-			try {
-				item = c.getPlayer().getNXCodeItem(code);
-			} catch (SQLException e) {}
-			if (type != 5) {
-				try {
-					c.getPlayer().setNXCodeUsed(code);
-				} catch (SQLException e) {}
-			}
-			/*
-			 * Explanation of type!
-			 * Basically, this makes coupon codes do
-			 * different things!
-			 * 
-			 * Type 0: NX, Type 1: Maple Points,
-			 * Type 2: Gift Tokens, Type 3: NX + Gift Tokens
-			 * Type 4: Item
-			 * Type 5: NX Coupon that can be used over and over
-			 * 
-			 * When using Types 0-3, the item is the amount
-			 * of NX or Maple Points you get. When using Type 4
-			 * the item is the ID of the item you get. Enjoy!
-			 */
-			switch(type) {
-			    case 0:
-			    case 1:
-			    case 2:
-				c.getPlayer().modifyCSPoints(type, item);
-				break;
-			    case 3:
-				c.getPlayer().modifyCSPoints(0, item);
-				c.getPlayer().modifyCSPoints(2, (item/5000));
-				break;
-			    case 4:
-                                MapleInventoryManipulator.addById(c, item, (short) 1, "An item was obtained from a coupon.", null, -1);
-                                
-				c.getSession().write(MTSCSPacket.showCouponRedeemedItem(item));
-				break;
-			    case 5:
-				c.getPlayer().modifyCSPoints(0, item);
-				break;
-                            case 6:
-                                MapleInventoryManipulator.addById(c, item, (short) 1, "An item was obtained from a coupon.", null, -1);
-                                break;
-			}
-			c.getSession().write(MTSCSPacket.showNXMapleTokens(c.getPlayer()));
-		} else {
-			c.getSession().write(MTSCSPacket.wrongCouponCode());
-		}
 
-		c.getSession().write(MTSCSPacket.enableCSUse0());
-		c.getSession().write(MTSCSPacket.enableCSUse1());
-		c.getSession().write(MTSCSPacket.enableCSUse2());
-	}
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    slea.skip(2);
+    String code = slea.readMapleAsciiString();
+    boolean validcode = false;
+    int type = -1;
+    int item = -1;
+
+    try {
+      validcode = c.getPlayer().getNXCodeValid(code.toUpperCase(), validcode);
+    } catch (SQLException e) {}
+
+    if (validcode) {
+      try {
+        type = c.getPlayer().getNXCodeType(code);
+      } catch (SQLException e) {}
+      try {
+        item = c.getPlayer().getNXCodeItem(code);
+      } catch (SQLException e) {}
+      if (type != 5) {
+        try {
+          c.getPlayer().setNXCodeUsed(code);
+        } catch (SQLException e) {}
+      }
+      /*
+       * Explanation of type!
+       * Basically, this makes coupon codes do
+       * different things!
+       *
+       * Type 0: NX, Type 1: Maple Points,
+       * Type 2: Gift Tokens, Type 3: NX + Gift Tokens
+       * Type 4: Item
+       * Type 5: NX Coupon that can be used over and over
+       *
+       * When using Types 0-3, the item is the amount
+       * of NX or Maple Points you get. When using Type 4
+       * the item is the ID of the item you get. Enjoy!
+       */
+      switch (type) {
+        case 0:
+        case 1:
+        case 2:
+          c.getPlayer().modifyCSPoints(type, item);
+          break;
+        case 3:
+          c.getPlayer().modifyCSPoints(0, item);
+          c.getPlayer().modifyCSPoints(2, (item / 5000));
+          break;
+        case 4:
+          MapleInventoryManipulator.addById(
+            c,
+            item,
+            (short) 1,
+            "An item was obtained from a coupon.",
+            null,
+            -1
+          );
+
+          c.getSession().write(MTSCSPacket.showCouponRedeemedItem(item));
+          break;
+        case 5:
+          c.getPlayer().modifyCSPoints(0, item);
+          break;
+        case 6:
+          MapleInventoryManipulator.addById(
+            c,
+            item,
+            (short) 1,
+            "An item was obtained from a coupon.",
+            null,
+            -1
+          );
+          break;
+      }
+      c.getSession().write(MTSCSPacket.showNXMapleTokens(c.getPlayer()));
+    } else {
+      c.getSession().write(MTSCSPacket.wrongCouponCode());
+    }
+
+    c.getSession().write(MTSCSPacket.enableCSUse0());
+    c.getSession().write(MTSCSPacket.enableCSUse1());
+    c.getSession().write(MTSCSPacket.enableCSUse2());
+  }
 }

@@ -27,18 +27,18 @@ import tools.data.input.SeekableLittleEndianAccessor;
 import tools.packet.MTSCSPacket;
 
 /**
-*
-* @author Acrylic (Terry Han)
-*/
+ *
+ * @author Acrylic (Terry Han)
+ */
 
 public class TouchingCashShopHandler extends AbstractMaplePacketHandler {
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		c.getSession().write(MTSCSPacket.showNXMapleTokens(c.getPlayer()));
-		c.getSession().write(MTSCSPacket.enableCSUse0());
-		c.getSession().write(MTSCSPacket.enableCSUse1());
-		c.getSession().write(MTSCSPacket.enableCSUse2());
-		c.getSession().write(MTSCSPacket.enableCSUse3());
-	}
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    c.getSession().write(MTSCSPacket.showNXMapleTokens(c.getPlayer()));
+    c.getSession().write(MTSCSPacket.enableCSUse0());
+    c.getSession().write(MTSCSPacket.enableCSUse1());
+    c.getSession().write(MTSCSPacket.enableCSUse2());
+    c.getSession().write(MTSCSPacket.enableCSUse3());
+  }
 }

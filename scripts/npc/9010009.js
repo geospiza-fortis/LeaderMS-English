@@ -24,11 +24,11 @@ Duey
 */
 
 function start() {
-	status = -1;
-	action(1,0,0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action() {
-	cm.openDuey();
-	cm.dispose();
+  cm.openDuey();
+  cm.dispose();
 }

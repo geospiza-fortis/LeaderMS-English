@@ -21,73 +21,74 @@
 
 package handling.channel;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import client.MapleCharacter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class PlayerStorage implements IPlayerStorage {
-        private final Lock mutex = new ReentrantLock();
-        private final Lock mutex2 = new ReentrantLock();
-        private final Map<String, MapleCharacter> nameToChar = new HashMap<String, MapleCharacter>();
-        private final Map<Integer, MapleCharacter> idToChar = new HashMap<Integer, MapleCharacter>();
 
+  private final Lock mutex = new ReentrantLock();
+  private final Lock mutex2 = new ReentrantLock();
+  private final Map<String, MapleCharacter> nameToChar = new HashMap<String, MapleCharacter>();
+  private final Map<Integer, MapleCharacter> idToChar = new HashMap<Integer, MapleCharacter>();
 
-    public final void registerPlayer(final MapleCharacter chr) {
-	mutex.lock();
-	try {
-	    nameToChar.put(chr.getName().toLowerCase(), chr);
-	    idToChar.put(chr.getId(), chr);
-	} finally {
-	    mutex.unlock();
-	}
+  public final void registerPlayer(final MapleCharacter chr) {
+    mutex.lock();
+    try {
+      nameToChar.put(chr.getName().toLowerCase(), chr);
+      idToChar.put(chr.getId(), chr);
+    } finally {
+      mutex.unlock();
     }
-	public final void deregisterPlayer(final MapleCharacter chr) {
-	mutex.lock();
-	try {
-	    nameToChar.remove(chr.getName().toLowerCase());
-	    idToChar.remove(chr.getId());
-	} finally {
-	    mutex.unlock();
-	}
+  }
+
+  public final void deregisterPlayer(final MapleCharacter chr) {
+    mutex.lock();
+    try {
+      nameToChar.remove(chr.getName().toLowerCase());
+      idToChar.remove(chr.getId());
+    } finally {
+      mutex.unlock();
     }
-	public MapleCharacter getCharacterByName(String name) {
-		return nameToChar.get(name.toLowerCase());
-	}
+  }
 
-	public MapleCharacter getCharacterById(int id) {
-		return idToChar.get(Integer.valueOf(id));
-	}
+  public MapleCharacter getCharacterByName(String name) {
+    return nameToChar.get(name.toLowerCase());
+  }
 
-	public Collection<MapleCharacter> getAllCharacters() {
-		return nameToChar.values();
-	}
-        
-       public final int getConnectedClients() {
-	return idToChar.size();
+  public MapleCharacter getCharacterById(int id) {
+    return idToChar.get(Integer.valueOf(id));
+  }
+
+  public Collection<MapleCharacter> getAllCharacters() {
+    return nameToChar.values();
+  }
+
+  public final int getConnectedClients() {
+    return idToChar.size();
+  }
+
+  public final void disconnectAll() {
+    mutex.lock();
+    try {
+      final Iterator<MapleCharacter> itr = nameToChar.values().iterator();
+      MapleCharacter chr;
+      while (itr.hasNext()) {
+        chr = itr.next();
+
+        if (!chr.isGM()) {
+          chr.getClient().disconnect(false);
+          chr.getClient().getSession().close();
+          itr.remove();
+        }
+      }
+    } finally {
+      mutex.unlock();
     }
-
-     public final void disconnectAll() {
-	mutex.lock();
-	try {
-	    final Iterator<MapleCharacter> itr = nameToChar.values().iterator();
-	    MapleCharacter chr;
-	    while (itr.hasNext()) {
-		chr = itr.next();
-
-		if (!chr.isGM()) {
-		    chr.getClient().disconnect(false);
-		    chr.getClient().getSession().close();
-		    itr.remove();
-		}
-	    }
-	} finally {
-	    mutex.unlock();
-	}
-    }
+  }
 }

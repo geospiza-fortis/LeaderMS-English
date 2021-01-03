@@ -32,137 +32,142 @@ import tools.StringUtil;
  * @author Matze
  */
 public class MapleQuestStatus {
-    public enum Status {
-        UNDEFINED(-1),
-        NOT_STARTED(0),
-        STARTED(1),
-        COMPLETED(2);
-        final int status;
 
-        private Status(int id) {
-            status = id;
+  public enum Status {
+    UNDEFINED(-1),
+    NOT_STARTED(0),
+    STARTED(1),
+    COMPLETED(2);
+
+    final int status;
+
+    private Status(int id) {
+      status = id;
+    }
+
+    public int getId() {
+      return status;
+    }
+
+    public static Status getById(int id) {
+      for (Status l : Status.values()) {
+        if (l.getId() == id) {
+          return l;
         }
-
-        public int getId() {
-            return status;
-        }
-
-        public static Status getById(int id) {
-            for (Status l : Status.values()) {
-                if (l.getId() == id) {
-                    return l;
-                }
-            }
-            return null;
-        }
+      }
+      return null;
     }
-    private MapleQuest quest;
-    private Status status;
-    private Map<Integer, Integer> killedMobs = new LinkedHashMap<Integer, Integer>();
-    private int npc;
-    private long completionTime;
-    private int forfeited = 0;
+  }
 
-    public MapleQuestStatus(MapleQuest quest, Status status) {
-        this.quest = quest;
-        this.setStatus(status);
-        this.completionTime = System.currentTimeMillis();
-        if (status == Status.STARTED) {
-            registerMobs();
-        }
-    }
+  private MapleQuest quest;
+  private Status status;
+  private Map<Integer, Integer> killedMobs = new LinkedHashMap<Integer, Integer>();
+  private int npc;
+  private long completionTime;
+  private int forfeited = 0;
 
-    public MapleQuestStatus(MapleQuest quest, Status status, int npc) {
-        this.quest = quest;
-        this.setStatus(status);
-        this.setNpc(npc);
-        this.completionTime = System.currentTimeMillis();
-        if (status == Status.STARTED) {
-            registerMobs();
-        }
+  public MapleQuestStatus(MapleQuest quest, Status status) {
+    this.quest = quest;
+    this.setStatus(status);
+    this.completionTime = System.currentTimeMillis();
+    if (status == Status.STARTED) {
+      registerMobs();
     }
+  }
 
-    public MapleQuest getQuest() {
-        return quest;
+  public MapleQuestStatus(MapleQuest quest, Status status, int npc) {
+    this.quest = quest;
+    this.setStatus(status);
+    this.setNpc(npc);
+    this.completionTime = System.currentTimeMillis();
+    if (status == Status.STARTED) {
+      registerMobs();
     }
+  }
 
-    public Status getStatus() {
-        return status;
-    }
+  public MapleQuest getQuest() {
+    return quest;
+  }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+  public Status getStatus() {
+    return status;
+  }
 
-    public int getNpc() {
-        return npc;
-    }
+  public void setStatus(Status status) {
+    this.status = status;
+  }
 
-    public void setNpc(int npc) {
-        this.npc = npc;
-    }
+  public int getNpc() {
+    return npc;
+  }
 
-    private void registerMobs() {
-        for (int i : quest.getRelevantMobs()) {
-            killedMobs.put(i, 0);
-        }
-    }
+  public void setNpc(int npc) {
+    this.npc = npc;
+  }
 
-    public boolean mobKilled(int id) {
-        if (killedMobs.get(id) != null) {
-            killedMobs.put(id, killedMobs.get(id) + 1);
-            return true;
-        }
-        return false;
+  private void registerMobs() {
+    for (int i : quest.getRelevantMobs()) {
+      killedMobs.put(i, 0);
     }
+  }
 
-    public void setMobKills(int id, int count) {
-        killedMobs.put(id, count);
+  public boolean mobKilled(int id) {
+    if (killedMobs.get(id) != null) {
+      killedMobs.put(id, killedMobs.get(id) + 1);
+      return true;
     }
+    return false;
+  }
 
-    public boolean hasMobKills() {
-        return killedMobs.size() > 0;
-    }
+  public void setMobKills(int id, int count) {
+    killedMobs.put(id, count);
+  }
 
-    public int getMobKills(int id) {
-        if (killedMobs.get(id) == null) {
-            return 0;
-        }
-        return killedMobs.get(id);
-    }
+  public boolean hasMobKills() {
+    return killedMobs.size() > 0;
+  }
 
-    public Map<Integer, Integer> getMobKills() {
-        return Collections.unmodifiableMap(killedMobs);
+  public int getMobKills(int id) {
+    if (killedMobs.get(id) == null) {
+      return 0;
     }
+    return killedMobs.get(id);
+  }
 
-    public long getCompletionTime() {
-        return completionTime;
-    }
+  public Map<Integer, Integer> getMobKills() {
+    return Collections.unmodifiableMap(killedMobs);
+  }
 
-    public void setCompletionTime(long completionTime) {
-        this.completionTime = completionTime;
-    }
+  public long getCompletionTime() {
+    return completionTime;
+  }
 
-    public int getForfeited() {
-        return forfeited;
-    }
+  public void setCompletionTime(long completionTime) {
+    this.completionTime = completionTime;
+  }
 
-    public void setForfeited(int forfeited) {
-        if (forfeited >= this.forfeited) {
-            this.forfeited = forfeited;
-        } else {
-            throw new IllegalArgumentException("Can't set forfeits to something lower than before.");
-        }
-    }
+  public int getForfeited() {
+    return forfeited;
+  }
 
-    public String getQuestData() {
-        if (killedMobs.size() == 0) {
-            return "";
-        }
-        StringBuilder str = new StringBuilder();
-        for (Integer mob : killedMobs.values()) {
-            str.append(StringUtil.getLeftPaddedStr(mob.toString(), '\30', 3));
-        }
-        return str.toString();
+  public void setForfeited(int forfeited) {
+    if (forfeited >= this.forfeited) {
+      this.forfeited = forfeited;
+    } else {
+      throw new IllegalArgumentException(
+        "Can't set forfeits to something lower than before."
+      );
     }
+  }
+
+  public String getQuestData() {
+    if (killedMobs.size() == 0) {
+      return "";
+    }
+    StringBuilder str = new StringBuilder();
+    for (Integer mob : killedMobs.values()) {
+      str.append(StringUtil.getLeftPaddedStr(mob.toString(), '\30', 3));
+    }
+    return str.toString();
+  }
 }

@@ -25,18 +25,19 @@
 var status = 0;
 
 function start() {
-        cm.sendYesNo("                                        #e#b<Merry Christmas>#k#n                     \r\n\r\nHello #h #,\r\nI can take you to #eHappy Village#n. Do you want to go?");
+  cm.sendYesNo(
+    "                                        #e#b<Merry Christmas>#k#n                     \r\n\r\nHello #h #,\r\nI can take you to #eHappy Village#n. Do you want to go?"
+  );
 }
 
 function action(mode, type, selection) {
-    if(mode != 1)
-        cm.dispose();
-    else {
-        status++;
-        if(status == 1) {
-            cm.setPlayerVariable("HV_map", cm.getMapId()+"");
-            cm.warp(209000000);
-            cm.dispose();
-        }
+  if (mode != 1) cm.dispose();
+  else {
+    status++;
+    if (status == 1) {
+      cm.setPlayerVariable("HV_map", cm.getMapId() + "");
+      cm.warp(209000000);
+      cm.dispose();
     }
+  }
 }

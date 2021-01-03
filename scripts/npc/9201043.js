@@ -1,7 +1,7 @@
 /*Amos the Strong - Entrance
-**9201043
-**@author Jvlaple
-*/
+ **9201043
+ **@author Jvlaple
+ */
 
 var status = 0;
 var MySelection = -1;
@@ -9,15 +9,14 @@ var MySelection = -1;
 importPackage(Packages.client);
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action() {
- cm.sendOk("This quest is currently unavailable. Report this ID: 9201043"); 
- cm.dispose();
+  cm.sendOk("This quest is currently unavailable. Report this ID: 9201043");
+  cm.dispose();
 }
-
 
 /*
 function start() {

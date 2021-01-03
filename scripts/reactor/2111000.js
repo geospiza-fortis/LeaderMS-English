@@ -21,11 +21,11 @@
 */
 
 /* @Author Lerk
- * 
+ *
  * 2111000.js: Zakum Party Quest Chest - summons 3 "Mimics"
-*/
+ */
 
-function act(){
-	rm.playerMessage(5, "Alguns monstros foram convocados.");
-	rm.spawnMonster(9300004,3);
+function act() {
+  rm.playerMessage(5, "Alguns monstros foram convocados.");
+  rm.spawnMonster(9300004, 3);
 }

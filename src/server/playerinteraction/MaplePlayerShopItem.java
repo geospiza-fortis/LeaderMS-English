@@ -4,44 +4,44 @@ import client.IItem;
 
 public class MaplePlayerShopItem {
 
-    private IItem item;
-    private short bundles;
-    private short perBundle;
-    private int price;
-    private boolean doesExist; 
-    
-    public MaplePlayerShopItem(IItem item, short bundles, int price) {
-        this.item = item;
-        this.bundles = bundles;
-        this.price = price;
-        this.doesExist = true; 
-    }
+  private IItem item;
+  private short bundles;
+  private short perBundle;
+  private int price;
+  private boolean doesExist;
 
-    public IItem getItem() {
-        return item;
-    }
+  public MaplePlayerShopItem(IItem item, short bundles, int price) {
+    this.item = item;
+    this.bundles = bundles;
+    this.price = price;
+    this.doesExist = true;
+  }
 
-    public short getBundles() {
-        return bundles;
-    }
+  public IItem getItem() {
+    return item;
+  }
 
-    public int getPrice() {
-        return price;
-    }
-    
-        public boolean isExist() { 
-        return doesExist; 
-    } 
+  public short getBundles() {
+    return bundles;
+  }
 
-    public void setBundles(short bundles) {
-        this.bundles = bundles;
-    }
+  public int getPrice() {
+    return price;
+  }
 
-    public void setDoesExist(boolean tf) {
-        this.doesExist = tf;
-    }
+  public boolean isExist() {
+    return doesExist;
+  }
 
-   public int getPerBundles() {
-        return perBundle;
-    }
+  public void setBundles(short bundles) {
+    this.bundles = bundles;
+  }
+
+  public void setDoesExist(boolean tf) {
+    this.doesExist = tf;
+  }
+
+  public int getPerBundles() {
+    return perBundle;
+  }
 }

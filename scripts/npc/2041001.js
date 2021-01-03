@@ -36,30 +36,32 @@
 importPackage(Packages.client);
 
 function start() {
-	status = -1;
-	tm = cm.getEventManager("Trains");
-	action(1, 0, 0);
+  status = -1;
+  tm = cm.getEventManager("Trains");
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if(mode == -1) {
-		cm.dispose();
-		return;
-	} else {
-		status++;
-		if(mode == 0) {
-            cm.sendNext("You'll get to your destination in a short while. Talk to other passengers and share your stories to them, and you'll be there before you know it.");
-			cm.dispose();
-			return;
-		}
-		if(status == 0) {
-            cm.sendYesNo("We're just about to depart. Are you sure you want to get off the train? You may do so, but then you'll have to wait until the next available train. Do you still wish to get off?");
-		} else if(status == 1) {
-			if(cm.getPlayer().getMapId() == 220000111)
-				cm.warp(220000110);
-			else
-				cm.warp(220000121);
-			cm.dispose();
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+    return;
+  } else {
+    status++;
+    if (mode == 0) {
+      cm.sendNext(
+        "You'll get to your destination in a short while. Talk to other passengers and share your stories to them, and you'll be there before you know it."
+      );
+      cm.dispose();
+      return;
+    }
+    if (status == 0) {
+      cm.sendYesNo(
+        "We're just about to depart. Are you sure you want to get off the train? You may do so, but then you'll have to wait until the next available train. Do you still wish to get off?"
+      );
+    } else if (status == 1) {
+      if (cm.getPlayer().getMapId() == 220000111) cm.warp(220000110);
+      else cm.warp(220000121);
+      cm.dispose();
+    }
+  }
 }

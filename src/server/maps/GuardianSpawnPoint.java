@@ -18,36 +18,37 @@ import java.awt.Point;
  * @author David
  */
 public class GuardianSpawnPoint {
-	private Point position;
-	private boolean taken;
-	private int team = -1;
 
-	public GuardianSpawnPoint(Point a) {
-		this.position = a;
-		this.taken = true;
-	}
-	
-	public Point getPosition() {
-		return position;
-	}
+  private Point position;
+  private boolean taken;
+  private int team = -1;
 
-	public void setPosition(Point position) {
-		this.position = position;
-	}
+  public GuardianSpawnPoint(Point a) {
+    this.position = a;
+    this.taken = true;
+  }
 
-	public boolean isTaken() {
-		return taken;
-	}
+  public Point getPosition() {
+    return position;
+  }
 
-	public void setTaken(boolean taken) {
-		this.taken = taken;
-	}
+  public void setPosition(Point position) {
+    this.position = position;
+  }
 
-	public int getTeam() {
-		return team;
-	}
+  public boolean isTaken() {
+    return taken;
+  }
 
-	public void setTeam(int team) {
-		this.team = team;
-	}
+  public void setTaken(boolean taken) {
+    this.taken = taken;
+  }
+
+  public int getTeam() {
+    return team;
+  }
+
+  public void setTeam(int team) {
+    this.team = team;
+  }
 }

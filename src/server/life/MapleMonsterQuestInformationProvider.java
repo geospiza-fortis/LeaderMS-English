@@ -26,6 +26,7 @@
 
 package server.life;
 
+import database.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,9 +34,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import database.DatabaseConnection;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,79 +43,81 @@ import org.slf4j.LoggerFactory;
  */
 public class MapleMonsterQuestInformationProvider {
 
-    public static class QuestDropEntry {
+  public static class QuestDropEntry {
 
-        public QuestDropEntry(int itemId, int chance, int questid) {
-            this.itemId = itemId;
-            this.chance = chance;
-            this.questid = questid;
-        }
-
-        public int itemId;
-        public int chance;
-        public int questid;
-        public int assignedRangeStart;
-        public int assignedRangeLength;
-
-        @Override
-        public String toString() {
-            return itemId + " chance: " + chance;
-        }
+    public QuestDropEntry(int itemId, int chance, int questid) {
+      this.itemId = itemId;
+      this.chance = chance;
+      this.questid = questid;
     }
 
-    public static final int APPROX_FADE_DELAY = 90;
+    public int itemId;
+    public int chance;
+    public int questid;
+    public int assignedRangeStart;
+    public int assignedRangeLength;
 
-    private static MapleMonsterQuestInformationProvider instance = null;
-
-    private Map<Integer, List<QuestDropEntry>> drops = new HashMap<Integer, List<QuestDropEntry>>();
-
-    private static final Logger log = LoggerFactory.getLogger(MapleMonsterInformationProvider.class);
-
-    private MapleMonsterQuestInformationProvider() {
-
+    @Override
+    public String toString() {
+      return itemId + " chance: " + chance;
     }
+  }
 
-    public static MapleMonsterQuestInformationProvider getInstance() {
-        if (instance == null) {
-            instance = new MapleMonsterQuestInformationProvider();
+  public static final int APPROX_FADE_DELAY = 90;
+
+  private static MapleMonsterQuestInformationProvider instance = null;
+
+  private Map<Integer, List<QuestDropEntry>> drops = new HashMap<Integer, List<QuestDropEntry>>();
+
+  private static final Logger log = LoggerFactory.getLogger(
+    MapleMonsterInformationProvider.class
+  );
+
+  private MapleMonsterQuestInformationProvider() {}
+
+  public static MapleMonsterQuestInformationProvider getInstance() {
+    if (instance == null) {
+      instance = new MapleMonsterQuestInformationProvider();
+    }
+    return instance;
+  }
+
+  public List<QuestDropEntry> retrieveDropChances(int monsterId) {
+    if (drops.containsKey(monsterId)) {
+      return drops.get(monsterId);
+    }
+    List<QuestDropEntry> ret = new LinkedList<QuestDropEntry>();
+    try {
+      Connection con = DatabaseConnection.getConnection();
+      PreparedStatement ps = con.prepareStatement(
+        "SELECT itemid, chance, monsterid, questid FROM monsterquestdrops " +
+        "WHERE (monsterid = ? AND chance >= 0) OR (monsterid <= 0)"
+      );
+      ps.setInt(1, monsterId);
+      ResultSet rs = ps.executeQuery();
+      MapleMonster theMonster = null;
+      while (rs.next()) {
+        int rowMonsterId = rs.getInt("monsterid");
+        int chance = rs.getInt("chance");
+        int questid = rs.getInt("questid");
+        if (rowMonsterId != monsterId && rowMonsterId != 0) {
+          if (theMonster == null) {
+            theMonster = MapleLifeFactory.getMonster(monsterId);
+          }
+          chance += theMonster.getLevel() * rowMonsterId;
         }
-        return instance;
+        ret.add(new QuestDropEntry(rs.getInt("itemid"), chance, questid));
+      }
+      rs.close();
+      ps.close();
+    } catch (Exception e) {
+      log.error("ERROR", e);
     }
+    drops.put(monsterId, ret);
+    return ret;
+  }
 
-    public List<QuestDropEntry> retrieveDropChances(int monsterId) {
-        if (drops.containsKey(monsterId)) {
-            return drops.get(monsterId);
-        }
-        List<QuestDropEntry> ret = new LinkedList<QuestDropEntry>();
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT itemid, chance, monsterid, questid FROM monsterquestdrops "
-                    + "WHERE (monsterid = ? AND chance >= 0) OR (monsterid <= 0)");
-            ps.setInt(1, monsterId);
-            ResultSet rs = ps.executeQuery();
-            MapleMonster theMonster = null;
-            while (rs.next()) {
-                int rowMonsterId = rs.getInt("monsterid");
-                int chance = rs.getInt("chance");
-                int questid = rs.getInt("questid");
-                if (rowMonsterId != monsterId && rowMonsterId != 0) {
-                    if (theMonster == null) {
-                        theMonster = MapleLifeFactory.getMonster(monsterId);
-                    }
-                    chance += theMonster.getLevel() * rowMonsterId;
-                }
-                ret.add(new QuestDropEntry(rs.getInt("itemid"), chance, questid));
-            }
-            rs.close();
-            ps.close();
-        } catch (Exception e) {
-            log.error("ERROR", e);
-        }
-        drops.put(monsterId, ret);
-        return ret;
-    }
-
-    public void clearDrops() {
-        drops.clear();
-    }
+  public void clearDrops() {
+    drops.clear();
+  }
 }

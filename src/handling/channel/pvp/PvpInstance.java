@@ -15,6 +15,4 @@ package handling.channel.pvp;
  *
  * @author David
  */
-public class PvpInstance {
-	
-}
+public class PvpInstance {}

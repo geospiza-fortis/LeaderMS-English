@@ -1,6 +1,6 @@
 ///*
 //	This file is part of the OdinMS Maple Story Server
-//    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+//    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
 //					   Matthias Butz <matze@odinms.de>
 //					   Jan Christian Meyer <vimes@odinms.de>
 //
@@ -124,44 +124,48 @@ close = false;
 oldSelection = -1;
 
 function start() {
-    var text = "Hi, I'm the ticket gate.";
-    if (cm.haveItem(4031711) || cm.haveItem(4031036) || cm.haveItem(4031037) || cm.haveItem(4031038))
-        text += "Where would you like to go?#b";
-    else
-        close = true;
-    if (cm.haveItem(4031711))
-        text += "\r\n#L3##t4031711#";
-    for (var i = 0; i < 3; i++)
-        if (cm.haveItem(4031036 + i))
-            text += "\r\n#L" + i + "##t" + (4031036 + i) +"#";
-    if (close) {
-        cm.sendOk(text);
-        cm.dispose();
-    } else
-        cm.sendSimple(text);
+  var text = "Hi, I'm the ticket gate.";
+  if (
+    cm.haveItem(4031711) ||
+    cm.haveItem(4031036) ||
+    cm.haveItem(4031037) ||
+    cm.haveItem(4031038)
+  )
+    text += "Where would you like to go?#b";
+  else close = true;
+  if (cm.haveItem(4031711)) text += "\r\n#L3##t4031711#";
+  for (var i = 0; i < 3; i++)
+    if (cm.haveItem(4031036 + i))
+      text += "\r\n#L" + i + "##t" + (4031036 + i) + "#";
+  if (close) {
+    cm.sendOk(text);
+    cm.dispose();
+  } else cm.sendSimple(text);
 }
 
 function action(mode, type, selection) {
-    status++;
-    if (mode != 1) {
-        if(mode == 0)
-            cm.sendNext("You must have some business to take care of here, right?");
-        cm.dispose();
-        return;
+  status++;
+  if (mode != 1) {
+    if (mode == 0)
+      cm.sendNext("You must have some business to take care of here, right?");
+    cm.dispose();
+    return;
+  }
+  if (status == 0) {
+    if (selection == 3) {
+      cm.sendYesNo(
+        "It seems that there is more space on this ride. Please have your ticket ready so I can let you go. The journey will be long, but you will get to your destination safely. What do you think? Do you want to get on this ride?"
+      );
     }
-    if (status == 0) {
-        if (selection == 3) {
-                cm.sendYesNo("It seems that there is more space on this ride. Please have your ticket ready so I can let you go. The journey will be long, but you will get to your destination safely. What do you think? Do you want to get on this ride?");
-        }
-        oldSelection = selection;
-    } else if (status == 1) {
-        if (oldSelection == 3) {
-            cm.gainItem(4031711, -1);
-            cm.warp(600010001);
-        } else {
-            cm.gainItem(4031036 + oldSelection, -1);
-            cm.warp(103000900 + (oldSelection * 3));
-        }
-        cm.dispose();
+    oldSelection = selection;
+  } else if (status == 1) {
+    if (oldSelection == 3) {
+      cm.gainItem(4031711, -1);
+      cm.warp(600010001);
+    } else {
+      cm.gainItem(4031036 + oldSelection, -1);
+      cm.warp(103000900 + oldSelection * 3);
     }
+    cm.dispose();
+  }
 }

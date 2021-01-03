@@ -22,5 +22,5 @@
 package handling;
 
 public interface StringValueHolder {
-	String getValue();
+  String getValue();
 }

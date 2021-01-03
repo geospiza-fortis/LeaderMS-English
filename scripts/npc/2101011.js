@@ -25,11 +25,10 @@
 	
 */
 
-
 function start() {
-	cm.sendNext ("Light and darkness always coexist...");
+  cm.sendNext("Light and darkness always coexist...");
 }
 
 function action() {
-	cm.dispose()
+  cm.dispose();
 }

@@ -26,5 +26,6 @@ package config.skills;
  * @author BubblesDev
  */
 public class Pirate {
-    public static final int DASH = 5001005;
+
+  public static final int DASH = 5001005;
 }

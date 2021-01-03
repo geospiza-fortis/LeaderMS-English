@@ -37,28 +37,43 @@ import tools.Pair;
  */
 public class MapleOxQuizFactory {
 
-    private static MapleDataProvider stringData = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/Etc.wz"));
-    private static Map<Pair<Integer, Integer>, String[]> questions = new HashMap<Pair<Integer, Integer>, String[]>(); // <<img dir, id> / [Question, answer, explanation]>>
+  private static MapleDataProvider stringData = MapleDataProviderFactory.getDataProvider(
+    new File(System.getProperty("wzpath") + "/Etc.wz")
+  );
+  private static Map<Pair<Integer, Integer>, String[]> questions = new HashMap<Pair<Integer, Integer>, String[]>(); // <<img dir, id> / [Question, answer, explanation]>>
 
-    public static String getOXQuestion(int imgdir, int id) {
-        String ret = questions.get(new Pair<Integer, Integer>(imgdir, id))[0];
-        if (ret == null) {
-            synchronized (questions) {
-                MapleData itemsData = stringData.getData("OXQuiz.img").getChildByPath(String.valueOf(imgdir));
-                MapleData itemFolder = itemsData.getChildByPath(String.valueOf(id));
-                String itemName = MapleDataTool.getString("q", itemFolder, "NO-NAME");
-                questions.put(new Pair<Integer, Integer>(imgdir, id), new String[]{itemName, String.valueOf(MapleDataTool.getInt(itemFolder.getChildByPath("a"))), MapleDataTool.getString("d", itemFolder, "NO-NAME")});
-                ret = id + " " + itemName; // No idea if it's like that or not.
-            }
-        }
-        return ret;
+  public static String getOXQuestion(int imgdir, int id) {
+    String ret = questions.get(new Pair<Integer, Integer>(imgdir, id))[0];
+    if (ret == null) {
+      synchronized (questions) {
+        MapleData itemsData = stringData
+          .getData("OXQuiz.img")
+          .getChildByPath(String.valueOf(imgdir));
+        MapleData itemFolder = itemsData.getChildByPath(String.valueOf(id));
+        String itemName = MapleDataTool.getString("q", itemFolder, "NO-NAME");
+        questions.put(
+          new Pair<Integer, Integer>(imgdir, id),
+          new String[] {
+            itemName,
+            String.valueOf(
+              MapleDataTool.getInt(itemFolder.getChildByPath("a"))
+            ),
+            MapleDataTool.getString("d", itemFolder, "NO-NAME"),
+          }
+        );
+        ret = id + " " + itemName; // No idea if it's like that or not.
+      }
     }
+    return ret;
+  }
 
-    public static int getOXAnswer(int imgdir, int id) {
-        return Integer.parseInt(questions.get(new Pair<Integer, Integer>(imgdir, id))[1]);
-    }
+  public static int getOXAnswer(int imgdir, int id) {
+    return Integer.parseInt(
+      questions.get(new Pair<Integer, Integer>(imgdir, id))[1]
+    );
+  }
 
-    public static String getOXExplain(int imgdir, int id) {
-        return questions.get(new Pair<Integer, Integer>(imgdir, id))[2];
-    }
+  public static String getOXExplain(int imgdir, int id) {
+    return questions.get(new Pair<Integer, Integer>(imgdir, id))[2];
+  }
 }

@@ -29,18 +29,23 @@ LudiPQ - 1 - 2 Portal
 */
 
 function enter(pi) {
-	var nextMap = 922010300;
-	var eim = pi.getPlayer().getEventInstance()
-	var target = eim.getMapInstance(nextMap);
-	var targetPortal = target.getPortal("st00");
-	// only let people through if the eim is ready
-	var avail = eim.getProperty("2stageclear");
-	if (avail == null) {
-		// can't go thru eh?
-		pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(5, "Some seal is blocking this door."));
-		return false;	}
-	else {
-		pi.getPlayer().changeMap(target, targetPortal);
-		return true;
-	}
+  var nextMap = 922010300;
+  var eim = pi.getPlayer().getEventInstance();
+  var target = eim.getMapInstance(nextMap);
+  var targetPortal = target.getPortal("st00");
+  // only let people through if the eim is ready
+  var avail = eim.getProperty("2stageclear");
+  if (avail == null) {
+    // can't go thru eh?
+    pi.getPlayer()
+      .getClient()
+      .getSession()
+      .write(
+        MaplePacketCreator.serverNotice(5, "Some seal is blocking this door.")
+      );
+    return false;
+  } else {
+    pi.getPlayer().changeMap(target, targetPortal);
+    return true;
+  }
 }

@@ -24,11 +24,10 @@
 	MADE BY Anke
 */
 
-
 function start() {
-	cm.sendOk ("Juaaaaaaaaaaaaaaaaaaaao");
+  cm.sendOk("Juaaaaaaaaaaaaaaaaaaaao");
 }
 
 function action() {
-	cm.dispose()
+  cm.dispose();
 }

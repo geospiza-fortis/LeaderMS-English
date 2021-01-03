@@ -24,9 +24,8 @@
 */
 
 function start() {
-	cm.warp (801040100, 0);
-	cm.dispose();
+  cm.warp(801040100, 0);
+  cm.dispose();
 }
 
-function action(mode, type, selection) {
-}
+function action(mode, type, selection) {}

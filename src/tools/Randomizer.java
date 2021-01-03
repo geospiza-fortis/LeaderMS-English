@@ -4,42 +4,42 @@ import java.util.Random;
 
 public class Randomizer {
 
-    private final static Random rand = new Random();
-    private static Randomizer instance = new Randomizer();
+  private static final Random rand = new Random();
+  private static Randomizer instance = new Randomizer();
 
-     public static Randomizer getInstance() {
-        return instance;
-    }
-    
-    public static int nextInt() {
-	return rand.nextInt();
-    }
+  public static Randomizer getInstance() {
+    return instance;
+  }
 
-    public static int nextInt(final int arg0) {
-	return rand.nextInt(arg0);
-    }
+  public static int nextInt() {
+    return rand.nextInt();
+  }
 
-    public static void nextBytes(final byte[] bytes) {
-	rand.nextBytes(bytes);
-    }
+  public static int nextInt(final int arg0) {
+    return rand.nextInt(arg0);
+  }
 
-    public static boolean nextBoolean() {
-	return rand.nextBoolean();
-    }
+  public static void nextBytes(final byte[] bytes) {
+    rand.nextBytes(bytes);
+  }
 
-    public static double nextDouble() {
-	return rand.nextDouble();
-    }
+  public static boolean nextBoolean() {
+    return rand.nextBoolean();
+  }
 
-    public static float nextFloat() {
-	return rand.nextFloat();
-    }
+  public static double nextDouble() {
+    return rand.nextDouble();
+  }
 
-    public static long nextLong() {
-	return rand.nextLong();
-    }
+  public static float nextFloat() {
+    return rand.nextFloat();
+  }
 
-    public static int rand(final int lbound, final int ubound) {
-	return (int) ((rand.nextDouble() * (ubound - lbound + 1)) + lbound);
-    }
+  public static long nextLong() {
+    return rand.nextLong();
+  }
+
+  public static int rand(final int lbound, final int ubound) {
+    return (int) ((rand.nextDouble() * (ubound - lbound + 1)) + lbound);
+  }
 }

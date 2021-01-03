@@ -22,5 +22,5 @@
 package handling;
 
 public interface LongValueHolder {
-	long getValue();
+  long getValue();
 }

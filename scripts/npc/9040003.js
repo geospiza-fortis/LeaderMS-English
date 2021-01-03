@@ -19,54 +19,76 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* 
+/*
  * @Author TheRamon
- * 
+ *
  * Sharen III's Soul, Sharenian: Sharen III's Grave (990000700)
- * 
+ *
  * Guild Quest - end of stage 4
  */
 
- var status = 0;
+var status = 0;
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode == 1)
-	status++;
-    else {
-	cm.dispose();
-	return;
-	}
+  if (mode == 1) status++;
+  else {
+    cm.dispose();
+    return;
+  }
 
-    if (status == 0) {
-	if (cm.getEventInstance().getProperty("leader").equals(cm.getPlayer().getName())) {
-	    if (cm.getEventInstance().getProperty("stage4clear") != null && cm.getEventInstance().getProperty("stage4clear").equals("true")) {
-			cm.sendOk("The path ahead of you is clear. Your most enduring trial has yet to come...");
-			cm.safeDispose();
-	    } else {
-			var prev = cm.getEventInstance().setProperty("stage4clear","true",true);
-			if (prev == null) {
-				cm.sendNext("I have opened the path for you. Go now, and defeat the evil lurking ahead...");
-			} else { 
-				cm.sendOk("The path ahead of you is clear. Your most enduring trial has yet to come...");
-				cm.safeDispose();
-			}
-	    }
-	} else {
-	    if (cm.getEventInstance().getProperty("stage4clear") != null && cm.getEventInstance().getProperty("stage4clear").equals("true"))
-		cm.sendOk("The path ahead of you is clear. Your most enduring trial has yet to come...");
-	    else
-		cm.sendOk("I need the leader of your party to speak with me, nobody else.");
-	    cm.safeDispose();
-	}
-    } else if (status == 1) {
-	cm.gainGP(180);
-	cm.getMap().getReactorByName("ghostgate").hitReactor(cm.getC());
-	cm.showEffect(true, "quest/party/clear");
-	cm.playSound(true, "Party1/Clear");
-	cm.dispose();
+  if (status == 0) {
+    if (
+      cm
+        .getEventInstance()
+        .getProperty("leader")
+        .equals(cm.getPlayer().getName())
+    ) {
+      if (
+        cm.getEventInstance().getProperty("stage4clear") != null &&
+        cm.getEventInstance().getProperty("stage4clear").equals("true")
+      ) {
+        cm.sendOk(
+          "The path ahead of you is clear. Your most enduring trial has yet to come..."
+        );
+        cm.safeDispose();
+      } else {
+        var prev = cm
+          .getEventInstance()
+          .setProperty("stage4clear", "true", true);
+        if (prev == null) {
+          cm.sendNext(
+            "I have opened the path for you. Go now, and defeat the evil lurking ahead..."
+          );
+        } else {
+          cm.sendOk(
+            "The path ahead of you is clear. Your most enduring trial has yet to come..."
+          );
+          cm.safeDispose();
+        }
+      }
+    } else {
+      if (
+        cm.getEventInstance().getProperty("stage4clear") != null &&
+        cm.getEventInstance().getProperty("stage4clear").equals("true")
+      )
+        cm.sendOk(
+          "The path ahead of you is clear. Your most enduring trial has yet to come..."
+        );
+      else
+        cm.sendOk(
+          "I need the leader of your party to speak with me, nobody else."
+        );
+      cm.safeDispose();
     }
+  } else if (status == 1) {
+    cm.gainGP(180);
+    cm.getMap().getReactorByName("ghostgate").hitReactor(cm.getC());
+    cm.showEffect(true, "quest/party/clear");
+    cm.playSound(true, "Party1/Clear");
+    cm.dispose();
+  }
 }

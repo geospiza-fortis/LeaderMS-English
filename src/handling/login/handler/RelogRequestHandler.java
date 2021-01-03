@@ -23,17 +23,18 @@ package handling.login.handler;
 
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class RelogRequestHandler extends AbstractMaplePacketHandler {
-	@Override
-	public boolean validateState(MapleClient c) {
-		return !c.isLoggedIn();
-	}
-	
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		c.getSession().write(MaplePacketCreator.getRelogResponse());
-	}
+
+  @Override
+  public boolean validateState(MapleClient c) {
+    return !c.isLoggedIn();
+  }
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    c.getSession().write(MaplePacketCreator.getRelogResponse());
+  }
 }

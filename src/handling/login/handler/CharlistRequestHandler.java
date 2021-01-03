@@ -26,15 +26,18 @@ import handling.AbstractMaplePacketHandler;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 public class CharlistRequestHandler extends AbstractMaplePacketHandler {
-	private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CharlistRequestHandler.class);
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		int server = slea.readByte();
-		int channel = slea.readByte() + 1;
-		c.setWorld(server);
-		//log.info("Client is connecting to server {} channel {}", server, channel);
-		c.setChannel(channel);
-		c.sendCharList(server);
-	}
+  private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
+    CharlistRequestHandler.class
+  );
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    int server = slea.readByte();
+    int channel = slea.readByte() + 1;
+    c.setWorld(server);
+    //log.info("Client is connecting to server {} channel {}", server, channel);
+    c.setChannel(channel);
+    c.sendCharList(server);
+  }
 }

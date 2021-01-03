@@ -33,27 +33,27 @@ package server;
  */
 
 public class MapleShopItem {
-	
-	private short buyable;
-	private int itemId;
-	private int price;
 
-	/** Creates a new instance of MapleShopItem */
-	public MapleShopItem(short buyable, int itemId, int price) {
-		this.buyable = buyable;
-		this.itemId = itemId;
-		this.price = price;
-	}
+  private short buyable;
+  private int itemId;
+  private int price;
 
-	public short getBuyable() {
-		return buyable;
-	}
+  /** Creates a new instance of MapleShopItem */
+  public MapleShopItem(short buyable, int itemId, int price) {
+    this.buyable = buyable;
+    this.itemId = itemId;
+    this.price = price;
+  }
 
-	public int getItemId() {
-		return itemId;
-	}
+  public short getBuyable() {
+    return buyable;
+  }
 
-	public int getPrice() {
-		return price;
-	}
+  public int getItemId() {
+    return itemId;
+  }
+
+  public int getPrice() {
+    return price;
+  }
 }

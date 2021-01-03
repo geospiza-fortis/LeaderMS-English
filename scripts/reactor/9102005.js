@@ -21,11 +21,11 @@
 */
 
 /* @Author Jvlaple
- * 
+ *
  * Drops all primrose seed <3
-*9102002 - 9102007
-*/
+ *9102002 - 9102007
+ */
 
 function act() {
-	rm.dropItems();
+  rm.dropItems();
 }

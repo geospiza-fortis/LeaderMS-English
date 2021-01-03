@@ -19,9 +19,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 package server.maps;
 
 public enum SavedLocationType {
-    FREE_MARKET, WORLDTOUR, FLORINA, MONSTER_CARNIVAL, ARIANT_PQ, RANDOM_EVENT, EVENTO
+  FREE_MARKET,
+  WORLDTOUR,
+  FLORINA,
+  MONSTER_CARNIVAL,
+  ARIANT_PQ,
+  RANDOM_EVENT,
+  EVENTO,
 }

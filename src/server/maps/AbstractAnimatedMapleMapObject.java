@@ -21,18 +21,21 @@
 
 package server.maps;
 
-public abstract class AbstractAnimatedMapleMapObject extends AbstractMapleMapObject implements AnimatedMapleMapObject {
-	private int stance;
+public abstract class AbstractAnimatedMapleMapObject
+  extends AbstractMapleMapObject
+  implements AnimatedMapleMapObject {
 
-	public int getStance() {
-		return stance;
-	}
+  private int stance;
 
-	public void setStance(int stance) {
-		this.stance = stance;
-	}
-	
-	public boolean isFacingLeft() {
-		return getStance() % 2 == 1;
-	}
+  public int getStance() {
+    return stance;
+  }
+
+  public void setStance(int stance) {
+    this.stance = stance;
+  }
+
+  public boolean isFacingLeft() {
+    return getStance() % 2 == 1;
+  }
 }

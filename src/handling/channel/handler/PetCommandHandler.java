@@ -21,8 +21,6 @@
 
 package handling.channel.handler;
 
-import java.util.Random;
-
 import client.ExpTable;
 import client.MapleCharacter;
 import client.MapleClient;
@@ -30,52 +28,82 @@ import client.inventory.MaplePet;
 import client.inventory.PetCommand;
 import client.inventory.PetDataFactory;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.PetPacket;
+import java.util.Random;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.PetPacket;
 
 public class PetCommandHandler extends AbstractMaplePacketHandler {
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		//System.out.println(slea.toString());
-		int petId = slea.readInt();
-		int petIndex = c.getPlayer().getPetIndex(petId);
-		MaplePet pet = null;
-		if (petIndex == -1) {
-			return;
-		} else {
-			 pet = c.getPlayer().getPet(petIndex);
-		}
-		slea.readInt();
-		slea.readByte();
-		
-		byte command = slea.readByte();
-		
-		PetCommand petCommand = PetDataFactory.getPetCommand(pet.getItemId(), (int) command);
-		
-		boolean success = false;
-			
-		Random rand = new Random();
-		int random = rand.nextInt(101);
-		if (random <= petCommand.getProbability()
-                        || c.getPlayer().isInvincible()) {
-			success = true;
-			if (pet.getCloseness() < 30000) {
-				int newCloseness = pet.getCloseness() + (petCommand.getIncrease() * c.getChannelServer().getPetExpRate());
-				if (newCloseness > 30000) {
-					newCloseness = 30000;
-				}
-				pet.setCloseness(newCloseness);
-				if (newCloseness >= ExpTable.getClosenessNeededForLevel(pet.getLevel() + 1)) {
-					pet.setLevel(pet.getLevel() + 1);
-					c.getSession().write(PetPacket.showOwnPetLevelUp(c.getPlayer().getPetIndex(pet)));
-					c.getPlayer().getMap().broadcastMessage(PetPacket.showPetLevelUp(c.getPlayer(), c.getPlayer().getPetIndex(pet)));
-				}
-				c.getSession().write(PetPacket.updatePet(pet, true));
-			}
-		}
-		
-		MapleCharacter player = c.getPlayer();
-		player.getMap().broadcastMessage(player, PetPacket.commandResponse(player.getId(), command, petIndex, success, false), true);
-	}
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    //System.out.println(slea.toString());
+    int petId = slea.readInt();
+    int petIndex = c.getPlayer().getPetIndex(petId);
+    MaplePet pet = null;
+    if (petIndex == -1) {
+      return;
+    } else {
+      pet = c.getPlayer().getPet(petIndex);
+    }
+    slea.readInt();
+    slea.readByte();
+
+    byte command = slea.readByte();
+
+    PetCommand petCommand = PetDataFactory.getPetCommand(
+      pet.getItemId(),
+      (int) command
+    );
+
+    boolean success = false;
+
+    Random rand = new Random();
+    int random = rand.nextInt(101);
+    if (random <= petCommand.getProbability() || c.getPlayer().isInvincible()) {
+      success = true;
+      if (pet.getCloseness() < 30000) {
+        int newCloseness =
+          pet.getCloseness() +
+          (petCommand.getIncrease() * c.getChannelServer().getPetExpRate());
+        if (newCloseness > 30000) {
+          newCloseness = 30000;
+        }
+        pet.setCloseness(newCloseness);
+        if (
+          newCloseness >=
+          ExpTable.getClosenessNeededForLevel(pet.getLevel() + 1)
+        ) {
+          pet.setLevel(pet.getLevel() + 1);
+          c
+            .getSession()
+            .write(PetPacket.showOwnPetLevelUp(c.getPlayer().getPetIndex(pet)));
+          c
+            .getPlayer()
+            .getMap()
+            .broadcastMessage(
+              PetPacket.showPetLevelUp(
+                c.getPlayer(),
+                c.getPlayer().getPetIndex(pet)
+              )
+            );
+        }
+        c.getSession().write(PetPacket.updatePet(pet, true));
+      }
+    }
+
+    MapleCharacter player = c.getPlayer();
+    player
+      .getMap()
+      .broadcastMessage(
+        player,
+        PetPacket.commandResponse(
+          player.getId(),
+          command,
+          petIndex,
+          success,
+          false
+        ),
+        true
+      );
+  }
 }

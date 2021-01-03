@@ -15,7 +15,8 @@ import tools.packet.MaplePacketCreator;
  * @author David
  */
 public class UnstuckHandler extends AbstractMaplePacketHandler {
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		c.getSession().write(MaplePacketCreator.enableActions());
-	}
+
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    c.getSession().write(MaplePacketCreator.enableActions());
+  }
 }

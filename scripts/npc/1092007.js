@@ -31,21 +31,21 @@ No specific function, useless text.
 var status = 0;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-	if (mode == 1)
-		status++;
-	else
-		status--;
-	if (status == 0) {
-		cm.sendOk("The Black Magician and his followers. Kyrin and the Crew of Nautilus. \n They'll be chasing one another until one of them doesn't exist, that's for sure.");
-		cm.dispose();
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+  } else {
+    if (mode == 1) status++;
+    else status--;
+    if (status == 0) {
+      cm.sendOk(
+        "The Black Magician and his followers. Kyrin and the Crew of Nautilus. \n They'll be chasing one another until one of them doesn't exist, that's for sure."
+      );
+      cm.dispose();
+    }
+  }
 }

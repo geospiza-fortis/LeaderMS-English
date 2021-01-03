@@ -21,13 +21,13 @@
 */
 
 /* @Author Lerk
- * 
+ *
  * 2200000.js: Fake Dollhouse: Returns player to Eos Tower 100th Floor [221024400]
-*/
+ */
 
-function act(){
-	rm.getPlayer().setScheduledTask(null);
-	rm.getPlayer().getClient().getChannelServer().setDollhouseState(false);
-	rm.playerMessage(5, "You were kicked out of the map by an unknown force.");
-	rm.warp(221024400);
+function act() {
+  rm.getPlayer().setScheduledTask(null);
+  rm.getPlayer().getClient().getChannelServer().setDollhouseState(false);
+  rm.playerMessage(5, "You were kicked out of the map by an unknown force.");
+  rm.warp(221024400);
 }

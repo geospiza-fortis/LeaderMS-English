@@ -21,10 +21,10 @@
 */
 
 /* @Author Jvlaple
- * 
+ *
  * Book for maple quest T_T
-*/
+ */
 
 function act() {
-	rm.dropItems();
+  rm.dropItems();
 }

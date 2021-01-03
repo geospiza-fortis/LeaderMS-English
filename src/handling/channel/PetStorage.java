@@ -5,10 +5,10 @@
  */
 package handling.channel;
 
-import java.util.HashMap;
-import java.util.Map;
 import client.MapleCharacter;
 import client.inventory.MaplePet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -16,28 +16,28 @@ import client.inventory.MaplePet;
  */
 public class PetStorage {
 
-    // HACK FIX
-    private static Map<Integer, MaplePet[]> petz = new HashMap<>();
+  // HACK FIX
+  private static Map<Integer, MaplePet[]> petz = new HashMap<>();
 
-    public static void savePetz(MapleCharacter c) {
-        if (petz.containsKey(c.getId())) {
-            petz.remove(c.getId());
-        }
-
-        MaplePet[] pet = new MaplePet[3];
-        for (int i = 0; i < 3; i++) {
-            if (c.getPet(i) != null) {
-                pet[i] = c.getPet(i);
-            }
-        }
-
-        petz.put(c.getId(), pet);
+  public static void savePetz(MapleCharacter c) {
+    if (petz.containsKey(c.getId())) {
+      petz.remove(c.getId());
     }
 
-    public static MaplePet[] getPetz(int cid) {
-        if (petz.containsKey(cid)) {
-            return petz.get(cid);
-        }
-        return null;
+    MaplePet[] pet = new MaplePet[3];
+    for (int i = 0; i < 3; i++) {
+      if (c.getPet(i) != null) {
+        pet[i] = c.getPet(i);
+      }
     }
+
+    petz.put(c.getId(), pet);
+  }
+
+  public static MaplePet[] getPetz(int cid) {
+    if (petz.containsKey(cid)) {
+      return petz.get(cid);
+    }
+    return null;
+  }
 }

@@ -21,42 +21,46 @@
 
 package client.messages;
 
-public class CommandDefinition implements Comparable <CommandDefinition> {
-	private String command;
-	private String parameterDescription;
-	private String help;
-	private int requiredLevel; // gm level
+public class CommandDefinition implements Comparable<CommandDefinition> {
 
-	public CommandDefinition(String command, String parameterDescription, String help, int requiredLevel) {
-		this.command = command;
-		this.help = help;
-		this.parameterDescription = parameterDescription;
-		this.requiredLevel = requiredLevel;
-	}
-	
+  private String command;
+  private String parameterDescription;
+  private String help;
+  private int requiredLevel; // gm level
 
-	public String getCommand() {
-		return command;
-	}
+  public CommandDefinition(
+    String command,
+    String parameterDescription,
+    String help,
+    int requiredLevel
+  ) {
+    this.command = command;
+    this.help = help;
+    this.parameterDescription = parameterDescription;
+    this.requiredLevel = requiredLevel;
+  }
 
-	public String getHelp() {
-		return help;
-	}
+  public String getCommand() {
+    return command;
+  }
 
-	public String getParameterDescription() {
-		return parameterDescription;
-	}
+  public String getHelp() {
+    return help;
+  }
 
-	public int getRequiredLevel() {
-		return requiredLevel;
-	}
+  public String getParameterDescription() {
+    return parameterDescription;
+  }
 
-	public int compareTo(CommandDefinition o) {
-		if (Math.abs(getRequiredLevel()) < Math.abs(o.getRequiredLevel()))
-			return -1;
-		else if (Math.abs(getRequiredLevel()) == Math.abs(o.getRequiredLevel()))
-			return 0;
-		else
-			return 1;
-	}
+  public int getRequiredLevel() {
+    return requiredLevel;
+  }
+
+  public int compareTo(CommandDefinition o) {
+    if (
+      Math.abs(getRequiredLevel()) < Math.abs(o.getRequiredLevel())
+    ) return -1; else if (
+      Math.abs(getRequiredLevel()) == Math.abs(o.getRequiredLevel())
+    ) return 0; else return 1;
+  }
 }

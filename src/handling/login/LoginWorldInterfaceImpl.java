@@ -1,33 +1,36 @@
 package handling.login;
 
+import handling.login.remote.LoginWorldInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import handling.login.remote.LoginWorldInterface;
 
-public class LoginWorldInterfaceImpl extends UnicastRemoteObject implements LoginWorldInterface {
-    private static final long serialVersionUID = -3405666366539470037L;
+public class LoginWorldInterfaceImpl
+  extends UnicastRemoteObject
+  implements LoginWorldInterface {
 
-    public LoginWorldInterfaceImpl() throws RemoteException {
-        super(0);
-    }
+  private static final long serialVersionUID = -3405666366539470037L;
 
-    public void channelOnline(int channel, String ip) throws RemoteException {
-        LoginServer.getInstance().addChannel(channel, ip);
-    }
+  public LoginWorldInterfaceImpl() throws RemoteException {
+    super(0);
+  }
 
-    public void channelOffline(int channel) throws RemoteException {
-        LoginServer.getInstance().removeChannel(channel);
-    }
+  public void channelOnline(int channel, String ip) throws RemoteException {
+    LoginServer.getInstance().addChannel(channel, ip);
+  }
 
-    public void shutdown() throws RemoteException {
-        LoginServer.getInstance().shutdown();
-    }
+  public void channelOffline(int channel) throws RemoteException {
+    LoginServer.getInstance().removeChannel(channel);
+  }
 
-    public boolean isAvailable() throws RemoteException {
-        return true;
-    }
+  public void shutdown() throws RemoteException {
+    LoginServer.getInstance().shutdown();
+  }
 
-    public int getWaitingUsers() throws RemoteException {
-        return LoginWorker.getInstance().getWaitingUsers();
-    }
+  public boolean isAvailable() throws RemoteException {
+    return true;
+  }
+
+  public int getWaitingUsers() throws RemoteException {
+    return LoginWorker.getInstance().getWaitingUsers();
+  }
 }

@@ -66,34 +66,36 @@
 var status = 0;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-	if (status >= 0 && mode == 0) {
-		cm.sendNext("You must have some business to take care of here, right?");
-		cm.dispose();
-		return;
-	}
-	if (mode == 1)
-		status++;
-	else
-		status--;
-	if (status == 0) {
-		cm.sendYesNo("It seems to me that there is still plenty room on this ride. Please keep your ticket ready so I can let you on. The journey may be long, but you will get to your destination safely. What do you think? Do you want to go on this trip?");
-	} else if (status == 1) {
-		if (cm.haveItem(4031045)) {
-			cm.gainItem(4031045, -1);
-			cm.warp(200000100, 0);
-			cm.dispose();
-		} else {
-			cm.sendNext("Make sure that you have an Orbis ticket to travel on this boat.");
-			cm.dispose();
-			}
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+  } else {
+    if (status >= 0 && mode == 0) {
+      cm.sendNext("You must have some business to take care of here, right?");
+      cm.dispose();
+      return;
+    }
+    if (mode == 1) status++;
+    else status--;
+    if (status == 0) {
+      cm.sendYesNo(
+        "It seems to me that there is still plenty room on this ride. Please keep your ticket ready so I can let you on. The journey may be long, but you will get to your destination safely. What do you think? Do you want to go on this trip?"
+      );
+    } else if (status == 1) {
+      if (cm.haveItem(4031045)) {
+        cm.gainItem(4031045, -1);
+        cm.warp(200000100, 0);
+        cm.dispose();
+      } else {
+        cm.sendNext(
+          "Make sure that you have an Orbis ticket to travel on this boat."
+        );
+        cm.dispose();
+      }
+    }
+  }
 }

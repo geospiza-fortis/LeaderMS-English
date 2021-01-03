@@ -32,28 +32,32 @@
 var status = 0;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-	if (status >= 0 && mode == 0) {
-		cm.sendNext("You must be busy, huh? But if you're logging on from the internet cafe, then you should try going in. You may end up in a strange place once inside.");
-		cm.dispose();
-		return;
-	}
-	if (mode == 1)
-		status++;
-	else
-		status--;
-	if (status == 0) {
-		cm.sendYesNo("Aren't you connected through the Internet Cafe? If so, then go in here ... you'll probably head to a familiar place. What do you think? Do you want to go in?");
-	} else if (status == 1) {
-		cm.sendNext("Hey, hey ... I don't think you're logging on from the internet cafe. You can't enter this place if you are logging on from home ...");
-		cm.dispose();
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+  } else {
+    if (status >= 0 && mode == 0) {
+      cm.sendNext(
+        "You must be busy, huh? But if you're logging on from the internet cafe, then you should try going in. You may end up in a strange place once inside."
+      );
+      cm.dispose();
+      return;
+    }
+    if (mode == 1) status++;
+    else status--;
+    if (status == 0) {
+      cm.sendYesNo(
+        "Aren't you connected through the Internet Cafe? If so, then go in here ... you'll probably head to a familiar place. What do you think? Do you want to go in?"
+      );
+    } else if (status == 1) {
+      cm.sendNext(
+        "Hey, hey ... I don't think you're logging on from the internet cafe. You can't enter this place if you are logging on from home ..."
+      );
+      cm.dispose();
+    }
+  }
 }

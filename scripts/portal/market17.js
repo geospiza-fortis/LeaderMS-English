@@ -7,6 +7,6 @@ Nautilus Port - FM Portal
 importPackage(Packages.server.maps);
 
 function enter(pn) {
-		pn.warp(910000000, "sp");
-		return true;
+  pn.warp(910000000, "sp");
+  return true;
 }

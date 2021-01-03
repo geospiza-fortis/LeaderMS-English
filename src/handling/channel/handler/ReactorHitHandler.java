@@ -32,15 +32,15 @@ import tools.data.input.SeekableLittleEndianAccessor;
 
 public class ReactorHitHandler extends AbstractMaplePacketHandler {
 
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-	final int oid = slea.readInt();
-	final int charPos = slea.readInt();
-	final short stance = slea.readShort();
-	final MapleReactor reactor = c.getPlayer().getMap().getReactorByOid(oid);
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    final int oid = slea.readInt();
+    final int charPos = slea.readInt();
+    final short stance = slea.readShort();
+    final MapleReactor reactor = c.getPlayer().getMap().getReactorByOid(oid);
 
-	if (reactor == null || !reactor.isAlive()) {
-	    return;
-	}
-	reactor.hitReactor(charPos, stance, c);
+    if (reactor == null || !reactor.isAlive()) {
+      return;
     }
+    reactor.hitReactor(charPos, stance, c);
+  }
 }

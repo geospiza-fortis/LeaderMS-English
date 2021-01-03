@@ -26,12 +26,19 @@ importPackage(Packages.server.maps);
 */
 
 function enter(pi) {
-	var returnMap = pi.getPlayer().getSavedLocation(SavedLocationType.MONSTER_CARNIVAL);
-	if (returnMap < 0) {
-		returnMap = 102000000; // Just Incase there is no saved location.
-	}
-	var target = pi.getPlayer().getClient().getChannelServer().getMapFactory().getMap(returnMap);
-	pi.getPlayer().changeMap(target);
-	pi.getPlayer().clearSavedLocation(SavedLocationType.MONSTER_CARNIVAL);
-	return true;
+  var returnMap = pi
+    .getPlayer()
+    .getSavedLocation(SavedLocationType.MONSTER_CARNIVAL);
+  if (returnMap < 0) {
+    returnMap = 102000000; // Just Incase there is no saved location.
+  }
+  var target = pi
+    .getPlayer()
+    .getClient()
+    .getChannelServer()
+    .getMapFactory()
+    .getMap(returnMap);
+  pi.getPlayer().changeMap(target);
+  pi.getPlayer().clearSavedLocation(SavedLocationType.MONSTER_CARNIVAL);
+  return true;
 }

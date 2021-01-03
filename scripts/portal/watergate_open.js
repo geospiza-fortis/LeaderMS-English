@@ -6,11 +6,9 @@ Stage 3: Exit Door - Guild Quest
 */
 
 function enter(pi) {
-    if (pi.getPlayer().getMap().getReactorByName("watergate").getState() == 1) {
-        pi.warp(990000600);
-        return true;
-    }
-    else
-    pi.playerMessage("This way forward is not open yet.");
-    return false;
+  if (pi.getPlayer().getMap().getReactorByName("watergate").getState() == 1) {
+    pi.warp(990000600);
+    return true;
+  } else pi.playerMessage("This way forward is not open yet.");
+  return false;
 }
