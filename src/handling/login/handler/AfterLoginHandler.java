@@ -23,31 +23,32 @@ package handling.login.handler;
 
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
-import tools.data.input.SeekableLittleEndianAccessor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class AfterLoginHandler extends AbstractMaplePacketHandler {
-	private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AfterLoginHandler.class);
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		byte c2 = slea.readByte();
-		byte c3 = slea.readByte();
-		if (c2 == 1 && c3 == 1) {
-			c.getSession().write(MaplePacketCreator.pinAccepted());
-		} else if (c2 == 1 && c3 == 0) {
-			slea.seek(8);
-			String pin = slea.readMapleAsciiString();
-			log.info("Received Pin: " + pin);
-			if (pin.equals("1234")) {
-				c.getSession().write(MaplePacketCreator.pinAccepted());
-			} else {
-				c.getSession().write(MaplePacketCreator.requestPinAfterFailure());
-			}
-		} else {
-		}
-	}
+  private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
+    AfterLoginHandler.class
+  );
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    byte c2 = slea.readByte();
+    byte c3 = slea.readByte();
+    if (c2 == 1 && c3 == 1) {
+      c.getSession().write(MaplePacketCreator.pinAccepted());
+    } else if (c2 == 1 && c3 == 0) {
+      slea.seek(8);
+      String pin = slea.readMapleAsciiString();
+      log.info("Received Pin: " + pin);
+      if (pin.equals("1234")) {
+        c.getSession().write(MaplePacketCreator.pinAccepted());
+      } else {
+        c.getSession().write(MaplePacketCreator.requestPinAfterFailure());
+      }
+    } else {}
+  }
 }

@@ -10,5 +10,8 @@ package server;
  * @author David
  */
 public enum PlayerNpcType {
-	WARRIOR, MAGE, THIEF, BOWMAN;
+  WARRIOR,
+  MAGE,
+  THIEF,
+  BOWMAN,
 }

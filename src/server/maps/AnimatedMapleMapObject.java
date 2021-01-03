@@ -22,9 +22,9 @@
 package server.maps;
 
 public interface AnimatedMapleMapObject extends MapleMapObject {
-	int getStance();
+  int getStance();
 
-	void setStance(int stance);
-	
-	boolean isFacingLeft();
+  void setStance(int stance);
+
+  boolean isFacingLeft();
 }

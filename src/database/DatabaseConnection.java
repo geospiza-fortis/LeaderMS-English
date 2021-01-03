@@ -37,97 +37,103 @@ import java.util.Properties;
  */
 public class DatabaseConnection {
 
-    private static ThreadLocal<Connection> con = new ThreadLocalConnection();
-    private final static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DatabaseConnection.class);
-    private static Properties props = null;
-    private static boolean propsInited = false;
-    public static final int CLOSE_CURRENT_RESULT = 1;
-    /**
-     * The constant indicating that the current <code>ResultSet</code> object
-     * should not be closed when calling <code>getMoreResults</code>.
-     *
-     * @since 1.4
-     */
-    public static final int KEEP_CURRENT_RESULT = 2;
-    /**
-     * The constant indicating that all <code>ResultSet</code> objects that have
-     * previously been kept open should be closed when calling
-     * <code>getMoreResults</code>.
-     *
-     * @since 1.4
-     */
-    public static final int CLOSE_ALL_RESULTS = 3;
-    /**
-     * The constant indicating that a batch statement executed successfully but
-     * that no count of the number of rows it affected is available.
-     *
-     * @since 1.4
-     */
-    public static final int SUCCESS_NO_INFO = -2;
-    /**
-     * The constant indicating that an error occured while executing a batch
-     * statement.
-     *
-     * @since 1.4
-     */
-    public static final int EXECUTE_FAILED = -3;
-    /**
-     * The constant indicating that generated keys should be made available for
-     * retrieval.
-     *
-     * @since 1.4
-     */
-    public static final int RETURN_GENERATED_KEYS = 1;
-    /**
-     * The constant indicating that generated keys should not be made available
-     * for retrieval.
-     *
-     * @since 1.4
-     */
-    public static final int NO_GENERATED_KEYS = 2;
+  private static ThreadLocal<Connection> con = new ThreadLocalConnection();
+  private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
+    DatabaseConnection.class
+  );
+  private static Properties props = null;
+  private static boolean propsInited = false;
+  public static final int CLOSE_CURRENT_RESULT = 1;
+  /**
+   * The constant indicating that the current <code>ResultSet</code> object
+   * should not be closed when calling <code>getMoreResults</code>.
+   *
+   * @since 1.4
+   */
+  public static final int KEEP_CURRENT_RESULT = 2;
+  /**
+   * The constant indicating that all <code>ResultSet</code> objects that have
+   * previously been kept open should be closed when calling
+   * <code>getMoreResults</code>.
+   *
+   * @since 1.4
+   */
+  public static final int CLOSE_ALL_RESULTS = 3;
+  /**
+   * The constant indicating that a batch statement executed successfully but
+   * that no count of the number of rows it affected is available.
+   *
+   * @since 1.4
+   */
+  public static final int SUCCESS_NO_INFO = -2;
+  /**
+   * The constant indicating that an error occured while executing a batch
+   * statement.
+   *
+   * @since 1.4
+   */
+  public static final int EXECUTE_FAILED = -3;
+  /**
+   * The constant indicating that generated keys should be made available for
+   * retrieval.
+   *
+   * @since 1.4
+   */
+  public static final int RETURN_GENERATED_KEYS = 1;
+  /**
+   * The constant indicating that generated keys should not be made available
+   * for retrieval.
+   *
+   * @since 1.4
+   */
+  public static final int NO_GENERATED_KEYS = 2;
 
-    public static Connection getConnection() {
-        if (props == null) {
-            throw new RuntimeException("DatabaseConnection not initialized");
-        }
-        return con.get();
+  public static Connection getConnection() {
+    if (props == null) {
+      throw new RuntimeException("DatabaseConnection not initialized");
     }
+    return con.get();
+  }
 
-    public static boolean isInitialized() {
-        return props != null;
+  public static boolean isInitialized() {
+    return props != null;
+  }
+
+  public static void setProps(Properties aProps) {
+    props = aProps;
+  }
+
+  public static void closeAll() throws SQLException {
+    for (Connection connection : ThreadLocalConnection.allConnections) {
+      if (connection != null) {
+        connection.close();
+      }
     }
+  }
 
-    public static void setProps(Properties aProps) {
-        props = aProps;
+  private static class ThreadLocalConnection extends ThreadLocal<Connection> {
+
+    public static Collection<Connection> allConnections = new LinkedList<>();
+
+    @Override
+    protected Connection initialValue() {
+      try {
+        Class.forName(props.getProperty("driver")); // touch the mysql driver
+      } catch (ClassNotFoundException e) {
+        log.error("ERROR", e);
+      }
+      try {
+        Connection con = DriverManager.getConnection(
+          props.getProperty("url"),
+          props.getProperty("user"),
+          props.getProperty("pass")
+        );
+        allConnections.add(con);
+        return con;
+      } catch (SQLException e) {
+        log.error("ERROR", e);
+        return null;
+      }
     }
-
-    public static void closeAll() throws SQLException {
-        for (Connection connection : ThreadLocalConnection.allConnections) {
-            if (connection != null) {
-                connection.close();
-            }
-        }
-    }
-
-    private static class ThreadLocalConnection extends ThreadLocal<Connection> {
-
-        public static Collection<Connection> allConnections = new LinkedList<>();
-
-        @Override
-        protected Connection initialValue() {
-            try {
-                Class.forName(props.getProperty("driver")); // touch the mysql driver
-            } catch (ClassNotFoundException e) {
-                log.error("ERROR", e);
-            }
-            try {
-                Connection con = DriverManager.getConnection(props.getProperty("url"), props.getProperty("user"), props.getProperty("pass"));
-                allConnections.add(con);
-                return con;
-            } catch (SQLException e) {
-                log.error("ERROR", e);
-                return null;
-            }
-        }
-    }
+  }
 }

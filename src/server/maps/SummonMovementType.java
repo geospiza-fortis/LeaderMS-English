@@ -24,16 +24,18 @@ package server.maps;
 import handling.IntValueHolder;
 
 public enum SummonMovementType implements IntValueHolder {
-	STATIONARY(0), FOLLOW(1), CIRCLE_FOLLOW(3);
+  STATIONARY(0),
+  FOLLOW(1),
+  CIRCLE_FOLLOW(3);
 
-	private final int val;
-	
-	private SummonMovementType(int val) {
-		this.val = val;
-	}
-	
-	@Override
-	public int getValue() {
-		return val;
-	}
+  private final int val;
+
+  private SummonMovementType(int val) {
+    this.val = val;
+  }
+
+  @Override
+  public int getValue() {
+    return val;
+  }
 }

@@ -27,14 +27,14 @@ package handling.channel.handler;
 
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class MapleTVHandler extends AbstractMaplePacketHandler {
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-	/*
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    /*
 		D1 00 - header
 		07 00 4F 72 69 67 69 6E 32 - "Origin2"
 		00 00 00 00 - ?
@@ -46,9 +46,9 @@ public class MapleTVHandler extends AbstractMaplePacketHandler {
 		This is why I don't have a clue why nexon implemented this packet.
 		If there's any suggestions, feel free to PM TheRamon
 	*/
-		String chString = slea.readMapleAsciiString();
-		slea.readInt();
-		slea.readInt();
-		//c.getSession().write(MaplePacketCreator.serverNotice(5, chString));
-	}
+    String chString = slea.readMapleAsciiString();
+    slea.readInt();
+    slea.readInt();
+    //c.getSession().write(MaplePacketCreator.serverNotice(5, chString));
+  }
 }

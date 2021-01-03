@@ -26,18 +26,20 @@
 
 package scripting.npc;
 
-import java.util.List;
 import client.MapleCharacter;
 import handling.world.MaplePartyCharacter;
+import java.util.List;
+
 /**
  *
  * @author Matze
  */
 public interface NPCScript {
-	
-	public void start();
-	public void start(MapleCharacter chr);
-	public void start(List<MaplePartyCharacter> chrs);
-	public void action(byte mode, byte type, int selection);
+  public void start();
 
+  public void start(MapleCharacter chr);
+
+  public void start(List<MaplePartyCharacter> chrs);
+
+  public void action(byte mode, byte type, int selection);
 }

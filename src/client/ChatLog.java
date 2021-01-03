@@ -4,7 +4,6 @@
  */
 
 package client;
-
 /**
  *
  * @author David

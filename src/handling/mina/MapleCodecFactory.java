@@ -5,19 +5,20 @@ import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 
 public class MapleCodecFactory implements ProtocolCodecFactory {
-    private final ProtocolEncoder encoder;
-    private final ProtocolDecoder decoder;
 
-    public MapleCodecFactory() {
-        encoder = new MaplePacketEncoder();
-        decoder = new MaplePacketDecoder();
-    }
+  private final ProtocolEncoder encoder;
+  private final ProtocolDecoder decoder;
 
-    public ProtocolEncoder getEncoder() throws Exception {
-        return encoder;
-    }
+  public MapleCodecFactory() {
+    encoder = new MaplePacketEncoder();
+    decoder = new MaplePacketDecoder();
+  }
 
-    public ProtocolDecoder getDecoder() throws Exception {
-        return decoder;
-    }
+  public ProtocolEncoder getEncoder() throws Exception {
+    return encoder;
+  }
+
+  public ProtocolDecoder getDecoder() throws Exception {
+    return decoder;
+  }
 }

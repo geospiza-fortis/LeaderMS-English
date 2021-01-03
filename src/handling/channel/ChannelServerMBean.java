@@ -21,31 +21,30 @@
 
 package handling.channel;
 
-
 public interface ChannelServerMBean {
-	void shutdown(int time);
-	void shutdownWorld(int time);
-	
-	String getServerMessage();
-	void setServerMessage(String newMessage);
-	
-	int getChannel();
-	
-	int getExpRate();
-	int getMesoRate();
-	int getDropRate();
-	int getBossDropRate();
-	int getPetExpRate();
-        int getQuestRate();
-        int getMountRate();
-	
-	void setExpRate(int expRate);
-	void setMesoRate(int mesoRate);
-	void setDropRate(int dropRate);
-	void setBossDropRate(int bossDropRate);
-	void setPetExpRate(int petExpRate);
-        void setMountRate(int mountExpRate);
-	
-	int getConnectedClients();
-	int getLoadedMaps();
+  void shutdown(int time);
+  void shutdownWorld(int time);
+
+  String getServerMessage();
+  void setServerMessage(String newMessage);
+
+  int getChannel();
+
+  int getExpRate();
+  int getMesoRate();
+  int getDropRate();
+  int getBossDropRate();
+  int getPetExpRate();
+  int getQuestRate();
+  int getMountRate();
+
+  void setExpRate(int expRate);
+  void setMesoRate(int mesoRate);
+  void setDropRate(int dropRate);
+  void setBossDropRate(int bossDropRate);
+  void setPetExpRate(int petExpRate);
+  void setMountRate(int mountExpRate);
+
+  int getConnectedClients();
+  int getLoadedMaps();
 }

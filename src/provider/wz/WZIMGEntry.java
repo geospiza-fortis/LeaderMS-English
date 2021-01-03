@@ -25,98 +25,99 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-
 import provider.MapleData;
 import provider.MapleDataEntity;
 
 public class WZIMGEntry implements MapleData {
-	private String name;
-	private MapleDataType type;
-	private List<MapleData> children = new ArrayList<MapleData>(10);
-	private Object data;
-	private MapleDataEntity parent;
 
-	public WZIMGEntry(MapleDataEntity parent) {
-		this.parent = parent;
-	}
+  private String name;
+  private MapleDataType type;
+  private List<MapleData> children = new ArrayList<MapleData>(10);
+  private Object data;
+  private MapleDataEntity parent;
 
-	@Override
-	public String getName() {
-		return name;
-	}
+  public WZIMGEntry(MapleDataEntity parent) {
+    this.parent = parent;
+  }
 
-	@Override
-	public MapleDataType getType() {
-		return type;
-	}
+  @Override
+  public String getName() {
+    return name;
+  }
 
-	@Override
-	public List<MapleData> getChildren() {
-		// List<MapleData> mapleDataChildren = (List) children;
-		return Collections.unmodifiableList(children);
-	}
+  @Override
+  public MapleDataType getType() {
+    return type;
+  }
 
-	@Override
-	public MapleData getChildByPath(String path) {
-		String segments[] = path.split("/");
-		if (segments[0].equals("..")) {
-			return ((MapleData) getParent()).getChildByPath(path.substring(path.indexOf("/") + 1));
-		}
+  @Override
+  public List<MapleData> getChildren() {
+    // List<MapleData> mapleDataChildren = (List) children;
+    return Collections.unmodifiableList(children);
+  }
 
-		MapleData ret = this;
-		for (int x = 0; x < segments.length; x++) {
-			boolean foundChild = false;
-			for (MapleData child : ret.getChildren()) {
-				if (child.getName().equals(segments[x])) {
-					ret = child;
-					foundChild = true;
-					break;
-				}
-			}
-			if (!foundChild) {
-				return null;
-			}
-		}
-		return ret;
-	}
+  @Override
+  public MapleData getChildByPath(String path) {
+    String segments[] = path.split("/");
+    if (segments[0].equals("..")) {
+      return ((MapleData) getParent()).getChildByPath(
+          path.substring(path.indexOf("/") + 1)
+        );
+    }
 
-	@Override
-	public Object getData() {
-		return data;
-	}
+    MapleData ret = this;
+    for (int x = 0; x < segments.length; x++) {
+      boolean foundChild = false;
+      for (MapleData child : ret.getChildren()) {
+        if (child.getName().equals(segments[x])) {
+          ret = child;
+          foundChild = true;
+          break;
+        }
+      }
+      if (!foundChild) {
+        return null;
+      }
+    }
+    return ret;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  @Override
+  public Object getData() {
+    return data;
+  }
 
-	public void setType(MapleDataType type) {
-		this.type = type;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setData(Object data) {
-		this.data = data;
-	}
+  public void setType(MapleDataType type) {
+    this.type = type;
+  }
 
-	public void addChild(WZIMGEntry entry) {
-		children.add(entry);
-	}
+  public void setData(Object data) {
+    this.data = data;
+  }
 
-	@Override
-	public Iterator<MapleData> iterator() {
-		return getChildren().iterator();
-	}
+  public void addChild(WZIMGEntry entry) {
+    children.add(entry);
+  }
 
-	@Override
-	public String toString() {
-		return getName() + ":" + getData();
-	}
+  @Override
+  public Iterator<MapleData> iterator() {
+    return getChildren().iterator();
+  }
 
-	public MapleDataEntity getParent() {
-		return parent;
-	}
-	
-	public void finish() {
-		((ArrayList<MapleData>) children).trimToSize();
-	}
+  @Override
+  public String toString() {
+    return getName() + ":" + getData();
+  }
+
+  public MapleDataEntity getParent() {
+    return parent;
+  }
+
+  public void finish() {
+    ((ArrayList<MapleData>) children).trimToSize();
+  }
 }

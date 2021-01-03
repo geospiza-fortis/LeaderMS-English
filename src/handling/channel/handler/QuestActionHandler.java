@@ -33,43 +33,47 @@ import tools.data.input.SeekableLittleEndianAccessor;
  * @author Matze
  */
 public final class QuestActionHandler extends AbstractMaplePacketHandler {
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        byte action = slea.readByte();
-        short quest = slea.readShort();
-        //System.out.println("Quest Run: " + slea);
-        MapleCharacter player = c.getPlayer();
-        if (action == 1) { //Start Quest
-            int npc = slea.readInt();
-            if (slea.available() >= 4) {
-                slea.readInt();
-            } else if (npc == 1090000) {
-                slea.readShort();
-                slea.readShort();
-            } else {
-                slea.readShort();
-            }
-            MapleQuest.getInstance(quest).start(player, npc);
-        } else if (action == 2) { // Complete Quest
-            int npc = slea.readInt();
-            slea.readInt();
-            if (slea.available() >= 4) {
-                int selection = slea.readInt();
-                MapleQuest.getInstance(quest).complete(player, npc, selection);
-            } else {
-                MapleQuest.getInstance(quest).complete(player, npc);
-            }
-        } else if (action == 3) {// forfeit quest
-            MapleQuest.getInstance(quest).forfeit(player);
-        } else if (action == 4) { // scripted start quest
-            //System.out.println(slea.toString());
-            int npc = slea.readInt();
-            slea.readInt();
-            QuestScriptManager.getInstance().start(c, npc, quest);
-        } else if (action == 5) { // scripted end quests
-            //System.out.println(slea.toString());
-            int npc = slea.readInt();
-            slea.readInt();
-            QuestScriptManager.getInstance().end(c, npc, quest);
-        }
+
+  public final void handlePacket(
+    SeekableLittleEndianAccessor slea,
+    MapleClient c
+  ) {
+    byte action = slea.readByte();
+    short quest = slea.readShort();
+    //System.out.println("Quest Run: " + slea);
+    MapleCharacter player = c.getPlayer();
+    if (action == 1) { //Start Quest
+      int npc = slea.readInt();
+      if (slea.available() >= 4) {
+        slea.readInt();
+      } else if (npc == 1090000) {
+        slea.readShort();
+        slea.readShort();
+      } else {
+        slea.readShort();
+      }
+      MapleQuest.getInstance(quest).start(player, npc);
+    } else if (action == 2) { // Complete Quest
+      int npc = slea.readInt();
+      slea.readInt();
+      if (slea.available() >= 4) {
+        int selection = slea.readInt();
+        MapleQuest.getInstance(quest).complete(player, npc, selection);
+      } else {
+        MapleQuest.getInstance(quest).complete(player, npc);
+      }
+    } else if (action == 3) { // forfeit quest
+      MapleQuest.getInstance(quest).forfeit(player);
+    } else if (action == 4) { // scripted start quest
+      //System.out.println(slea.toString());
+      int npc = slea.readInt();
+      slea.readInt();
+      QuestScriptManager.getInstance().start(c, npc, quest);
+    } else if (action == 5) { // scripted end quests
+      //System.out.println(slea.toString());
+      int npc = slea.readInt();
+      slea.readInt();
+      QuestScriptManager.getInstance().end(c, npc, quest);
     }
+  }
 }

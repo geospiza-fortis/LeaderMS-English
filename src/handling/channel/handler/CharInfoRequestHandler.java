@@ -24,23 +24,27 @@ package handling.channel.handler;
 import client.MapleCharacter;
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class CharInfoRequestHandler extends AbstractMaplePacketHandler {
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		slea.readShort(); // most likely two shorts rather than one int but dunno ^___^
-		slea.readShort();
-		int cid = slea.readInt();
-		boolean me = cid == c.getPlayer().getId();
-		MapleCharacter player = (MapleCharacter) c.getPlayer().getMap().getMapObject(cid);
-              //  c.getPlayer().dropMessage("O jogador possui a ocupacao - " + c.getPlayer().getOccupation() + ".");
-		if (!player.isGM() || (c.getPlayer().isGM() && player.isGM()))
-			c.getSession().write(MaplePacketCreator.charInfo(player));
-		else
-			c.getSession().write(MaplePacketCreator.enableActions());
-		return;
-	}
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    slea.readShort(); // most likely two shorts rather than one int but dunno ^___^
+    slea.readShort();
+    int cid = slea.readInt();
+    boolean me = cid == c.getPlayer().getId();
+    MapleCharacter player = (MapleCharacter) c
+      .getPlayer()
+      .getMap()
+      .getMapObject(cid);
+    //  c.getPlayer().dropMessage("O jogador possui a ocupacao - " + c.getPlayer().getOccupation() + ".");
+    if (!player.isGM() || (c.getPlayer().isGM() && player.isGM())) c
+      .getSession()
+      .write(MaplePacketCreator.charInfo(player)); else c
+      .getSession()
+      .write(MaplePacketCreator.enableActions());
+    return;
+  }
 }

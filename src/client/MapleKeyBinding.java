@@ -22,19 +22,20 @@
 package client;
 
 public class MapleKeyBinding {
-	private int type, action;
 
-	public MapleKeyBinding(int type, int action) {
-		super();
-		this.type = type;
-		this.action = action;
-	}
+  private int type, action;
 
-	public int getType() {
-		return type;
-	}
+  public MapleKeyBinding(int type, int action) {
+    super();
+    this.type = type;
+    this.action = action;
+  }
 
-	public int getAction() {
-		return action;
-	}
+  public int getType() {
+    return type;
+  }
+
+  public int getAction() {
+    return action;
+  }
 }

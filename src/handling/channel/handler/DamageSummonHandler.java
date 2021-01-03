@@ -21,39 +21,53 @@
 
 package handling.channel.handler;
 
-import java.util.Iterator;
-
 import client.MapleBuffStat;
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
 import handling.MaplePacketHandler;
+import java.util.Iterator;
 import server.maps.MapleSummon;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 /*
  * GMS v.62 puppet fixed by LaiLaiNoob.
  * ValhallaDev.com
  */
-public class DamageSummonHandler extends AbstractMaplePacketHandler implements MaplePacketHandler {
+public class DamageSummonHandler
+  extends AbstractMaplePacketHandler
+  implements MaplePacketHandler {
 
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        slea.readInt(); //Bugged? might not be skillid.
-        int unkByte = slea.readByte();
-        int damage = slea.readInt();
-        int monsterIdFrom = slea.readInt();
-        slea.readByte(); // stance
-        Iterator<MapleSummon> iter = c.getPlayer().getSummons().values().iterator();
-        while (iter.hasNext()) {
-            MapleSummon summon = iter.next();
-            if (summon.isPuppet() && summon.getOwner() == c.getPlayer()) { //We can only have one puppet(AFAIK O.O) so this check is safe.
-                summon.addHP(-damage);
-                if (summon.getHP() <= 0) {
-                    c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.PUPPET);
-                }
-                c.getPlayer().getMap().broadcastMessage(c.getPlayer(), MaplePacketCreator.damageSummon(c.getPlayer().getId(), summon.getSkill(), damage, unkByte, monsterIdFrom), summon.getPosition());
-                break;
-            }
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    slea.readInt(); //Bugged? might not be skillid.
+    int unkByte = slea.readByte();
+    int damage = slea.readInt();
+    int monsterIdFrom = slea.readInt();
+    slea.readByte(); // stance
+    Iterator<MapleSummon> iter = c.getPlayer().getSummons().values().iterator();
+    while (iter.hasNext()) {
+      MapleSummon summon = iter.next();
+      if (summon.isPuppet() && summon.getOwner() == c.getPlayer()) { //We can only have one puppet(AFAIK O.O) so this check is safe.
+        summon.addHP(-damage);
+        if (summon.getHP() <= 0) {
+          c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.PUPPET);
         }
+        c
+          .getPlayer()
+          .getMap()
+          .broadcastMessage(
+            c.getPlayer(),
+            MaplePacketCreator.damageSummon(
+              c.getPlayer().getId(),
+              summon.getSkill(),
+              damage,
+              unkByte,
+              monsterIdFrom
+            ),
+            summon.getPosition()
+          );
+        break;
+      }
     }
+  }
 }

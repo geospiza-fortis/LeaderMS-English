@@ -22,22 +22,23 @@
 package provider.wz;
 
 public class ImgMapleSound {
-	private int dataLenght, offset;
-	
-	/**
-	 * @param dataLength length of the sound data
-	 * @param offset offset in the img file
-	 */
-	public ImgMapleSound(int dataLength, int offset) {
-		this.dataLenght = dataLength;
-		this.offset = offset;
-	}
 
-	public int getDataLength() {
-		return dataLenght;
-	}
+  private int dataLenght, offset;
 
-	public int getOffset() {
-		return offset;
-	}
+  /**
+   * @param dataLength length of the sound data
+   * @param offset offset in the img file
+   */
+  public ImgMapleSound(int dataLength, int offset) {
+    this.dataLenght = dataLength;
+    this.offset = offset;
+  }
+
+  public int getDataLength() {
+    return dataLenght;
+  }
+
+  public int getOffset() {
+    return offset;
+  }
 }

@@ -20,17 +20,17 @@
 */
 package handling.channel.handler;
 
+import client.MapleCharacter;
+import client.MapleClient;
+import database.DatabaseConnection;
+import handling.AbstractMaplePacketHandler;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import client.MapleClient;
-import client.MapleCharacter;
-import database.DatabaseConnection;
-import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
-import tools.data.input.SeekableLittleEndianAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 /**
  *
@@ -38,43 +38,54 @@ import org.slf4j.LoggerFactory;
  */
 public class VIPRockAddMapHandler extends AbstractMaplePacketHandler {
 
-    private static Logger log = LoggerFactory.getLogger(VIPRockAddMapHandler.class);
+  private static Logger log = LoggerFactory.getLogger(
+    VIPRockAddMapHandler.class
+  );
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        Connection con = DatabaseConnection.getConnection();
-        int operation = slea.readByte();
-        int type = slea.readByte();
-        MapleCharacter player = c.getPlayer();
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    Connection con = DatabaseConnection.getConnection();
+    int operation = slea.readByte();
+    int type = slea.readByte();
+    MapleCharacter player = c.getPlayer();
 
-        switch (operation) {
-            case 0: // Remove map
-                int mapid = slea.readInt();
-                try {
-                    PreparedStatement ps = con.prepareStatement("DELETE FROM viprockmaps WHERE cid = ? AND mapid = ? AND type = ?");
-                    ps.setInt(1, player.getId());
-                    ps.setInt(2, mapid);
-                    ps.setInt(3, type);
-                    ps.executeUpdate();
-                    ps.close();
-                } catch (SQLException lawl) {
-                }
-                break;
-            case 1: // Add map
-                try {
-                    PreparedStatement ps = con.prepareStatement("INSERT INTO viprockmaps (`cid`, `mapid`, `type`) VALUES (?, ?, ?)");
-                    ps.setInt(1, player.getId());
-                    ps.setInt(2, player.getMapId());
-                    ps.setInt(3, type);
-                    ps.executeUpdate();
-                    ps.close();
-                } catch (SQLException lawl) {
-                }
-                break;
-            default:
-                log.info("Unhandled VIP Rock operation: " + slea.toString());
-                break;
-        }
-        c.getSession().write(MaplePacketCreator.refreshVIPRockMapList(player.getVIPRockMaps(type), type));
+    switch (operation) {
+      case 0: // Remove map
+        int mapid = slea.readInt();
+        try {
+          PreparedStatement ps = con.prepareStatement(
+            "DELETE FROM viprockmaps WHERE cid = ? AND mapid = ? AND type = ?"
+          );
+          ps.setInt(1, player.getId());
+          ps.setInt(2, mapid);
+          ps.setInt(3, type);
+          ps.executeUpdate();
+          ps.close();
+        } catch (SQLException lawl) {}
+        break;
+      case 1: // Add map
+        try {
+          PreparedStatement ps = con.prepareStatement(
+            "INSERT INTO viprockmaps (`cid`, `mapid`, `type`) VALUES (?, ?, ?)"
+          );
+          ps.setInt(1, player.getId());
+          ps.setInt(2, player.getMapId());
+          ps.setInt(3, type);
+          ps.executeUpdate();
+          ps.close();
+        } catch (SQLException lawl) {}
+        break;
+      default:
+        log.info("Unhandled VIP Rock operation: " + slea.toString());
+        break;
     }
+    c
+      .getSession()
+      .write(
+        MaplePacketCreator.refreshVIPRockMapList(
+          player.getVIPRockMaps(type),
+          type
+        )
+      );
+  }
 }

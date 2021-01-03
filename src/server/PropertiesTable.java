@@ -4,68 +4,61 @@
  */
 
 package server;
-import java.util.LinkedHashMap;
+
 import java.util.ArrayList;
-import tools.Pair;
+import java.util.LinkedHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import tools.Pair;
+
 /**
  *
  * @author Simon
  */
 public class PropertiesTable {
-    private LinkedHashMap<String, Object> PropertiesHashmap = new LinkedHashMap<String, Object>();
-    private ReentrantReadWriteLock propsLock = new ReentrantReadWriteLock();
- 
-    public PropertiesTable()
-    {
-    }
 
-    public PropertiesTable(Pair<String,Object>[] initialProps)
-    {
-        for(Pair<String, Object> p : initialProps)
-        {
-            this.setProperty(p.getLeft(), p.getRight());
-        }
-    }
+  private LinkedHashMap<String, Object> PropertiesHashmap = new LinkedHashMap<String, Object>();
+  private ReentrantReadWriteLock propsLock = new ReentrantReadWriteLock();
 
-    public ArrayList<String> getPropertyNames()
-    {
-        ArrayList<String> res = new ArrayList<String>();
-        propsLock.readLock().lock();
-        try
-        {
-            for(String s : this.PropertiesHashmap.keySet())
-                res.add(s);
-        } finally {
-            propsLock.readLock().unlock();
-        }
-        return res;
-    }
+  public PropertiesTable() {}
 
-    public void setProperty(String propertyName, Object value)
-    {
-        propsLock.writeLock().lock();
-        try
-        {
-            if(this.PropertiesHashmap.containsKey(propertyName))
-                this.PropertiesHashmap.remove(propertyName);
-            this.PropertiesHashmap.put(propertyName, value);
-        } finally {
-            propsLock.writeLock().unlock();
-        }
+  public PropertiesTable(Pair<String, Object>[] initialProps) {
+    for (Pair<String, Object> p : initialProps) {
+      this.setProperty(p.getLeft(), p.getRight());
     }
+  }
 
-    public Object getProperty(String propertyName)
-    {
-        propsLock.readLock().lock();
-        try
-        {
-            if(this.PropertiesHashmap.containsKey(propertyName))
-                return this.PropertiesHashmap.get(propertyName);
-            return null;
-        } finally {
-            propsLock.readLock().unlock();
-        }
+  public ArrayList<String> getPropertyNames() {
+    ArrayList<String> res = new ArrayList<String>();
+    propsLock.readLock().lock();
+    try {
+      for (String s : this.PropertiesHashmap.keySet()) res.add(s);
+    } finally {
+      propsLock.readLock().unlock();
     }
+    return res;
+  }
 
+  public void setProperty(String propertyName, Object value) {
+    propsLock.writeLock().lock();
+    try {
+      if (
+        this.PropertiesHashmap.containsKey(propertyName)
+      ) this.PropertiesHashmap.remove(propertyName);
+      this.PropertiesHashmap.put(propertyName, value);
+    } finally {
+      propsLock.writeLock().unlock();
+    }
+  }
+
+  public Object getProperty(String propertyName) {
+    propsLock.readLock().lock();
+    try {
+      if (
+        this.PropertiesHashmap.containsKey(propertyName)
+      ) return this.PropertiesHashmap.get(propertyName);
+      return null;
+    } finally {
+      propsLock.readLock().unlock();
+    }
+  }
 }

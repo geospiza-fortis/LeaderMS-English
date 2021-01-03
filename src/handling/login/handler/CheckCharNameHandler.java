@@ -24,13 +24,20 @@ package handling.login.handler;
 import client.MapleCharacterUtil;
 import client.MapleClient;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class CheckCharNameHandler extends AbstractMaplePacketHandler {
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        String name = slea.readMapleAsciiString();
-        c.getSession().write(MaplePacketCreator.charNameResponse(name, !MapleCharacterUtil.canCreateChar(name, c.getWorld())));
-    }
-}
 
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    String name = slea.readMapleAsciiString();
+    c
+      .getSession()
+      .write(
+        MaplePacketCreator.charNameResponse(
+          name,
+          !MapleCharacterUtil.canCreateChar(name, c.getWorld())
+        )
+      );
+  }
+}

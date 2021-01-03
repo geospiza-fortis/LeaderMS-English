@@ -10,14 +10,17 @@ import tools.data.input.SeekableLittleEndianAccessor;
  */
 
 public class EnableActionHandler extends AbstractMaplePacketHandler {
-	private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnableActionHandler.class);    
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		try {
-			c.getPlayer().saveToDB (true, true);
-		} catch (Exception ex) {
-			log.error("Error updating player", ex);
-		}
-	}
+  private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
+    EnableActionHandler.class
+  );
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    try {
+      c.getPlayer().saveToDB(true, true);
+    } catch (Exception ex) {
+      log.error("Error updating player", ex);
+    }
+  }
 }

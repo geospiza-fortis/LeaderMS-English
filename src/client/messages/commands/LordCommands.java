@@ -22,14 +22,11 @@ import client.messages.MessageCallback;
  * @author David
  */
 public class LordCommands implements Command {
-	public void execute(MapleClient c, MessageCallback mc, String[] splittedLine) throws Exception, IllegalCommandSyntaxException {
-	
-	}
 
-	public CommandDefinition[] getDefinition() {
-		return new CommandDefinition[] {
-			
-		};
-	}
+  public void execute(MapleClient c, MessageCallback mc, String[] splittedLine)
+    throws Exception, IllegalCommandSyntaxException {}
 
+  public CommandDefinition[] getDefinition() {
+    return new CommandDefinition[] {};
+  }
 }

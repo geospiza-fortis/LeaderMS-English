@@ -24,18 +24,30 @@ package handling.channel.handler;
 import client.MapleClient;
 import client.messages.CommandProcessor;
 import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class GeneralchatHandler extends AbstractMaplePacketHandler {
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		String text = slea.readMapleAsciiString();
-		int show = slea.readByte();
 
-		if (!CommandProcessor.getInstance().processCommand(c, text)) {
-                    c.getPlayer().resetAfkTimer();
-                    c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.getChatText(c.getPlayer().getId(), text, c.getPlayer().hasGmLevel(3) && c.getChannelServer().allowGmWhiteText(), show));
-		}
-	}
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    String text = slea.readMapleAsciiString();
+    int show = slea.readByte();
+
+    if (!CommandProcessor.getInstance().processCommand(c, text)) {
+      c.getPlayer().resetAfkTimer();
+      c
+        .getPlayer()
+        .getMap()
+        .broadcastMessage(
+          MaplePacketCreator.getChatText(
+            c.getPlayer().getId(),
+            text,
+            c.getPlayer().hasGmLevel(3) &&
+            c.getChannelServer().allowGmWhiteText(),
+            show
+          )
+        );
+    }
+  }
 }

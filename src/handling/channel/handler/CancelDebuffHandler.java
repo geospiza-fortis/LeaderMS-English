@@ -22,25 +22,39 @@ package handling.channel.handler;
 
 import client.MapleClient;
 import client.MapleDisease;
+import handling.AbstractMaplePacketHandler;
 import java.util.ArrayList;
 import java.util.List;
-import handling.AbstractMaplePacketHandler;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public final class CancelDebuffHandler extends AbstractMaplePacketHandler {
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        List<MapleDisease> diseases = c.getPlayer().getDiseases();
-        List<MapleDisease> diseases_ = new ArrayList<MapleDisease>();
-        for (MapleDisease disease : diseases) {
-            List<MapleDisease> disease_ = new ArrayList<MapleDisease>();
-            disease_.add(disease);
-            diseases_.add(disease);
-            c.getSession().write(MaplePacketCreator.cancelDebuff(disease_));
-            c.getPlayer().getMap().broadcastMessage(c.getPlayer(), MaplePacketCreator.cancelForeignDebuff(c.getPlayer().getId(), disease_), false);
-        }
-        for (MapleDisease disease : diseases_) {
-            c.getPlayer().removeDisease(disease);
-        }
+
+  public final void handlePacket(
+    SeekableLittleEndianAccessor slea,
+    MapleClient c
+  ) {
+    List<MapleDisease> diseases = c.getPlayer().getDiseases();
+    List<MapleDisease> diseases_ = new ArrayList<MapleDisease>();
+    for (MapleDisease disease : diseases) {
+      List<MapleDisease> disease_ = new ArrayList<MapleDisease>();
+      disease_.add(disease);
+      diseases_.add(disease);
+      c.getSession().write(MaplePacketCreator.cancelDebuff(disease_));
+      c
+        .getPlayer()
+        .getMap()
+        .broadcastMessage(
+          c.getPlayer(),
+          MaplePacketCreator.cancelForeignDebuff(
+            c.getPlayer().getId(),
+            disease_
+          ),
+          false
+        );
     }
+    for (MapleDisease disease : diseases_) {
+      c.getPlayer().removeDisease(disease);
+    }
+  }
 }

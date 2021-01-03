@@ -25,25 +25,23 @@ import server.MapleStatEffect;
 import server.life.Element;
 
 public interface ISkill {
+  int getId();
 
-	int getId();
+  MapleStatEffect getEffect(int level);
 
-	MapleStatEffect getEffect(int level);
+  int getMaxLevel();
 
-	int getMaxLevel();
+  int getAnimationTime();
 
-	int getAnimationTime();
+  public boolean canBeLearnedBy(MapleJob job);
 
-	public boolean canBeLearnedBy(MapleJob job);
+  public boolean isFourthJob();
 
-	public boolean isFourthJob();
+  public Element getElement();
 
-	public Element getElement();
+  public boolean isBeginnerSkill();
 
-	public boolean isBeginnerSkill();
+  public boolean isGMSkill();
 
-        public boolean isGMSkill();
-        
-         public boolean getAction(); 
-
+  public boolean getAction();
 }

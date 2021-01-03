@@ -24,45 +24,44 @@ package client;
 import handling.LongValueHolder;
 
 public enum MapleDisease implements LongValueHolder {
+  NULL(0x0),
+  SLOW(0x1),
+  SEDUCE(0x80),
+  STUN(0x2000000000000L),
+  POISON(0x4000000000000L),
+  SEAL(0x8000000000000L),
+  DARKNESS(0x10000000000000L),
+  WEAKEN(0x4000000000000000L),
+  SWITCH_CONTROLS(0x8000000000000L),
+  CURSE(0x8000000000000000L);
 
-	NULL(0x0),
-	SLOW(0x1),
-	SEDUCE(0x80),
-	STUN(0x2000000000000L),
-	POISON(0x4000000000000L),
-	SEAL(0x8000000000000L),
-	DARKNESS(0x10000000000000L),
-	WEAKEN(0x4000000000000000L),
-	SWITCH_CONTROLS(0x8000000000000L),
-	CURSE(0x8000000000000000L);
+  private long i;
 
-	private long i;
-	
-	public static MapleDisease getType(int type) {
-		switch (type) {
-			case 120:
-				return SEAL;
-			case 123:
-				return STUN;
-			case 128:
-				return SEDUCE;
-			case 125:
-				return POISON;
-			case 121:
-				return WEAKEN;
-			case 122:
-				return DARKNESS;
-			default:
-				return null;
-		}
-	}
+  public static MapleDisease getType(int type) {
+    switch (type) {
+      case 120:
+        return SEAL;
+      case 123:
+        return STUN;
+      case 128:
+        return SEDUCE;
+      case 125:
+        return POISON;
+      case 121:
+        return WEAKEN;
+      case 122:
+        return DARKNESS;
+      default:
+        return null;
+    }
+  }
 
-	private MapleDisease(long i) {
-		this.i = i;
-	}
+  private MapleDisease(long i) {
+    this.i = i;
+  }
 
-	@Override
-	public long getValue() {
-		return i;
-	}
+  @Override
+  public long getValue() {
+    return i;
+  }
 }

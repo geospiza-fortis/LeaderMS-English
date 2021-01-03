@@ -21,79 +21,109 @@
 
 package handling.channel.handler;
 
-import java.awt.Point;
-
 import client.ISkill;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.SkillFactory;
 import client.messages.ServernoticeMapleClientMessageCallback;
 import handling.AbstractMaplePacketHandler;
+import java.awt.Point;
 import server.MapleStatEffect;
 import server.life.MapleMonster;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class SpecialMoveHandler extends AbstractMaplePacketHandler {
-	private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SpecialMoveHandler.class);
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		MapleCharacter player = c.getPlayer();
-		// [53 00] [12 62] [AA 01] [6B 6A 23 00] [1E] [BA 00] [97 00] 00
-		slea.readShort();
-		slea.readShort();
-		int skillId = slea.readInt();
-		// seems to be skilllevel for movement skills and -32748 for buffs
-		int _skillLevel = slea.readByte();
-		ISkill skill = SkillFactory.getSkill(skillId);
-		int skillLevel = player.getSkillLevel(skill);
-		MapleStatEffect effect = skill.getEffect(skillLevel);
-		
-		//System.out.println(player.getName() + " has used a skill: " + skillId);
+  private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
+    SpecialMoveHandler.class
+  );
 
-		//cooldowns
-		if (skillId != 0 && effect.getCooldown() > 0
-				&& skillId != 5221006) {
-			if (player.skillisCooling(skillId)) return;
-			player.checkCoolDown(skill);
-		}
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    MapleCharacter player = c.getPlayer();
+    // [53 00] [12 62] [AA 01] [6B 6A 23 00] [1E] [BA 00] [97 00] 00
+    slea.readShort();
+    slea.readShort();
+    int skillId = slea.readInt();
+    // seems to be skilllevel for movement skills and -32748 for buffs
+    int _skillLevel = slea.readByte();
+    ISkill skill = SkillFactory.getSkill(skillId);
+    int skillLevel = player.getSkillLevel(skill);
+    MapleStatEffect effect = skill.getEffect(skillLevel);
 
-		//monster magnet
-		switch (skillId) {
-			case 1121001:
-			case 1221001:
-			case 1321001:
-				int num = slea.readInt();
-				int mobId;
-				byte success;
-				for (int i = 0; i < num; i++) {
-					mobId = slea.readInt();
-					success = slea.readByte();
-					player.getMap().broadcastMessage(player, MaplePacketCreator.showMagnet(mobId, success), false);
-					MapleMonster monster = player.getMap().getMonsterByOid(mobId);
-					if (monster != null) {
-						monster.switchController(player, monster.isControllerHasAggro());
-					}
-				}
-				byte direction = slea.readByte();
-				player.getMap().broadcastMessage(player, MaplePacketCreator.showBuffeffect(player.getId(), skillId, 1, direction), false);
-				c.getSession().write(MaplePacketCreator.enableActions());
-				break;
-		}
+    //System.out.println(player.getName() + " has used a skill: " + skillId);
 
-		if (skillLevel == 0 || skillLevel != _skillLevel) {
-			log.warn(player.getName() + " is using a move skill he doesn't have.. ID: " + skill.getId());
-			return;
-		} else {
-			if (player.isAlive()) {
-				if (skill.getId() != 2311002 || player.canDoor()) {
-					effect.applyTo(player, (slea.available() == 5) ? new Point(slea.readShort(), slea.readShort()) : null);
-				} else {
-					new ServernoticeMapleClientMessageCallback(5, c).dropMessage("Please wait 5 seconds before casting Mystic Door again");
-					c.getSession().write(MaplePacketCreator.enableActions());
-				}
-			} else c.getSession().write(MaplePacketCreator.enableActions());
-		}
-	}
+    //cooldowns
+    if (skillId != 0 && effect.getCooldown() > 0 && skillId != 5221006) {
+      if (player.skillisCooling(skillId)) return;
+      player.checkCoolDown(skill);
+    }
+
+    //monster magnet
+    switch (skillId) {
+      case 1121001:
+      case 1221001:
+      case 1321001:
+        int num = slea.readInt();
+        int mobId;
+        byte success;
+        for (int i = 0; i < num; i++) {
+          mobId = slea.readInt();
+          success = slea.readByte();
+          player
+            .getMap()
+            .broadcastMessage(
+              player,
+              MaplePacketCreator.showMagnet(mobId, success),
+              false
+            );
+          MapleMonster monster = player.getMap().getMonsterByOid(mobId);
+          if (monster != null) {
+            monster.switchController(player, monster.isControllerHasAggro());
+          }
+        }
+        byte direction = slea.readByte();
+        player
+          .getMap()
+          .broadcastMessage(
+            player,
+            MaplePacketCreator.showBuffeffect(
+              player.getId(),
+              skillId,
+              1,
+              direction
+            ),
+            false
+          );
+        c.getSession().write(MaplePacketCreator.enableActions());
+        break;
+    }
+
+    if (skillLevel == 0 || skillLevel != _skillLevel) {
+      log.warn(
+        player.getName() +
+        " is using a move skill he doesn't have.. ID: " +
+        skill.getId()
+      );
+      return;
+    } else {
+      if (player.isAlive()) {
+        if (skill.getId() != 2311002 || player.canDoor()) {
+          effect.applyTo(
+            player,
+            (slea.available() == 5)
+              ? new Point(slea.readShort(), slea.readShort())
+              : null
+          );
+        } else {
+          new ServernoticeMapleClientMessageCallback(5, c)
+          .dropMessage(
+              "Please wait 5 seconds before casting Mystic Door again"
+            );
+          c.getSession().write(MaplePacketCreator.enableActions());
+        }
+      } else c.getSession().write(MaplePacketCreator.enableActions());
+    }
+  }
 }

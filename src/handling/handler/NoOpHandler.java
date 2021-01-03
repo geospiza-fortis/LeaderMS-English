@@ -26,23 +26,24 @@ import handling.MaplePacketHandler;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 public final class NoOpHandler implements MaplePacketHandler {
-	private static NoOpHandler instance = new NoOpHandler();
 
-	private NoOpHandler() {
-		// singleton
-	}
+  private static NoOpHandler instance = new NoOpHandler();
 
-	public static NoOpHandler getInstance() {
-		return instance;
-	}
+  private NoOpHandler() {
+    // singleton
+  }
 
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-		// no op
-	}
+  public static NoOpHandler getInstance() {
+    return instance;
+  }
 
-	@Override
-	public boolean validateState(MapleClient c) {
-		return true;
-	}
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    // no op
+  }
+
+  @Override
+  public boolean validateState(MapleClient c) {
+    return true;
+  }
 }

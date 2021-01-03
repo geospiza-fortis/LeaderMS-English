@@ -26,17 +26,18 @@
 package handling.channel.handler;
 
 import client.MapleClient;
-import handling.AbstractMaplePacketHandler;
-import client.inventory.MapleInventoryType;
 import client.inventory.MapleInventory;
+import client.inventory.MapleInventoryType;
+import handling.AbstractMaplePacketHandler;
 import server.MapleInventoryManipulator;
-import tools.packet.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.packet.MaplePacketCreator;
 
 public class ItemSortHandler extends AbstractMaplePacketHandler {
-	@Override
-	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-	/*
+
+  @Override
+  public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+    /*
 		40 00 4D 2B A1 00 05 cash
 		40 00 F7 17 A1 00 04 etc
 		40 00 6F 36 A1 00 03 setup
@@ -48,32 +49,32 @@ public class ItemSortHandler extends AbstractMaplePacketHandler {
 		MapleStory just sorts items at the top
 	*/
 
-	slea.readInt(); //Timestamp or something?
-	byte mode = slea.readByte();
+    slea.readInt(); //Timestamp or something?
+    byte mode = slea.readByte();
 
-	boolean sorted = false;
-	MapleInventoryType pInvType = MapleInventoryType.getByType(mode);
-	MapleInventory pInv = c.getPlayer().getInventory(pInvType); //Mode should correspond with MapleInventoryType
-	
-	while(!sorted) {
-		byte freeSlot = pInv.getNextFreeSlot();
-		if (freeSlot != -1) {
-			byte itemSlot = -1;
-			for (byte i = (byte)(freeSlot+1); i <= 100; i++) {
-				if (pInv.getItem(i) != null) {
-					itemSlot = i;
-					break;
-				}
-			}
-			if (itemSlot <= 100 && itemSlot > 0) {
-//				pInv.move(i, freeSlot, (short)9999);
-				MapleInventoryManipulator.move(c, pInvType, itemSlot, freeSlot);
-//				c.getSession().write(MaplePacketCreator.enableActions());
-			} else {
-				sorted = true;
-				}
-			}
-		}
-		c.getSession().write(MaplePacketCreator.enableActions());
-	}
+    boolean sorted = false;
+    MapleInventoryType pInvType = MapleInventoryType.getByType(mode);
+    MapleInventory pInv = c.getPlayer().getInventory(pInvType); //Mode should correspond with MapleInventoryType
+
+    while (!sorted) {
+      byte freeSlot = pInv.getNextFreeSlot();
+      if (freeSlot != -1) {
+        byte itemSlot = -1;
+        for (byte i = (byte) (freeSlot + 1); i <= 100; i++) {
+          if (pInv.getItem(i) != null) {
+            itemSlot = i;
+            break;
+          }
+        }
+        if (itemSlot <= 100 && itemSlot > 0) {
+          //				pInv.move(i, freeSlot, (short)9999);
+          MapleInventoryManipulator.move(c, pInvType, itemSlot, freeSlot);
+          //				c.getSession().write(MaplePacketCreator.enableActions());
+        } else {
+          sorted = true;
+        }
+      }
+    }
+    c.getSession().write(MaplePacketCreator.enableActions());
+  }
 }
