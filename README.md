@@ -42,6 +42,30 @@ To delete all persisted data:
 docker-compose down -v
 ```
 
+## formatting
+
+The container will fail to build if the code is ill formatted. Use
+[prettier](https://prettier.io/) to format all java and javscript code. Run the
+following command to check for errors:
+
+```bash
+mvn spotless:check
+```
+
+Run this command to apply formatting automatically:
+
+```bash
+mvn spotless:apply
+```
+
+If you do not have maven installed on your machine, you may start up a new
+container to mount your source.
+
+```bash
+docker-compose run --rm world bash
+mvn spotless:apply
+```
+
 ## debugging
 
 This code is janky. To make significant changes, you will need to know how to
