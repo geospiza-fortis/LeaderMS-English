@@ -86,7 +86,7 @@ public class MapleClient {
 	private MapleCharacter player;
 	private int channel = 1;
 	private int accId = 1;
-        private boolean guest;
+	private boolean guest;
 	private boolean loggedIn = false;
 	private boolean serverTransition = false;
 	private Calendar birthday = null;
@@ -94,23 +94,23 @@ public class MapleClient {
 	private String accountName;
 	private int world;
 	private long lastPong;
-        private String pin = null;
-        private boolean haspinturnedon;
+	private String pin = null;
+	private boolean haspinturnedon;
 	private boolean gm;
-        private int gmlevel;
-        private ScriptDebug scriptDebug;
-        public boolean smegastarted = false; 
-        public long lastsmega; 
-        public long lastsmegacompare;  
+	private int gmlevel;
+	private ScriptDebug scriptDebug;
+	public boolean smegastarted = false;
+	public long lastsmega;
+	public long lastsmegacompare;
 	private byte greason = 1;
 	private Map<Pair<MapleCharacter, Integer>, Integer> timesTalked = new HashMap<Pair<MapleCharacter, Integer>, Integer>(); //npcid, times
 	private Set<String> macs = new HashSet<String>();
 	private Map<String, ScriptEngine> engines = new HashMap<String, ScriptEngine>();
 	private ScheduledFuture<?> idleTask = null;
-        private int attemptedLogins = 0;
-        private long afkTimer = 0;
-        private final transient Lock mutex = new ReentrantLock(true);
- 
+	private int attemptedLogins = 0;
+	private long afkTimer = 0;
+	private final transient Lock mutex = new ReentrantLock(true);
+
 	public MapleClient(MapleAESOFB send, MapleAESOFB receive, IoSession session) {
 		this.send = send;
 		this.receive = receive;
@@ -128,14 +128,14 @@ public class MapleClient {
     public final IoSession getSession() {
 	return session;
     }
-        
-         public void resetAfkTimer(){
-        this.afkTimer = System.currentTimeMillis();
-        }
 
-       public long getAfkTimer(){
-        return System.currentTimeMillis() - this.afkTimer;
-       }
+	public void resetAfkTimer(){
+		this.afkTimer = System.currentTimeMillis();
+	}
+
+	public long getAfkTimer(){
+		return System.currentTimeMillis() - this.afkTimer;
+	}
 
 	public MapleCharacter getPlayer() {
 		return player;
@@ -168,7 +168,7 @@ public class MapleClient {
 		}
 		return chars;
 	}
-        
+
       public void declare(MaplePacket packet) {
         this.session.write(packet);
     }
@@ -200,11 +200,6 @@ public class MapleClient {
 
 	private Calendar getTempBanCalendar(ResultSet rs) throws SQLException {
 		Calendar lTempban = Calendar.getInstance();
-		long blubb = rs.getLong("tempban");
-		if (blubb == 0) { // basically if timestamp in db is 0000-00-00
-			lTempban.setTimeInMillis(0);
-			return lTempban;
-		}
 		Calendar today = Calendar.getInstance();
 		lTempban.setTimeInMillis(rs.getTimestamp("tempban").getTime());
 		if (today.getTimeInMillis() < lTempban.getTimeInMillis()) {
@@ -337,7 +332,7 @@ public class MapleClient {
 	/**
 	 * Returns 0 on success, a state to be used for
 	 * {@link MaplePacketCreator#getLoginFailed(int)} otherwise.
-	 * 
+	 *
 	 * @param success
 	 * @return The state of the login.
 	 */
@@ -365,8 +360,8 @@ public class MapleClient {
             return 10;
         }
     }
-        
-   
+
+
    public int login(String login, String pwd, boolean ipMacBanned) {
         int loginok = 5;
         attemptedLogins++;
@@ -463,11 +458,11 @@ public class MapleClient {
         return loginok;
     }
 
-    
-        
+
+
 	/**
 	 * Gets the special server IP if the client matches a certain subnet.
-	 * 
+	 *
 	 * @param subnetInfo A <code>Properties</code> instance containing all the subnet info.
 	 * @param clientIPAddress The IP address of the client as a dotted quad.
 	 * @param channel The requested channel to match with the subnet.
@@ -622,7 +617,7 @@ public class MapleClient {
 			throw new DatabaseException("Everything sucks", e);
 		}
 	}
-        
+
         public int fix(String login, String pwd) {
 		int message = 5;
 		Connection con = DatabaseConnection.getConnection();
@@ -681,9 +676,9 @@ public class MapleClient {
         return date.get(Calendar.YEAR) == birthday.get(Calendar.YEAR) && date.get(Calendar.MONTH) == birthday.get(Calendar.MONTH) && date.get(Calendar.DAY_OF_MONTH) == birthday.get(Calendar.DAY_OF_MONTH);
     }
 
-        
+
         private static final Lock dcLock = new ReentrantLock();
-        
+
         public void disconnect(boolean close) {
         dcLock.lock();
         try {
@@ -819,8 +814,8 @@ public class MapleClient {
             dcLock.unlock();
         }
     }
-        
-    
+
+
             public final void empty() {
             if (this.player != null) {
             if (this.player.getMount() != null) {
@@ -832,12 +827,12 @@ public class MapleClient {
         this.engines.clear();
         this.engines = null;
     }
-            
+
                 public final String getSessionIPAddress() {
         return session.getRemoteAddress().toString().split(":")[0];
     }
 
-        
+
         public void deleteAllCharacters() {
         Connection con = DatabaseConnection.getConnection();
         try {
@@ -867,14 +862,14 @@ public class MapleClient {
         }
         return;
     }
-      
+
 
     public int getGMLevel() {
         return this.gmlevel;
     }
-        
-        
-	
+
+
+
 	public void disconnect() {
 		disconnect(true);
 	}
@@ -893,20 +888,20 @@ public class MapleClient {
 		builder.append(getPlayer() != null);
 		mc.dropMessage(builder.toString());
 	}
-        
-        public boolean smegastarted(){ 
-            return smegastarted; 
-        } 
-        public long lastsmega(){ 
-            return lastsmega; 
-        } 
-        public long lastsmegacompare(){ 
-            return lastsmega; 
-        }  
+
+        public boolean smegastarted(){
+            return smegastarted;
+        }
+        public long lastsmega(){
+            return lastsmega;
+        }
+        public long lastsmegacompare(){
+            return lastsmega;
+        }
 
 	/**
 	 * Undefined when not logged to a channel
-	 * 
+	 *
 	 * @return the channel the client is connected to
 	 */
 	public int getChannel() {
@@ -916,9 +911,10 @@ public class MapleClient {
     public ChannelServer getChannelServer() {
         return ChannelServer.getInstance(getChannel());
     }
-	
+
 	public int getChannelByWorld() {
 		int chnl = channel;
+		log.trace("getting channel " + chnl + " for world " + world);
 		switch (world) {
 			case 1:
 				chnl += 2;
@@ -929,7 +925,7 @@ public class MapleClient {
 	/**
 	 * Convinence method to get the ChannelServer object this client is logged
 	 * on to.
-	 * 
+	 *
 	 * @return The ChannelServer instance of the client.
 	 */
 
@@ -977,14 +973,14 @@ public class MapleClient {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
-        
+
     public void setChannel(int channel) {
         this.channel = channel;
     }
-    
+
     public Calendar getBirthday() {
     return birthday;
-}  
+}
 
 	public int getWorld() {
 		return world;
@@ -1098,7 +1094,7 @@ public class MapleClient {
 	public void setIdleTask(ScheduledFuture<?> idleTask) {
 		this.idleTask = idleTask;
 	}
-        
+
 
 	public NPCConversationManager getCM() {
         return NPCScriptManager.getInstance().getCM(this);
@@ -1156,7 +1152,7 @@ public class MapleClient {
         }
         return haspinturnedon;
     }
-    
+
     public void setPinToggle(int x) {
         try {
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement("UPDATE accounts SET pintoggle = ? WHERE id = ?");

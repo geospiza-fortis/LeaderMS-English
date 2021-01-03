@@ -6,8 +6,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Properties;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
 import database.DatabaseConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +20,12 @@ public class WorldServer {
 
     private WorldServer() {
         try {
-            InputStreamReader is = new FileReader("Game/Database/db.properties");
+            InputStreamReader is = new FileReader(System.getProperty("db.config"));
             dbProp.load(is);
             is.close();
             DatabaseConnection.setProps(dbProp);
             DatabaseConnection.getConnection();
-            is = new FileReader("Game/Configuration/world.properties");
+            is = new FileReader(System.getProperty("world.config"));
             worldProp.load(is);
             is.close();
         } catch (Exception e) {
@@ -56,8 +54,7 @@ public class WorldServer {
 
     public static void main(String[] args) {
       try {
-            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT,
-                    new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
             registry.rebind("WorldRegistry", WorldRegistryImpl.getInstance());
         } catch (RemoteException ex) {
             log.error("Could not initialize RMI system", ex);

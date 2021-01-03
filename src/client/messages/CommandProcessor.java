@@ -49,7 +49,7 @@ import tools.Pair;
 import tools.StringUtil;
 
 public class CommandProcessor implements CommandProcessorMBean {
-	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneralchatHandler.class);
+	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CommandProcessor.class);
 	private static final List<Pair<String, String>> gmlog = new LinkedList<Pair<String, String>>();
 	private Map<String, DefinitionCommandPair> commands = new LinkedHashMap<String, DefinitionCommandPair>();
 	private static CommandProcessor instance = new CommandProcessor();
@@ -229,12 +229,12 @@ public class CommandProcessor implements CommandProcessorMBean {
                         Command newInstance = (Command) clasz.newInstance();
                         registerCommand(newInstance);
                     } catch (Exception e) {
-                        System.out.println("ERROR INSTANCIATING COMMAND CLASS" + e);
+                        log.error("ERROR INSTANTIATING COMMAND CLASS" + e);
                     }
                 }
             }
         } catch (ClassNotFoundException e) {
-            System.out.println("THROW" + e);
+           log.error("THROW" + e);
         }
     }
 
@@ -279,7 +279,7 @@ public class CommandProcessor implements CommandProcessorMBean {
 					synchronized (gmlog) {
 						if (definitionCommandPair.getDefinition().getRequiredLevel() > 0)
 //							gmlog.add(new Pair<MapleCharacter, String>(player, line));
-                                                gmlog.add(new Pair<String, String>(c.getPlayer().getName(), line));
+							gmlog.add(new Pair<String, String>(c.getPlayer().getName(), line));
 					}
 					try {
 						definitionCommandPair.getCommand().execute(c, mc, splitted);
@@ -289,7 +289,8 @@ public class CommandProcessor implements CommandProcessorMBean {
 					} catch (Exception e) {
 						mc.dropMessage("An error occured: " + e.getClass().getName() + " " + e.getMessage());
 						// why do we need to spam the console when someone makes a typo? D:
-						//log.error("COMMAND ERROR", e);
+						// Just set the logging level to the appropriate level
+						log.trace("Error processing command", e);
 					}
 					return true;
 				} else {

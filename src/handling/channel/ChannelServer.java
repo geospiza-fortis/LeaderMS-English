@@ -51,7 +51,6 @@ import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.SkillFactory;
@@ -181,40 +180,40 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
                     if (worldReady)
                         return;
                 }
-                System.out.println("Reconnecting to world server");
+                log.info("Reconnecting to world server");
                 synchronized (wci) {
                     try {
-						initialProp = new Properties();
-						FileReader fr = new FileReader(System.getProperty("channel.config"));
-						initialProp.load(fr);
-						fr.close();
-						Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
-						worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
-						cwi = new ChannelWorldInterfaceImpl(this);
-						wci = worldRegistry.registerChannelServer(key, cwi);
-						props = wci.getGameProperties();
-                                                expRate = Integer.parseInt(props.getProperty("world.exp"));
-                                                QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
-                                                mesoRate = Integer.parseInt(props.getProperty("world.meso"));
-                                                dropRate = Integer.parseInt(props.getProperty("world.drop"));
-						bossdropRate = Integer.parseInt(props.getProperty("world.bossdrop"));
-						petExpRate = Integer.parseInt(props.getProperty("world.petExp"));
-                                                mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
-						serverMessage = props.getProperty("world.serverMessage");
-						dropUndroppables = Boolean.parseBoolean(props.getProperty("world.alldrop", "false"));
-						moreThanOne = Boolean.parseBoolean(props.getProperty("world.morethanone", "false"));
-						gmWhiteText = Boolean.parseBoolean(props.getProperty("world.gmWhiteText", "true"));
-						cashshop = Boolean.parseBoolean(props.getProperty("world.cashshop", "false"));
-						mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
-						Properties dbProp = new Properties();
-						fr = new FileReader("Game/Database/db.properties");
-						dbProp.load(fr);
-                                                fr.close();
+                        initialProp = new Properties();
+                        FileReader fr = new FileReader(System.getProperty("channel.config"));
+                        initialProp.load(fr);
+                        fr.close();
+                        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT);
+                        worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
+                        cwi = new ChannelWorldInterfaceImpl(this);
+                        wci = worldRegistry.registerChannelServer(key, cwi);
+                        props = wci.getGameProperties();
+                        expRate = Integer.parseInt(props.getProperty("world.exp"));
+                        QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
+                        mesoRate = Integer.parseInt(props.getProperty("world.meso"));
+                        dropRate = Integer.parseInt(props.getProperty("world.drop"));
+                        bossdropRate = Integer.parseInt(props.getProperty("world.bossdrop"));
+                        petExpRate = Integer.parseInt(props.getProperty("world.petExp"));
+                        mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
+                        serverMessage = props.getProperty("world.serverMessage");
+                        dropUndroppables = Boolean.parseBoolean(props.getProperty("world.alldrop", "false"));
+                        moreThanOne = Boolean.parseBoolean(props.getProperty("world.morethanone", "false"));
+                        gmWhiteText = Boolean.parseBoolean(props.getProperty("world.gmWhiteText", "true"));
+                        cashshop = Boolean.parseBoolean(props.getProperty("world.cashshop", "false"));
+                        mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
+                        Properties dbProp = new Properties();
+                        fr = new FileReader(System.getProperty("db.config"));
+                        dbProp.load(fr);
+                        fr.close();
                         DatabaseConnection.setProps(dbProp);
                         DatabaseConnection.getConnection();
                         wci.serverReady();
                     } catch (Exception e) {
-                        System.out.println("Reconnecting failed " + e);
+                        log.error("Reconnecting failed " + e);
                     }
                     worldReady = true;
                 }
@@ -225,33 +224,34 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
         }
     }
 
-                        @Override
-                        public void run() {
-                        try {
-                        cwi = new ChannelWorldInterfaceImpl(this);
-                        wci = worldRegistry.registerChannelServer(key, cwi);
-                        props = wci.getGameProperties();
+    @Override
+    public void run() {
+        try {
+            cwi = new ChannelWorldInterfaceImpl(this);
+            wci = worldRegistry.registerChannelServer(key, cwi);
+            props = wci.getGameProperties();
 	 		expRate = Integer.parseInt(props.getProperty("world.exp"));
-                        QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
+            QuestExpRate = Integer.parseInt(props.getProperty("world.questExp"));
 			mesoRate = Integer.parseInt(props.getProperty("world.meso"));
 			dropRate = Integer.parseInt(props.getProperty("world.drop"));
 			bossdropRate = Integer.parseInt(props.getProperty("world.bossdrop"));
 			petExpRate = Integer.parseInt(props.getProperty("world.petExp"));
-                        mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
+            mountExpRate = Integer.parseInt(props.getProperty("world.mountExp"));
 			serverMessage = props.getProperty("world.serverMessage");
 			dropUndroppables = Boolean.parseBoolean(props.getProperty("world.alldrop", "false"));
 			moreThanOne = Boolean.parseBoolean(props.getProperty("world.morethanone", "false"));
 			eventSM = new EventScriptManager(this, props.getProperty("channel.events").split(","));
 			gmWhiteText = Boolean.parseBoolean(props.getProperty("world.gmWhiteText", "false"));
 			cashshop = Boolean.parseBoolean(props.getProperty("world.cashshop", "false"));
-			mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
-	                Properties dbProp = new Properties();
-                        FileReader fileReader = new FileReader("Game/Database/db.properties");
-                        dbProp.load(fileReader);
-                        fileReader.close();
-                        DatabaseConnection.setProps(dbProp);
-                        DatabaseConnection.getConnection();
-                        Connection c = DatabaseConnection.getConnection();
+            mts = Boolean.parseBoolean(props.getProperty("world.mts", "false"));
+
+            Properties dbProp = new Properties();
+            FileReader fileReader = new FileReader(System.getProperty("db.config"));
+            dbProp.load(fileReader);
+            fileReader.close();
+            DatabaseConnection.setProps(dbProp);
+            DatabaseConnection.getConnection();
+            Connection c = DatabaseConnection.getConnection();
             try {
                 PreparedStatement ps = c.prepareStatement("UPDATE accounts SET loggedin = 0");
                 ps.executeUpdate();
@@ -259,7 +259,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
                 ps.executeUpdate();
                 ps.close();
             } catch (SQLException ex) {
-                System.out.println("Could not reset databases " + ex);
+                log.error("Could not reset databases " + ex);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -281,12 +281,12 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
         SkillFactory.cacheSkills();
         MapleItemInformationProvider.getInstance().getAllItems();
         CashItemFactory.getInstance();
-        System.out.println("[INFO] Loaded items in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds.");
+        log.info("Loaded items in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds.");
         
         try {
             final MapleServerHandler serverHandler = new MapleServerHandler(PacketProcessor.getProcessor(PacketProcessor.Mode.CHANNELSERVER), channel);
             acceptor.bind(new InetSocketAddress(port), serverHandler, cfg);
-            System.out.println("[INFO] Channel (" + getChannel() + ") listening on port (" + port + ").");
+            log.info("Channel (" + getChannel() + ") listening on port (" + port + ") at " + ip);
             wci.serverReady();
             eventSM.init();
             final ChannelServer serv = this;
@@ -301,7 +301,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
 				}
 			}, 3 * 60000);
         } catch (IOException e) {
-            System.out.println("Connection at port " + port + " failed (ch: " + getChannel() + ")" + e);
+            log.error("Connection at port " + port + " failed (ch: " + getChannel() + ")" + e);
         }
         Runtime.getRuntime().addShutdownHook(new Thread(new ShutDown()));
     }
@@ -428,6 +428,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
 	}
 	
     private static ChannelServer newInstance(String key) throws InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException, MalformedObjectNameException {
+        log.trace("Creating new instance for " + key);
         ChannelServer instance = new ChannelServer(key);
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         mBeanServer.registerMBean(instance, new ObjectName("net.channel:type=ChannelServer,name=ChannelServer" + uniqueID++));
@@ -507,6 +508,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
             pendingInstances.remove(key);
         if (instances.containsKey(channel))
             instances.remove(channel);
+        log.trace("setting channel " + channel);
         instances.put(channel, this);
         this.channel = channel;
         this.mapFactory.setChannel(channel);
@@ -524,7 +526,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
         try {
             return getWorldInterface().getIP(channel);
         } catch (RemoteException e) {
-            System.out.println("Lost connection to world server " + e);
+            log.error("Lost connection to world server " + e);
             throw new RuntimeException("Lost connection to world server");
         }
     }
@@ -741,7 +743,7 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
             NotCompliantMBeanException, MalformedObjectNameException {
         initialProp = new Properties();
         initialProp.load(new FileReader(System.getProperty("channel.config")));
-        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT, new SslRMIClientSocketFactory());
+        Registry registry = LocateRegistry.getRegistry(initialProp.getProperty("world.host"), Registry.REGISTRY_PORT);
         worldRegistry = (WorldRegistry) registry.lookup("WorldRegistry");
         for (int i = 0; i < Integer.parseInt(initialProp.getProperty("channel.count", "0")); i++) {
             newInstance(initialProp.getProperty("channel." + i + ".key")).run();

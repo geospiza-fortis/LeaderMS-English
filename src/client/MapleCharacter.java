@@ -117,7 +117,7 @@ import tools.FilePrinter;
 
 public class MapleCharacter extends AbstractAnimatedMapleMapObject implements InventoryContainer {
 
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PacketProcessor.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MapleCharacter.class);
     private static final Lock save_mutex = new ReentrantLock();
     public static final double MAX_VIEW_RANGE_SQ = 850 * 850;
     private int world;
@@ -477,6 +477,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         ret.buddylist = new BuddyList(buddyCapacity);
         ret.bossPoints = rs.getInt("bosspoints");
 
+        log.trace("connected to " + ret.name + "from " + client.getSessionIPAddress());
         if (channelserver) {
            // ret.chatlog = ChatLog.load(ret.name);
             MapleMapFactory mapFactory = ChannelServer.getInstance(client.getChannel()).getMapFactory();
@@ -805,7 +806,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             // connections are thread local now, no need to synchronize anymore =)
             con.setAutoCommit(false);
             PreparedStatement ps;
-            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpApUsed = ?, mpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness = ? WHERE id = ?");
+            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, meso = ?, hpApUsed = ?, mpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, mountlevel = ?, mountexp = ?, mounttiredness = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, level);
             ps.setInt(2, fame);
@@ -911,7 +912,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             if (update) {
                 ps = con.prepareStatement("UPDATE characters " + "SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, " + "exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, ap = ?, " + "gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, map = ?, " + "meso = ?, hpApUsed = ?, mpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, messengerid = ?, messengerposition = ?, married = ?, partnerid = ?, cantalk = ?, zakumlvl = ?, marriagequest = ?, mountlevel = ?, mountexp = ?, mounttiredness = ?, alliancerank = ?, LeaderPoints = ?, pqPoints = ?, votePoints = ?, occupation = ?, jqpoints = ?, CashPoints = ?, jqrank =?, bosspoints = ? WHERE id = ?");
              } else {
-                ps = con.prepareStatement("INSERT INTO characters (" + "level, fame, str, dex, luk, `int`, exp, hp, mp, " + "maxhp, maxmp, sp, ap, gm, skincolor, gender, job, hair, face, map, meso, hpApUsed, mpApUsed, spawnpoint, party, buddyCapacity, messengerid, messengerposition, married, partnerid, cantalk, zakumlvl, marriagequest,  mountlevel, mounttiredness, mountexp, alliancerank, LeaderPoints, pqPoints, votePoints, occupation, jqpoints, CashPoints, jqrank, bosspoints, accountid, name, world" + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                ps = con.prepareStatement("INSERT INTO characters (" + "level, fame, str, dex, luk, `int`, exp, hp, mp, " + "maxhp, maxmp, sp, ap, gm, skincolor, gender, job, hair, face, map, meso, hpApUsed, mpApUsed, spawnpoint, party, buddyCapacity, messengerid, messengerposition, married, partnerid, cantalk, zakumlvl, marriagequest,  mountlevel, mounttiredness, mountexp, alliancerank, LeaderPoints, pqPoints, votePoints, occupation, jqpoints, CashPoints, jqrank, bosspoints, accountid, name, world" + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             }
             ps.setInt(1, level);
             ps.setInt(2, fame);
@@ -1045,7 +1046,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
                     }
             }
            deleteWhereCharacterId(con, "DELETE FROM inventoryitems WHERE characterid = ?");
-                ps = con.prepareStatement("INSERT INTO inventoryitems (characterid, itemid, inventorytype, position, quantity, owner, petid, expiration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                ps = con.prepareStatement("INSERT INTO inventoryitems (characterid, itemid, inventorytype, position, quantity, owner, petid, expiration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 PreparedStatement pse = con.prepareStatement("INSERT INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 for (MapleInventory iv : inventory) {
                 ps.setInt(3, iv.getType().getType());
@@ -5960,7 +5961,8 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             rs.close();
             ps.close();
         } catch (SQLException e) {
-            return null;
+            log.trace("Unable to find VIP rock maps", e);
+            return new LinkedList<Integer>();
         }
         return rockmaps;
     }

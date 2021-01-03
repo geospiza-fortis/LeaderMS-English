@@ -47,9 +47,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
-
 import database.DatabaseConnection;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -69,11 +66,11 @@ import handling.world.remote.WorldRegistry;
  */
 public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegistry {
 
-        private static final long serialVersionUID = -5170574938159280746L;
-        private static WorldRegistryImpl instance = null;
-        private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorldRegistryImpl.class);
-       // private Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
-        private final Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
+    private static final long serialVersionUID = -5170574938159280746L;
+    private static WorldRegistryImpl instance = null;
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorldRegistryImpl.class);
+    // private Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
+    private final Map<Integer, ChannelWorldInterface> channelServer = new LinkedHashMap<Integer, ChannelWorldInterface>();
 	private List<LoginWorldInterface> loginServer = new LinkedList<LoginWorldInterface>();
 
 	private Map<Integer, MapleParty> parties = new HashMap<Integer, MapleParty>();
@@ -88,8 +85,8 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
 	
 	private Map<Integer, MapleAlliance> alliances = new LinkedHashMap<Integer, MapleAlliance>(); // contains id and alliance info.
 
-        private WorldRegistryImpl() throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+    private WorldRegistryImpl() throws RemoteException {
+        super(0);
         DatabaseConnection.setProps(WorldServer.getInstance().getDbProp());
 
         Connection con = DatabaseConnection.getConnection();
@@ -152,12 +149,13 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
                 WorldChannelInterface ret = new WorldChannelInterfaceImpl(cb, rs.getInt("channelid"));
                 rs.close();
                 ps.close();
+                log.info("Registered channel " + channelId);
                 return ret;
             }
             rs.close();
             ps.close();
         } catch (SQLException ex) {
-            System.out.println("Encountered database error while authenticating channelserver " + ex);
+            log.error("Encountered database error while authenticating channelserver " + ex);
         }
         throw new RuntimeException("Couldn't find a channel with the given key (" + authKey + ")");
     }
@@ -166,7 +164,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
         channelServer.remove(channel);
         for (LoginWorldInterface wli : loginServer)
             wli.channelOffline(channel);
-        System.out.println("Channel " + channel + " is offline.");
+        log.info("Channel " + channel + " is offline.");
     }
 
 	public WorldLoginInterface registerLoginServer(String authKey, LoginWorldInterface cb) throws RemoteException {
@@ -179,14 +177,18 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 loginServer.add(cb);
-                for (ChannelWorldInterface cwi : channelServer.values())
-                    cb.channelOnline(cwi.getChannelId(), authKey);
+                for (ChannelWorldInterface cwi : channelServer.values()) {
+                    int channelId = cwi.getChannelId();
+                    log.info("adding channel " + channelId + " with ip " + cwi.getIP());
+                    cb.channelOnline(channelId, cwi.getIP());
+                }
             }
             rs.close();
             ps.close();
             ret = new WorldLoginInterfaceImpl();
+            log.info("registered login server");
         } catch (Exception e) {
-            System.out.println("Encountered database error while authenticating loginserver " + e);
+            log.error("Encountered database error while authenticating loginserver " + e);
         }
         return ret;
     }
@@ -286,7 +288,7 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
             for (ChannelWorldInterface cwi : this.getAllChannelServers())
                 cwi.reloadGuildCharacters();
         } catch (RemoteException re) {
-            System.out.println("RemoteException occurred while attempting to reload guilds. " + re);
+            log.error("RemoteException occurred while attempting to reload guilds. " + re);
         }
     }
 	

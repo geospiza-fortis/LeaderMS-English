@@ -116,7 +116,7 @@ public class RankingWorker implements Runnable {
 		while (rs.next()) {
 			int rankMove = 0;
 			rank++;
-			if (rs.getLong("lastlogin") < lastUpdate || rs.getInt("loggedin") > 0) {
+			if (rs.getTimestamp("lastlogin").getTime() < lastUpdate || rs.getTimestamp("loggedin").getTime() > 0) {
 				rankMove = rs.getInt((job != null ? "jobRankMove" : "rankMove"));
 			}
 			rankMove += rs.getInt((job != null ? "jobRank" : "rank")) - rank;

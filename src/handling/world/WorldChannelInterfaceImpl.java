@@ -38,9 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
-
 import database.DatabaseConnection;
 import handling.MaplePacket;
 import handling.channel.remote.ChannelWorldInterface;
@@ -59,17 +56,18 @@ import tools.CollectionUtil;
  */
 public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements WorldChannelInterface {
 
-    private static final long serialVersionUID = -5568606556235590482L;
+	private static final long serialVersionUID = -5568606556235590482L;
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorldChannelInterfaceImpl.class);
     private ChannelWorldInterface cb;
     private int dbId;
     private boolean ready = false;
 
     public WorldChannelInterfaceImpl() throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+        super(0);
     }
 
     public WorldChannelInterfaceImpl(ChannelWorldInterface cb, int dbId) throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
+        super(0);
         this.cb = cb;
         this.dbId = dbId;
     }
@@ -91,7 +89,7 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
             rs.close();
             ps.close();
         } catch (SQLException ex) {
-            System.out.println("Could not retrieve channel configuration: " + ex);
+            log.error("Could not retrieve channel configuration: " + ex);
         }
         return ret;
     }
@@ -100,12 +98,15 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
         ready = true;
         for (LoginWorldInterface wli : WorldRegistryImpl.getInstance().getLoginServer()) {
             try {
-                wli.channelOnline(cb.getChannelId(), cb.getIP());
+				int channelId = cb.getChannelId();
+				log.info("adding channel " + channelId + " with ip " + cb.getIP());
+				wli.channelOnline(channelId, cb.getIP());
             } catch (RemoteException e) {
+				log.error("unable to add channel", e);
                 WorldRegistryImpl.getInstance().deregisterLoginServer(wli);
             }
         }
-        System.out.println("[INFO] Channel " + cb.getChannelId() + " is online.");
+        log.info("Channel " + cb.getChannelId() + " is online.");
     }
 
     public boolean isReady() {
@@ -115,11 +116,13 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
     public String getIP(int channel) throws RemoteException {
         ChannelWorldInterface cwi = WorldRegistryImpl.getInstance().getChannel(channel);
         if (cwi == null) {
+			log.trace("unable to fetch cwi");
             return "0.0.0.0:0";
         } else {
             try {
                 return cwi.getIP();
             } catch (RemoteException e) {
+				log.error("unable to get cwi ip", e);
                 WorldRegistryImpl.getInstance().deregisterChannelServer(channel);
                 return "0.0.0.0:0";
             }

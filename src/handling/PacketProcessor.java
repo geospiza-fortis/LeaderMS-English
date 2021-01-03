@@ -89,7 +89,7 @@ public final class PacketProcessor {
 			registerHandler(RecvPacketOpcode.DELETE_CHAR, new DeleteCharHandler());
 			registerHandler(RecvPacketOpcode.VIEW_ALL_CHAR, new ViewCharHandler());
 			registerHandler(RecvPacketOpcode.PICK_ALL_CHAR, new PickCharHandler());
-		        } else if (mode == Mode.CHANNELSERVER) {
+		} else if (mode == Mode.CHANNELSERVER) {
 			registerHandler(RecvPacketOpcode.CHANGE_CHANNEL, new ChangeChannelHandler());
 			registerHandler(RecvPacketOpcode.STRANGE_DATA, LoginRequiringNoOpHandler.getInstance());
 			registerHandler(RecvPacketOpcode.GENERAL_CHAT, new GeneralchatHandler());

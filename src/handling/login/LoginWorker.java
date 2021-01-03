@@ -92,8 +92,7 @@ public class LoginWorker implements Runnable {
 				if (client.finishLogin(true) == 0) {
 					client.getSession().write(MaplePacketCreator.getAuthSuccessRequestPin(client.getAccountName()));
 					//client.setIdleTask(TimerManager.getInstance().schedule(new Runnable() {
-                                            client.setIdleTask(Timer.PingTimer.getInstance().schedule(new Runnable() {
-
+					client.setIdleTask(Timer.PingTimer.getInstance().schedule(new Runnable() {
 						public void run() {
 							client.getSession().close();
 						}
