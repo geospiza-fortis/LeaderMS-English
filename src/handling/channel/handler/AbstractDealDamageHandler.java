@@ -29,7 +29,6 @@ import client.anticheat.CheatingOffense;
 import client.status.MonsterStatus;
 import client.status.MonsterStatusEffect;
 import handling.AbstractMaplePacketHandler;
-import handling.channel.pvp.MaplePvp;
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.ArrayList;

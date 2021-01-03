@@ -256,7 +256,6 @@ public class MapleCharacter
   public SummonMovementType getMovementType;
   private int canTalk;
   private int zakumLvl; //zero means they havent started yet
-  private int pvpScore = 0;
   private int donatorPoints = 0;
   private IPlayerInteractionManager interaction;
   //irc bot
@@ -279,8 +278,6 @@ public class MapleCharacter
   private boolean shield = false;
   private int currentPage = 0, currentType = 0, currentTab = 1;
   private boolean inmts;
-  private int pvpDeaths;
-  private int pvpKills;
   private boolean challenged = false;
   private long lastFJ = 0;
   private int lastY = 0;
@@ -6910,30 +6907,6 @@ public class MapleCharacter
     );
   }
 
-  public int getPvpDeaths() {
-    return pvpDeaths;
-  }
-
-  public void setPvpDeaths(int pvpDeaths) {
-    this.pvpDeaths = pvpDeaths;
-  }
-
-  public int getPvpKills() {
-    return pvpKills;
-  }
-
-  public void setPvpKills(int pvpKills) {
-    this.pvpKills = pvpKills;
-  }
-
-  public void gainPvpKill() {
-    this.pvpKills++;
-  }
-
-  public void gainPvpDeath() {
-    this.pvpDeaths++;
-  }
-
   public int getTotalAcc() {
     return this.acc;
   }
@@ -6948,22 +6921,6 @@ public class MapleCharacter
 
   public int getTotalMdef() {
     return mdef;
-  }
-
-  public int getPvpScore() {
-    return pvpScore;
-  }
-
-  public void setPvpScore(int pvpScore) {
-    this.pvpScore = pvpScore;
-  }
-
-  public void gainPvpScore() {
-    this.pvpScore++;
-  }
-
-  public void resetPvpScore() {
-    this.pvpScore = 0;
   }
 
   public boolean isChallenged() {

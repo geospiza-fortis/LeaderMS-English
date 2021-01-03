@@ -36,7 +36,6 @@ import config.configuration.Configuration;
 import database.DatabaseConnection;
 import handling.MaplePacket;
 import handling.channel.ChannelServer;
-import handling.channel.pvp.MaplePvp;
 import handling.world.MaplePartyCharacter;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -2592,50 +2591,6 @@ public class MapleMap {
     } catch (IndexOutOfBoundsException e) {
       return;
     }
-  }
-
-  public Collection<MapleCharacter> getNearestPvpChar(
-    Point attacker,
-    double maxRange,
-    double maxHeight,
-    Collection<MapleCharacter> chr
-  ) {
-    Collection<MapleCharacter> character = new LinkedList<MapleCharacter>();
-    for (MapleCharacter a : characters) {
-      if (chr.contains(a.getClient().getPlayer())) {
-        Point attackedPlayer = a.getPosition();
-        //MaplePortal Port = a.getMap().findClosestSpawnpoint(a.getPosition());
-        //Point nearestPort = Port.getPosition();
-        //double safeDis = attackedPlayer.distance(nearestPort);
-        double distanceX = attacker.distance(
-          attackedPlayer.getX(),
-          attackedPlayer.getY()
-        );
-        if (MaplePvp.isLeft) {
-          if (
-            attacker.x > attackedPlayer.x &&
-            distanceX < maxRange &&
-            distanceX > 2 &&
-            attackedPlayer.y >= attacker.y - maxHeight &&
-            attackedPlayer.y <= attacker.y + maxHeight
-          ) {
-            character.add(a);
-          }
-        }
-        if (MaplePvp.isRight) {
-          if (
-            attacker.x < attackedPlayer.x &&
-            distanceX < maxRange &&
-            distanceX > 2 &&
-            attackedPlayer.y >= attacker.y - maxHeight &&
-            attackedPlayer.y <= attacker.y + maxHeight
-          ) {
-            character.add(a);
-          }
-        }
-      }
-    }
-    return character;
   }
 
   public void killAllMonsters() {
