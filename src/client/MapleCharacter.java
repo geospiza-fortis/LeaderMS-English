@@ -265,10 +265,7 @@ public class MapleCharacter
   private int married;
   private int partnerid;
   private int marriageQuestLevel;
-  private boolean logchat = false;
-  private long lastChatLog = 0;
   private MessageCallback mc;
-  //  private ChatLog chatlog;
   private int cp = 0;
   private int totCP = 0;
   private MonsterCarnival monsterCarnival;
@@ -402,8 +399,7 @@ public class MapleCharacter
     int charid,
     MapleClient client,
     boolean channelserver
-  )
-    throws SQLException {
+  ) throws SQLException {
     MapleCharacter ret = new MapleCharacter();
     ret.client = client;
     ret.id = charid;
@@ -494,7 +490,6 @@ public class MapleCharacter
       "connected to " + ret.name + "from " + client.getSessionIPAddress()
     );
     if (channelserver) {
-      // ret.chatlog = ChatLog.load(ret.name);
       MapleMapFactory mapFactory = ChannelServer
         .getInstance(client.getChannel())
         .getMapFactory();
@@ -6306,22 +6301,6 @@ public class MapleCharacter
     MapleInventory iv = inventory[type.ordinal()];
     int possesed = iv.countById(itemid);
     return possesed;
-  }
-
-  public boolean isLogchat() {
-    return logchat;
-  }
-
-  public void setLogchat(boolean logchat) {
-    this.logchat = logchat;
-  }
-
-  public long getLastChatLog() {
-    return lastChatLog;
-  }
-
-  public void setLastChatLog(long lastChatLog) {
-    this.lastChatLog = lastChatLog;
   }
 
   public int getCP() {
