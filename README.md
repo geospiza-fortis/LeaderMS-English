@@ -71,7 +71,7 @@ mvn spotless:apply
 This code is janky. To make significant changes, you will need to know how to
 debug java code.
 
-## `/usr/bin/env: ‘bash\r’: No such file or directory`
+### `/usr/bin/env: ‘bash\r’: No such file or directory`
 
 To fix this, we need to remove Windows line endings.
 
