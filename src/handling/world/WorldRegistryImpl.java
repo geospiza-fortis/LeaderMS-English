@@ -179,8 +179,8 @@ public class WorldRegistryImpl extends UnicastRemoteObject implements WorldRegis
                 loginServer.add(cb);
                 for (ChannelWorldInterface cwi : channelServer.values()) {
                     int channelId = cwi.getChannelId();
-                    log.info("adding channel " + channelId + " with authKey " + authKey);
-                    cb.channelOnline(channelId, authKey);
+                    log.info("adding channel " + channelId + " with ip " + cwi.getIP());
+                    cb.channelOnline(channelId, cwi.getIP());
                 }
             }
             rs.close();

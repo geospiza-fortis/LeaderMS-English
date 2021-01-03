@@ -3,4 +3,4 @@
 --
 
 INSERT IGNORE INTO `loginserver` (`loginserverid`, `key`, `world`) VALUES
-(1, 'releaselogin', 0);
+(1, sha1('releaselogin'), 0);

@@ -102,6 +102,7 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
 				log.info("adding channel " + channelId + " with ip " + cb.getIP());
 				wli.channelOnline(channelId, cb.getIP());
             } catch (RemoteException e) {
+				log.error("unable to add channel", e);
                 WorldRegistryImpl.getInstance().deregisterLoginServer(wli);
             }
         }
@@ -115,11 +116,13 @@ public class WorldChannelInterfaceImpl extends UnicastRemoteObject implements Wo
     public String getIP(int channel) throws RemoteException {
         ChannelWorldInterface cwi = WorldRegistryImpl.getInstance().getChannel(channel);
         if (cwi == null) {
+			log.trace("unable to fetch cwi");
             return "0.0.0.0:0";
         } else {
             try {
                 return cwi.getIP();
             } catch (RemoteException e) {
+				log.error("unable to get cwi ip", e);
                 WorldRegistryImpl.getInstance().deregisterChannelServer(channel);
                 return "0.0.0.0:0";
             }

@@ -108,6 +108,7 @@ public class LoginServer implements Runnable, LoginServerMBean {
     }
 
    public void addChannel(int channel, String ip) {
+       log.info("adding channel " + channel + " at ip " + ip);
         channelServer.put(channel, ip);
         load.put(channel, 0);
     }
