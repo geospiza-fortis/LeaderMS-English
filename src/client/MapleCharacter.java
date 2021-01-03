@@ -273,7 +273,6 @@ public class MapleCharacter
   private int totCP = 0;
   private MonsterCarnival monsterCarnival;
   private long lastPortalEntry = 0;
-  private boolean lord = false;
   private int battleShipHp = 0;
   private List<MapleSummon> pirateSummons = new LinkedList<MapleSummon>();
   private long lastNpcTalk = 0;
@@ -403,7 +402,8 @@ public class MapleCharacter
     int charid,
     MapleClient client,
     boolean channelserver
-  ) throws SQLException {
+  )
+    throws SQLException {
     MapleCharacter ret = new MapleCharacter();
     ret.client = client;
     ret.id = charid;
@@ -543,9 +543,6 @@ public class MapleCharacter
         } catch (RemoteException e) {
           client.getChannelServer().reconnectWorld();
         }
-      }
-      if (ChannelServer.getInstance(1).getLordId() == ret.id) {
-        ret.lord = true;
       }
       //ret.loadCooldowns(con);
     }
@@ -6428,14 +6425,6 @@ public class MapleCharacter
     statEffect.applyTo(this);
   }
 
-  public boolean isLord() {
-    return lord;
-  }
-
-  public void setLord(boolean a) {
-    this.lord = a;
-  }
-
   public int getBattleshipMaxHp() {
     return (
       ((this.getLevel() - 120) * 2000) +
@@ -6507,113 +6496,6 @@ public class MapleCharacter
 
   public void setLastNpcTalk(long lastNpcTalk) {
     this.lastNpcTalk = lastNpcTalk;
-  }
-
-  public boolean hasVotedForLord() {
-    Connection con = DatabaseConnection.getConnection();
-    try {
-      PreparedStatement ps = con.prepareStatement(
-        "SELECT * FROM lordvoted WHERE charid = ?"
-      );
-      ps.setInt(1, this.getId());
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        return true;
-      }
-      return false;
-    } catch (Exception ex) {
-      return true;
-    }
-  }
-
-  public boolean voteForLord(int cid) {
-    Connection con = DatabaseConnection.getConnection();
-    try {
-      PreparedStatement ps = con.prepareStatement(
-        "SELECT * FROM lordvoted WHERE charid = ?"
-      );
-      ps.setInt(1, this.getId());
-      if (ps.executeQuery().next()) {
-        return false;
-      }
-      ps = con.prepareStatement("SELECT * FROM lordvotes WHERE charid = ?");
-      ps.setInt(1, this.getId());
-      ResultSet rs = ps.executeQuery();
-      boolean hasColum = false;
-      int votes = 0;
-      if (rs.next()) {
-        hasColum = true;
-        votes = rs.getInt("votes") + 1;
-      }
-      if (hasColum) {
-        ps =
-          con.prepareStatement(
-            "UPDATE lordvotes SET votes = ? WHERE charid = ?"
-          );
-        ps.setInt(1, votes);
-        ps.setInt(2, cid);
-        ps.executeUpdate();
-      } else {
-        ps =
-          con.prepareStatement(
-            "INSERT INTO lordvotes(charid, votes) VALUES (?, ?)"
-          );
-        ps.setInt(1, cid);
-        ps.setInt(2, 1);
-        ps.executeUpdate();
-      }
-      ps = con.prepareStatement("INSERT INTO lordvoted (charid) VALUES (?)");
-      ps.setInt(1, this.getId());
-      ps.executeUpdate();
-      return true;
-    } catch (Exception ex) {
-      log.error("Error", ex);
-      return false;
-    }
-  }
-
-  public int getVotesForLord(int cid) {
-    Connection con = DatabaseConnection.getConnection();
-    try {
-      PreparedStatement ps = con.prepareStatement(
-        "SELECT * FROM lordvotes WHERE charid = ?"
-      );
-      ps.setInt(1, cid);
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        return rs.getInt("votes");
-      }
-      return -1;
-    } catch (Exception ex) {
-      return -1;
-    }
-  }
-
-  public int applyForLord() {
-    if (this.getLevel() < 120) {
-      return -1;
-    }
-    Connection con = DatabaseConnection.getConnection();
-    try {
-      PreparedStatement ps = con.prepareStatement(
-        "SELECT * FROM lordvotes WHERE charid = ?"
-      );
-      ps.setInt(1, this.getId());
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        return 0;
-      }
-      ps =
-        con.prepareStatement(
-          "INSERT INTO lordvotes (charid, votes) VALUES (?, ?)"
-        );
-      ps.setInt(1, this.getId());
-      ps.setInt(2, 0);
-      ps.executeUpdate();
-      return 1;
-    } catch (Exception ex) {
-      return -1;
-    }
   }
 
   public int getCpqRanking() {
