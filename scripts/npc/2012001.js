@@ -1,6 +1,6 @@
 ///*
 //	This file is part of the OdinMS Maple Story Server
-//    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+//    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
 //					   Matthias Butz <matze@odinms.de>
 //					   Jan Christian Meyer <vimes@odinms.de>
 //
@@ -54,7 +54,7 @@
 //    cm.warp(200000112);
 //    cm.dispose();
 //}
- /* Author: Xterminator
+/* Author: Xterminator
 	NPC Name: 		Rini
 	Map(s): 		Orbis: Station<To Ellinia> (200000111)
 	Description: 		Orbis Ticketing Usher
@@ -62,34 +62,36 @@
 var status = 0;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-	if (status >= 0 && mode == 0) {
-		cm.sendNext("You must have some business to take care of here, right?");
-		cm.dispose();
-		return;
-	}
-	if (mode == 1)
-		status++;
-	else
-		status--;
-	if (status == 0) {
-		cm.sendYesNo("It seems like there is still room on this ride. Please have your ticket ready so you can get on. The journey may be long, but you will get to your destination safely. What do you think? Do you want to go on this trip?");
-	} else if (status == 1) {
-		if (cm.haveItem(4031047)) {
-			cm.gainItem(4031047, -1);
-			cm.warp(101000300, 0);
-			cm.dispose();
-		} else {
-			cm.sendNext("Make sure you have a Ellinia ticket to travel on this boat.");
-			cm.dispose();
-			}		
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+  } else {
+    if (status >= 0 && mode == 0) {
+      cm.sendNext("You must have some business to take care of here, right?");
+      cm.dispose();
+      return;
+    }
+    if (mode == 1) status++;
+    else status--;
+    if (status == 0) {
+      cm.sendYesNo(
+        "It seems like there is still room on this ride. Please have your ticket ready so you can get on. The journey may be long, but you will get to your destination safely. What do you think? Do you want to go on this trip?"
+      );
+    } else if (status == 1) {
+      if (cm.haveItem(4031047)) {
+        cm.gainItem(4031047, -1);
+        cm.warp(101000300, 0);
+        cm.dispose();
+      } else {
+        cm.sendNext(
+          "Make sure you have a Ellinia ticket to travel on this boat."
+        );
+        cm.dispose();
+      }
+    }
+  }
 }

@@ -37,85 +37,84 @@ var status = 0;
 var check = 0;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0) {
-			cm.sendOk("Alright, see you next time.");
-			cm.dispose();
-			return;
-		}
-		if (mode == 1) {
-			status++;
-		}
-		else {
-			status--;
-		}
-		if (status == 0) {
-			if (cm.getLevel() < 25) {
-				cm.sendOk("You must be a higher level to enter the Forest of Patience.");
-				cm.dispose();
-				check = 1;
-			}
-			else {
-				cm.sendYesNo("Hi, I'm Shane. I can let you into the Forest of Patience for a small fee. Would you like to enter for #b5000#k mesos?");
-			}
-		} else if (status == 1) {
-			if (check != 1) {
-				if (cm.getPlayer().getMeso() < 5000) {
-					cm.sendOk("Sorry, but it looks like you don't have enough mesos!")
-					cm.dispose();
-				}
-				else { 
-					if (cm.getQuestStatus(2050).equals(MapleQuestStatus.Status.STARTED)) {
-						cm.warp(101000100, 0);
-					}
-					else if (cm.getQuestStatus(2051).equals(MapleQuestStatus.Status.STARTED)) {
-						cm.warp(101000102, 0);
-					}
-					else if (cm.getLevel() >= 25 && cm.getLevel() < 50) {
-						cm.warp(101000100, 0);
-					} 
-					else if (cm.getLevel() >= 50) {
-						cm.warp(101000102, 0);
-					}
-					cm.gainMeso(-5000);
-					cm.dispose();
-				}
-			}
-		}
-	}
-}	
+  if (mode == -1) {
+    cm.dispose();
+  } else {
+    if (mode == 0) {
+      cm.sendOk("Alright, see you next time.");
+      cm.dispose();
+      return;
+    }
+    if (mode == 1) {
+      status++;
+    } else {
+      status--;
+    }
+    if (status == 0) {
+      if (cm.getLevel() < 25) {
+        cm.sendOk(
+          "You must be a higher level to enter the Forest of Patience."
+        );
+        cm.dispose();
+        check = 1;
+      } else {
+        cm.sendYesNo(
+          "Hi, I'm Shane. I can let you into the Forest of Patience for a small fee. Would you like to enter for #b5000#k mesos?"
+        );
+      }
+    } else if (status == 1) {
+      if (check != 1) {
+        if (cm.getPlayer().getMeso() < 5000) {
+          cm.sendOk("Sorry, but it looks like you don't have enough mesos!");
+          cm.dispose();
+        } else {
+          if (cm.getQuestStatus(2050).equals(MapleQuestStatus.Status.STARTED)) {
+            cm.warp(101000100, 0);
+          } else if (
+            cm.getQuestStatus(2051).equals(MapleQuestStatus.Status.STARTED)
+          ) {
+            cm.warp(101000102, 0);
+          } else if (cm.getLevel() >= 25 && cm.getLevel() < 50) {
+            cm.warp(101000100, 0);
+          } else if (cm.getLevel() >= 50) {
+            cm.warp(101000102, 0);
+          }
+          cm.gainMeso(-5000);
+          cm.dispose();
+        }
+      }
+    }
+  }
+}
 
-
-///** 
-// * 
-// * @author Soulfist 
-// */ 
-//rewards = [["Trofeu", 14000038, 15]]; 
+///**
+// *
+// * @author Soulfist
+// */
+//rewards = [["Trofeu", 14000038, 15]];
 //
-//function start() { 
-//    var talk = "Hello #e#h ##n, my name is Shane. I am here to help you exchange your JQ Points. Each item costs 15 JQ Points.\r\nDo you want to exchange?"; 
-//    for(var i = 0; i < rewards.length; i++) 
-//        talk += "\r\n#L"+i+"#"+rewards[i][0]+"#l"; 
-//    cm.sendSimple(talk); 
-//} 
+//function start() {
+//    var talk = "Hello #e#h ##n, my name is Shane. I am here to help you exchange your JQ Points. Each item costs 15 JQ Points.\r\nDo you want to exchange?";
+//    for(var i = 0; i < rewards.length; i++)
+//        talk += "\r\n#L"+i+"#"+rewards[i][0]+"#l";
+//    cm.sendSimple(talk);
+//}
 //
-//function action(m,t,s){ 
-//    cm.dispose(); 
-//    if(m > 0){ 
-//        if (cm.getPlayer().getJQPoints() >= rewards[s][2]){ 
-//            cm.sendOk("Here you go! Enjoy your prize!"); 
-//            cm.gainItem(rewards[s][1]); 
-//            cm.getPlayer().addJQPoints(-rewards[s][2]); 
-//        } else { 
-//            cm.sendOk("You do not have sufficient JQ Points!"); 
-//            cm.dispose(); 
-//        } 
-//    } 
-//}  
+//function action(m,t,s){
+//    cm.dispose();
+//    if(m > 0){
+//        if (cm.getPlayer().getJQPoints() >= rewards[s][2]){
+//            cm.sendOk("Here you go! Enjoy your prize!");
+//            cm.gainItem(rewards[s][1]);
+//            cm.getPlayer().addJQPoints(-rewards[s][2]);
+//        } else {
+//            cm.sendOk("You do not have sufficient JQ Points!");
+//            cm.dispose();
+//        }
+//    }
+//}

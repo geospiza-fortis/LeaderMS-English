@@ -48,61 +48,80 @@ var NLC_docked;
 var toggleMsg = true;
 
 function init() {
-	KC_Waiting = em.getChannelServer().getMapFactory().getMap(600010004);
-	NLC_Waiting = em.getChannelServer().getMapFactory().getMap(600010002);
-	Subway_to_KC = em.getChannelServer().getMapFactory().getMap(600010003);
-	Subway_to_NLC = em.getChannelServer().getMapFactory().getMap(600010005);
-	KC_docked = em.getChannelServer().getMapFactory().getMap(103000100);
-	NLC_docked = em.getChannelServer().getMapFactory().getMap(600010001);
-	scheduleNew();
+  KC_Waiting = em.getChannelServer().getMapFactory().getMap(600010004);
+  NLC_Waiting = em.getChannelServer().getMapFactory().getMap(600010002);
+  Subway_to_KC = em.getChannelServer().getMapFactory().getMap(600010003);
+  Subway_to_NLC = em.getChannelServer().getMapFactory().getMap(600010005);
+  KC_docked = em.getChannelServer().getMapFactory().getMap(103000100);
+  NLC_docked = em.getChannelServer().getMapFactory().getMap(600010001);
+  scheduleNew();
 }
 
 function scheduleNew() {
-	em.setProperty("docked", "true");
-	em.setProperty("entry", "true");
-	if(toggleMsg) {
-		KC_docked.broadcastMessage(MaplePacketCreator.serverNotice(0, "The metro train to New Leaf City has arrived."));
-		NLC_docked.broadcastMessage(MaplePacketCreator.serverNotice(0, "The metro train to Kerning City has arrived."));
-	}
-	em.schedule("stopEntry", closeTime);
-	em.schedule("takeoff", beginTime);
+  em.setProperty("docked", "true");
+  em.setProperty("entry", "true");
+  if (toggleMsg) {
+    KC_docked.broadcastMessage(
+      MaplePacketCreator.serverNotice(
+        0,
+        "The metro train to New Leaf City has arrived."
+      )
+    );
+    NLC_docked.broadcastMessage(
+      MaplePacketCreator.serverNotice(
+        0,
+        "The metro train to Kerning City has arrived."
+      )
+    );
+  }
+  em.schedule("stopEntry", closeTime);
+  em.schedule("takeoff", beginTime);
 }
 
 function stopEntry() {
-	em.setProperty("entry","false");
+  em.setProperty("entry", "false");
 }
 
 function takeoff() {
-	em.setProperty("docked","false");
-	var temp1 = KC_Waiting.getCharacters().iterator();
-	while(temp1.hasNext()) {
-		temp1.next().changeMap(Subway_to_NLC, Subway_to_NLC.getPortal(0));
-	}
-	var temp2 = NLC_Waiting.getCharacters().iterator();
-	while(temp2.hasNext()) {
-		temp2.next().changeMap(Subway_to_KC, Subway_to_KC.getPortal(0));
-	}
-	if(toggleMsg) {
-		KC_docked.broadcastMessage(MaplePacketCreator.serverNotice(0, "The metro train to New Leaf City is departing."));
-		NLC_docked.broadcastMessage(MaplePacketCreator.serverNotice(0, "The metro train to Kerning City is departing."));
-	}
-	var temp = rideTime / 1000;
-	Subway_to_KC.broadcastMessage(MaplePacketCreator.getClock(temp));
-	Subway_to_NLC.broadcastMessage(MaplePacketCreator.getClock(temp));
-	em.schedule("arrived", rideTime);
+  em.setProperty("docked", "false");
+  var temp1 = KC_Waiting.getCharacters().iterator();
+  while (temp1.hasNext()) {
+    temp1.next().changeMap(Subway_to_NLC, Subway_to_NLC.getPortal(0));
+  }
+  var temp2 = NLC_Waiting.getCharacters().iterator();
+  while (temp2.hasNext()) {
+    temp2.next().changeMap(Subway_to_KC, Subway_to_KC.getPortal(0));
+  }
+  if (toggleMsg) {
+    KC_docked.broadcastMessage(
+      MaplePacketCreator.serverNotice(
+        0,
+        "The metro train to New Leaf City is departing."
+      )
+    );
+    NLC_docked.broadcastMessage(
+      MaplePacketCreator.serverNotice(
+        0,
+        "The metro train to Kerning City is departing."
+      )
+    );
+  }
+  var temp = rideTime / 1000;
+  Subway_to_KC.broadcastMessage(MaplePacketCreator.getClock(temp));
+  Subway_to_NLC.broadcastMessage(MaplePacketCreator.getClock(temp));
+  em.schedule("arrived", rideTime);
 }
 
 function arrived() {
-	var temp1 = Subway_to_KC.getCharacters().iterator();
-	while(temp1.hasNext()) {
-		temp1.next().changeMap(KC_docked, KC_docked.getPortal(0));
-	}
-	var temp2 = Subway_to_NLC.getCharacters().iterator();
-	while(temp2.hasNext()) {
-		temp2.next().changeMap(NLC_docked, NLC_docked.getPortal(0));
-	}
-	scheduleNew();
+  var temp1 = Subway_to_KC.getCharacters().iterator();
+  while (temp1.hasNext()) {
+    temp1.next().changeMap(KC_docked, KC_docked.getPortal(0));
+  }
+  var temp2 = Subway_to_NLC.getCharacters().iterator();
+  while (temp2.hasNext()) {
+    temp2.next().changeMap(NLC_docked, NLC_docked.getPortal(0));
+  }
+  scheduleNew();
 }
 
-function cancelSchedule() {
-}
+function cancelSchedule() {}

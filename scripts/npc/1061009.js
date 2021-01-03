@@ -26,19 +26,20 @@
 importPackage(Packages.client);
 
 function start() {
-	if (cm.getQuestStatus(100101).equals(MapleQuestStatus.Status.STARTED) && !cm.haveItem(4031059)) {
-		var em = cm.getEventManager("3rdjob");
-		if (em == null) {
-			cm.sendOk("Sorry, but everything is broken.");
-		} else {
-			em.newInstance(cm.getPlayer().getName()).registerPlayer(cm.getPlayer());
-		}
-	} else {
-		cm.sendOk("lul.");
-	}
-	cm.dispose();
+  if (
+    cm.getQuestStatus(100101).equals(MapleQuestStatus.Status.STARTED) &&
+    !cm.haveItem(4031059)
+  ) {
+    var em = cm.getEventManager("3rdjob");
+    if (em == null) {
+      cm.sendOk("Sorry, but everything is broken.");
+    } else {
+      em.newInstance(cm.getPlayer().getName()).registerPlayer(cm.getPlayer());
+    }
+  } else {
+    cm.sendOk("lul.");
+  }
+  cm.dispose();
 }
 
-function action(mode, type, selection) {
-
-}
+function action(mode, type, selection) {}

@@ -5,18 +5,20 @@
 var status = -1;
 
 function start(mode, type, selection) {
-    status++;
+  status++;
 
-    if (status == 0) {
-	qm.askAcceptDecline("#h0#. Have you been slacking off on training since reaching Level 100? We all know how powerful you are, but the training is not complete. Take a look at these Knight Commanders. They train day and night, preparing themselves for the possible encounter with the Black Wizard.");
-    } else {
-	if (mode == 1) {
-	    qm.forceStartQuest();
-	}
-	qm.dispose();
+  if (status == 0) {
+    qm.askAcceptDecline(
+      "#h0#. Have you been slacking off on training since reaching Level 100? We all know how powerful you are, but the training is not complete. Take a look at these Knight Commanders. They train day and night, preparing themselves for the possible encounter with the Black Wizard."
+    );
+  } else {
+    if (mode == 1) {
+      qm.forceStartQuest();
     }
+    qm.dispose();
+  }
 }
 
 function end(mode, type, selection) {
-    qm.dispose();
+  qm.dispose();
 }

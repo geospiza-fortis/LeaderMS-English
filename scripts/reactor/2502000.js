@@ -21,11 +21,11 @@
 */
 
 /* @Author Lerk
- * 
+ *
  * 2502000.js: Mu Lung Reactor - Peach
- * 
-*/
+ *
+ */
 
-function act(){
-	rm.dropItems();
+function act() {
+  rm.dropItems();
 }

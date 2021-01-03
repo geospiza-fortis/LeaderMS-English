@@ -12,12 +12,12 @@
 //}
 //
 //function action (mode, type , selection) {
-//if (mode == 1) { 
-//     status++; 
-// }else{ 
-//       status--; 
+//if (mode == 1) {
+//     status++;
+// }else{
+//       status--;
 //}
-//if (status == 0) { 
+//if (status == 0) {
 //cm.sendSimple("Ola #e#h ##n, eu sou Cody o auxiliar do LeaderMS.\r\nEstou precisando de sua ajuda para #bcoletar#k alguns pontos, me ajudando eu te darei items especiais, pode me ajudar? Tudo bem, os pontos podem ser obtidos atraves do jogo (LeaderPoints).\r\nLembrando que e necessario ter a ocupacao #e#rrequerida#n#k. \r\n\r\nSe voce ja #epossui#n estes pontos, clique em continuar, caso nao tenha, volte novamente mais tarde.\r\n\#L0#Pergaminhos (Raros)#l\r\n\#L206#Trocar 3.000 LeaderPoints por Trofeu (1)#l\r\n\#L205#Trocar (1) #t4031442# por 1.000 LeaderPoints#l\r\n\#L204#Trocar 1.000 Maple Leaf por 300 LeaderPoints#l\r\n\#L3##r#eComo obter pontos?#k#l#n");
 //} else if (status == 1){
 //if (selection == 0) {
@@ -34,7 +34,7 @@
 //        } else {
 //        cm.sendOk("Que pena, voce ainda nao tem folhas suficientes para este tipo de troca.");
 //        cm.dispose();
-//    } 
+//    }
 //} else if(selection == 205) {
 //     if(cm.haveItem(4031442, 1)) {
 //            cm.gainItem(4031442, -1)
@@ -45,7 +45,7 @@
 //        } else {
 //        cm.sendOk("Que pena, voce ainda nao tem presente(s) suficiente(s) para este tipo de troca.");
 //        cm.dispose();
-//  } 
+//  }
 //  }  else if(selection == 206) {
 //     if(cm.getLeaderPoints() >= 3000) {
 //            cm.gainItem(4000038, 1)
@@ -82,24 +82,24 @@
 //        cm.dispose();
 //     }
 //    }
-//   }   
+//   }
 // }
 
 var status;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
-function action (mode, type, selection) {
-	if (mode == 1) { 
-		status++; 
-	} else { 
-		status--; 
-	}
-	if(status == 0) {
-		cm.sendSimple("Hello, welcome to " + cm.getServerName() + "!");
-		cm.dispose();
-	}
+function action(mode, type, selection) {
+  if (mode == 1) {
+    status++;
+  } else {
+    status--;
+  }
+  if (status == 0) {
+    cm.sendSimple("Hello, welcome to " + cm.getServerName() + "!");
+    cm.dispose();
+  }
 }

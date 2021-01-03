@@ -21,14 +21,17 @@
 */
 
 /* @Author Lerk
- * 
+ *
  * 2201004.js: Papulatus Reactor: Performs the Papulatus commands
-*/
+ */
 
-function act(){
-    //rm.closeDoor(220080000); //activate the reactor at map 220080000 Ludibrium: Deep Inside the Clocktower
-    //rm.closePortal(220080000,"sp");//close the portal
-    rm.mapMessage(5, "O buraco dimensional foi preenchido pela <Pedaco de Dimensao Rachado>.");
-    rm.changeMusic("Bgm09/TimeAttack");
-    rm.spawnMonster(8500000, -410, -400);
+function act() {
+  //rm.closeDoor(220080000); //activate the reactor at map 220080000 Ludibrium: Deep Inside the Clocktower
+  //rm.closePortal(220080000,"sp");//close the portal
+  rm.mapMessage(
+    5,
+    "O buraco dimensional foi preenchido pela <Pedaco de Dimensao Rachado>."
+  );
+  rm.changeMusic("Bgm09/TimeAttack");
+  rm.spawnMonster(8500000, -410, -400);
 }

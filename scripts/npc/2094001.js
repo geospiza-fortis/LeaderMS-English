@@ -35,65 +35,67 @@ var chatState;
 var preamble;
 var PQItems = new Array(4001117, 4001120, 4001121, 4001122);
 
-			
-
 function start() {
-	status = -1;
-	mapId = cm.getChar().getMapId();
-	if (mapId == 925100500)//The Captains Dignity
-		curMap = 1;
-	else if (mapId == 925100600) //Wu Yang giving thanks
-		curMap = 2;
-	if (cm.getParty() != null) //Check for Party
-	playerStatus = cm.isLeader();
-	preamble = null;
-	action(1, 0, 0);
+  status = -1;
+  mapId = cm.getChar().getMapId();
+  if (mapId == 925100500)
+    //The Captains Dignity
+    curMap = 1;
+  else if (mapId == 925100600)
+    //Wu Yang giving thanks
+    curMap = 2;
+  if (cm.getParty() != null)
+    //Check for Party
+    playerStatus = cm.isLeader();
+  preamble = null;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (curMap == 1) {
-			if (playerStatus) { //Is teh leader
-				var eim = cm.getPlayer().getEventInstance();
-				var party = cm.getPlayer().getEventInstance().getPlayers();
-				var winMap = eim.getMapInstance(925100600);
-				if (status == 0) {
-					cm.sendNext("Thank you for saving me from Lord Pirate. Finally, the Bellflowers may be out of the grasp of Lord Pirates.");
-				} else if (status == 1) {
-					for (var iii=0; iii < party.size(); iii++) {
-						party.get(iii).changeMap(winMap, winMap.getPortal(0));
-						eim.unregisterPlayer(party.get(iii));
-					}
-					cm.dispose();
-				}
-			} else {
-				cm.sendNext("Please ask yur party leader to speak to me.");
-				cm.dipsose();
-			}
-		} else if (curMap == 2) {
-			if (status == 0) {
-				cm.sendNext("Thank you for saving us Bellflowers, your work will be remembered for eternity.");
-			} else if (status == 1) {
-				if (cm.getPlayer().isGM() == false) {
-					for (var i = 0; i < PQItems.length; i++) {
-						cm.removeAll(PQItems[i]);
-					}
-				}
-				cm.warp(251010404, 0);
-				cm.dispose();
-			}
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+  } else {
+    if (mode == 0 && status == 0) {
+      cm.dispose();
+      return;
+    }
+    if (mode == 1) status++;
+    else status--;
+    if (curMap == 1) {
+      if (playerStatus) {
+        //Is teh leader
+        var eim = cm.getPlayer().getEventInstance();
+        var party = cm.getPlayer().getEventInstance().getPlayers();
+        var winMap = eim.getMapInstance(925100600);
+        if (status == 0) {
+          cm.sendNext(
+            "Thank you for saving me from Lord Pirate. Finally, the Bellflowers may be out of the grasp of Lord Pirates."
+          );
+        } else if (status == 1) {
+          for (var iii = 0; iii < party.size(); iii++) {
+            party.get(iii).changeMap(winMap, winMap.getPortal(0));
+            eim.unregisterPlayer(party.get(iii));
+          }
+          cm.dispose();
+        }
+      } else {
+        cm.sendNext("Please ask yur party leader to speak to me.");
+        cm.dipsose();
+      }
+    } else if (curMap == 2) {
+      if (status == 0) {
+        cm.sendNext(
+          "Thank you for saving us Bellflowers, your work will be remembered for eternity."
+        );
+      } else if (status == 1) {
+        if (cm.getPlayer().isGM() == false) {
+          for (var i = 0; i < PQItems.length; i++) {
+            cm.removeAll(PQItems[i]);
+          }
+        }
+        cm.warp(251010404, 0);
+        cm.dispose();
+      }
+    }
+  }
 }
-			
-			

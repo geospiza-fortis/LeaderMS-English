@@ -18,6 +18,7 @@
                         <format>
                             <includes>
                                 <include>src/**/*.java</include>
+                                <include>scripts/**/*.js</include>
                             </includes>
 
                             <prettier>

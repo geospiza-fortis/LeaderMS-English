@@ -30,12 +30,11 @@ Save location to return.
 */
 
 function enter(pi) {
-        if (pi.getPlayer().getLevel() <= 30) {
-                pi.warp(990000640, 1);
-                return true;
-        }
-        else {
-                pi.playerMessage("You cannot proceed past this point.");
-                return false;
-        }
+  if (pi.getPlayer().getLevel() <= 30) {
+    pi.warp(990000640, 1);
+    return true;
+  } else {
+    pi.playerMessage("You cannot proceed past this point.");
+    return false;
+  }
 }

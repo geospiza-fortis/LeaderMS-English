@@ -19,11 +19,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 function start() {
-	cm.warp(101000000, 0);
-	cm.dispose();
+  cm.warp(101000000, 0);
+  cm.dispose();
 }
 
-function action(mode, type, selection) {
-}
+function action(mode, type, selection) {}

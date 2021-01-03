@@ -23,13 +23,12 @@
 
 /* Guild Rank Board */
 
-
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action() {
-	cm.displayGuildRanks();
-	cm.dispose();
+  cm.displayGuildRanks();
+  cm.dispose();
 }

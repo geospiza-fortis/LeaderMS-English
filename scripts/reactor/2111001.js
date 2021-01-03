@@ -21,23 +21,23 @@
 */
 
 /* @Author Lerk
- * 
+ *
  * 2111001.js: Zakum Altar - Summons Zakum.
- * 
+ *
  * Note that Zakum is currently spawned body + 8 arms at once, with no special handling for the body
  * before the arms are defeated. Use caution.
-*/
+ */
 
 function act() {
-	rm.closeDoor(211042300); //activate the reactor at map 211042300 this map is where the door is 
-	rm.changeMusic("Bgm06/FinalFight");
-	rm.spawnMonster(8800000);
-	rm.spawnMonster(8800003);
-	rm.spawnMonster(8800004);
-	rm.spawnMonster(8800005);
-	rm.spawnMonster(8800006);
-	rm.spawnMonster(8800007);
-	rm.spawnMonster(8800008);
-	rm.spawnMonster(8800009);
-	rm.spawnMonster(8800010);
+  rm.closeDoor(211042300); //activate the reactor at map 211042300 this map is where the door is
+  rm.changeMusic("Bgm06/FinalFight");
+  rm.spawnMonster(8800000);
+  rm.spawnMonster(8800003);
+  rm.spawnMonster(8800004);
+  rm.spawnMonster(8800005);
+  rm.spawnMonster(8800006);
+  rm.spawnMonster(8800007);
+  rm.spawnMonster(8800008);
+  rm.spawnMonster(8800009);
+  rm.spawnMonster(8800010);
 }

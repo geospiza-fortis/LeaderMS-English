@@ -19,15 +19,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* 
+/*
  * @Author Lerk
- * 
+ *
  * spawn for Sharen III's Soul, Sharenian: Sharen III's Grave (990000700)
- * 
+ *
  * Guild Quest - end of stage 4
  */
 
-function act(){
-        rm.mapMessage("Um flash de luz brilhante, entao alguem familiar aparece na frente do portao bloqueado.");
-        rm.spawnNpc(9040003);
+function act() {
+  rm.mapMessage(
+    "Um flash de luz brilhante, entao alguem familiar aparece na frente do portao bloqueado."
+  );
+  rm.spawnNpc(9040003);
 }

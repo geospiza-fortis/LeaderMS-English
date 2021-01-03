@@ -1,8 +1,8 @@
 /*
-* @autor Java
-* LeaderMS MapleStory Private Server
-* APQ
-*/
+ * @autor Java
+ * LeaderMS MapleStory Private Server
+ * APQ
+ */
 
 var status = 0;
 var copns;
@@ -12,36 +12,42 @@ var teste = 1;
 importPackage(Packages.client);
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			joias = cm.getPlayer().countItem(4031868);
-			if (joias <= 5) {
-				cm.removeAll(4031868);
-				cm.sendNext("                                  #e<"+cm.getServerName()+" APQ>#n\r\n\r\nBring more #eJewelry#n next time if you want to earn more #eexperience#n.");
-			} else {
-				cm.removeAll(PQItems);
-				cm.sendNext("                                  #e<"+cm.getServerName()+" APQ>#n\r\n\r\nThanks for the #b#eJewelry#k#n.");
-                                cm.gainExp(100 * cm.getC().getChannelServer().getExpRate() * joias);
-                             //   cm.gainPQPoints(joias / 3.5 * teste);
-			}
-		} else if (status == 1) {
-			cm.warp(980010020, 0);
-			cm.dispose();
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+  } else {
+    if (mode == 0 && status == 0) {
+      cm.dispose();
+      return;
+    }
+    if (mode == 1) status++;
+    else status--;
+    if (status == 0) {
+      joias = cm.getPlayer().countItem(4031868);
+      if (joias <= 5) {
+        cm.removeAll(4031868);
+        cm.sendNext(
+          "                                  #e<" +
+            cm.getServerName() +
+            " APQ>#n\r\n\r\nBring more #eJewelry#n next time if you want to earn more #eexperience#n."
+        );
+      } else {
+        cm.removeAll(PQItems);
+        cm.sendNext(
+          "                                  #e<" +
+            cm.getServerName() +
+            " APQ>#n\r\n\r\nThanks for the #b#eJewelry#k#n."
+        );
+        cm.gainExp(100 * cm.getC().getChannelServer().getExpRate() * joias);
+        //   cm.gainPQPoints(joias / 3.5 * teste);
+      }
+    } else if (status == 1) {
+      cm.warp(980010020, 0);
+      cm.dispose();
+    }
+  }
 }

@@ -11,26 +11,33 @@ importPackage(Packages.tools.packet);
 
 var setupTask;
 var Mapas = 910000000;
-var Monstros = 9400202;  
-
+var Monstros = 9400202;
 
 function init() {
-	scheduleNew();
+  scheduleNew();
 }
 
 function scheduleNew() {
-	setupTask = em.schedule("start", 50 * 60000); 
+  setupTask = em.schedule("start", 50 * 60000);
 }
 
 function cancelSchedule() {
-	setupTask.cancel(true);
+  setupTask.cancel(true);
 }
 
 function start() {
-        var Evento = em.getChannelServer().getMapFactory().getMap(Mapas, true, true);
-	if (Evento.countMobOnMap(9400202) == 0) {
-		Evento.broadcastMessage(MaplePacketCreator.serverNotice(6, "[Auto Event] A monster invaded the Free Market, run to help us!"));
-                Evento.spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(Monstros), new java.awt.Point(-138, -200));                
-	}
-	scheduleNew();
+  var Evento = em.getChannelServer().getMapFactory().getMap(Mapas, true, true);
+  if (Evento.countMobOnMap(9400202) == 0) {
+    Evento.broadcastMessage(
+      MaplePacketCreator.serverNotice(
+        6,
+        "[Auto Event] A monster invaded the Free Market, run to help us!"
+      )
+    );
+    Evento.spawnMonsterOnGroundBelow(
+      MapleLifeFactory.getMonster(Monstros),
+      new java.awt.Point(-138, -200)
+    );
+  }
+  scheduleNew();
 }

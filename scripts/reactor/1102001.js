@@ -21,10 +21,10 @@
 */
 
 /* @Author Lerk
- * 
- * 1102001.js: Florina Beach Coconut - drops a coconut 
-*/
+ *
+ * 1102001.js: Florina Beach Coconut - drops a coconut
+ */
 
 function act() {
-	rm.dropItems();
+  rm.dropItems();
 }

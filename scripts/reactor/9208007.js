@@ -26,5 +26,9 @@ Stage 2: Spear destinations - Guild Quest
 */
 
 function act() {
-        rm.getPlayer().getEventInstance().getMapInstance(990000400).getReactorByName("speargate").hitReactor(rm.getPlayer().getClient());
+  rm.getPlayer()
+    .getEventInstance()
+    .getMapInstance(990000400)
+    .getReactorByName("speargate")
+    .hitReactor(rm.getPlayer().getClient());
 }

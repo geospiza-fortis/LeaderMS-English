@@ -53,57 +53,57 @@ var Cabin_to_Leafre;
 var Leafre_docked;
 
 function init() {
-	Orbis_btf = em.getChannelServer().getMapFactory().getMap(200000132);
-	Leafre_btf = em.getChannelServer().getMapFactory().getMap(240000111);
-	Cabin_to_Orbis = em.getChannelServer().getMapFactory().getMap(200090210);
-	Cabin_to_Leafre = em.getChannelServer().getMapFactory().getMap(200090200);
-	Orbis_docked = em.getChannelServer().getMapFactory().getMap(200000100);
-	Leafre_docked = em.getChannelServer().getMapFactory().getMap(240000100);
-	Orbis_Station = em.getChannelServer().getMapFactory().getMap(200000131);
-	Leafre_Station = em.getChannelServer().getMapFactory().getMap(240000110);
-	scheduleNew();
+  Orbis_btf = em.getChannelServer().getMapFactory().getMap(200000132);
+  Leafre_btf = em.getChannelServer().getMapFactory().getMap(240000111);
+  Cabin_to_Orbis = em.getChannelServer().getMapFactory().getMap(200090210);
+  Cabin_to_Leafre = em.getChannelServer().getMapFactory().getMap(200090200);
+  Orbis_docked = em.getChannelServer().getMapFactory().getMap(200000100);
+  Leafre_docked = em.getChannelServer().getMapFactory().getMap(240000100);
+  Orbis_Station = em.getChannelServer().getMapFactory().getMap(200000131);
+  Leafre_Station = em.getChannelServer().getMapFactory().getMap(240000110);
+  scheduleNew();
 }
 
 function scheduleNew() {
-	Leafre_Station.setDocked(true);
-	Orbis_Station.setDocked(true);
-	Leafre_Station.broadcastMessage(MaplePacketCreator.boatPacket(true));
-	Orbis_Station.broadcastMessage(MaplePacketCreator.boatPacket(true));
-	em.setProperty("docked", "true");
-	em.setProperty("entry", "true");
-	em.schedule("stopEntry", closeTime);
-	em.schedule("takeoff", beginTime);
+  Leafre_Station.setDocked(true);
+  Orbis_Station.setDocked(true);
+  Leafre_Station.broadcastMessage(MaplePacketCreator.boatPacket(true));
+  Orbis_Station.broadcastMessage(MaplePacketCreator.boatPacket(true));
+  em.setProperty("docked", "true");
+  em.setProperty("entry", "true");
+  em.schedule("stopEntry", closeTime);
+  em.schedule("takeoff", beginTime);
 }
 
 function stopEntry() {
-	em.setProperty("entry","false");
+  em.setProperty("entry", "false");
 }
 
 function takeoff() {
-	Leafre_Station.setDocked(false);
-	Orbis_Station.setDocked(false);
-	Leafre_Station.broadcastMessage(MaplePacketCreator.boatPacket(false));
-	Orbis_Station.broadcastMessage(MaplePacketCreator.boatPacket(false));
-	em.setProperty("docked","false");
-	var temp1 = Orbis_btf.getCharacters().iterator();
-	while(temp1.hasNext()) {
-		temp1.next().changeMap(Cabin_to_Leafre, Cabin_to_Leafre.getPortal(0));
-	}
-	var temp2 = Leafre_btf.getCharacters().iterator();
-	while(temp2.hasNext()) {
-		temp2.next().changeMap(Cabin_to_Orbis, Cabin_to_Orbis.getPortal(0));
-	}
-	em.schedule("arrived", rideTime);
+  Leafre_Station.setDocked(false);
+  Orbis_Station.setDocked(false);
+  Leafre_Station.broadcastMessage(MaplePacketCreator.boatPacket(false));
+  Orbis_Station.broadcastMessage(MaplePacketCreator.boatPacket(false));
+  em.setProperty("docked", "false");
+  var temp1 = Orbis_btf.getCharacters().iterator();
+  while (temp1.hasNext()) {
+    temp1.next().changeMap(Cabin_to_Leafre, Cabin_to_Leafre.getPortal(0));
+  }
+  var temp2 = Leafre_btf.getCharacters().iterator();
+  while (temp2.hasNext()) {
+    temp2.next().changeMap(Cabin_to_Orbis, Cabin_to_Orbis.getPortal(0));
+  }
+  em.schedule("arrived", rideTime);
 }
 
 function arrived() {
-	var temp1 = Cabin_to_Orbis.getCharacters().iterator();
-	while(temp1.getCharacters().iterator().hasNext()) {
-		temp1.next().changeMap(Orbis_docked, Orbis_docked.getPortal(0));
-	}
-	var temp2 = Cabin_to_Leafre.getCharacters().iterator();
-	while(temp2.hasNext()) {
-		temp2.next().changeMap(Leafre_docked, Leafre_docked.getPortal(0));
-	}
-	scheduleNew();
+  var temp1 = Cabin_to_Orbis.getCharacters().iterator();
+  while (temp1.getCharacters().iterator().hasNext()) {
+    temp1.next().changeMap(Orbis_docked, Orbis_docked.getPortal(0));
+  }
+  var temp2 = Cabin_to_Leafre.getCharacters().iterator();
+  while (temp2.hasNext()) {
+    temp2.next().changeMap(Leafre_docked, Leafre_docked.getPortal(0));
+  }
+  scheduleNew();
 }

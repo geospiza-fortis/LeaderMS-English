@@ -28,28 +28,45 @@ importPackage(Packages.tools.package);
 */
 
 function enter(pi) {
-	var nextMap = 925100400;
-	var eim = pi.getPlayer().getEventInstance();
-	var party = pi.getPlayer().getEventInstance().getPlayers();
-	var target = eim.getMapInstance(nextMap);
-	var targetPortal = target.getPortal("sp");
-	var mobCount = pi.countMonster();
-	var reactorCount = pi.countReactor(4);
-	var playerStatus = pi.isLeader();
-		//Count the monsters...
-		if (playerStatus == false) {
-			pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(6, "Only the party leader may proceed."));
-			return false;
-		}else if (mobCount !=0 || reactorCount < 7) {
-			// do nothing; send message to player
-			pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(6, "Kill all Pirates before proceeding."));
-			return false;
-		}else {
-			eim.setProperty("entryTimeStamp", 1000 * 60 * 6);
-			for(var g=0; g<party.size(); g++) {
-				party.get(g).changeMap(target, targetPortal);
-				party.get(g).getClient().getSession().write(MaplePacketCreator.getClock(360));
-			}
-			return true;
-		}
+  var nextMap = 925100400;
+  var eim = pi.getPlayer().getEventInstance();
+  var party = pi.getPlayer().getEventInstance().getPlayers();
+  var target = eim.getMapInstance(nextMap);
+  var targetPortal = target.getPortal("sp");
+  var mobCount = pi.countMonster();
+  var reactorCount = pi.countReactor(4);
+  var playerStatus = pi.isLeader();
+  //Count the monsters...
+  if (playerStatus == false) {
+    pi.getPlayer()
+      .getClient()
+      .getSession()
+      .write(
+        MaplePacketCreator.serverNotice(6, "Only the party leader may proceed.")
+      );
+    return false;
+  } else if (mobCount != 0 || reactorCount < 7) {
+    // do nothing; send message to player
+    pi.getPlayer()
+      .getClient()
+      .getSession()
+      .write(
+        MaplePacketCreator.serverNotice(
+          6,
+          "Kill all Pirates before proceeding."
+        )
+      );
+    return false;
+  } else {
+    eim.setProperty("entryTimeStamp", 1000 * 60 * 6);
+    for (var g = 0; g < party.size(); g++) {
+      party.get(g).changeMap(target, targetPortal);
+      party
+        .get(g)
+        .getClient()
+        .getSession()
+        .write(MaplePacketCreator.getClock(360));
+    }
+    return true;
+  }
 }

@@ -24,10 +24,10 @@
 @author xQuasar
 */
 
-function act(){
-	if (rm.getMapId() == 922010300) {
-		rm.spawnMonster(9300007);
-		rm.spawnMonster(9300007);
-		rm.spawnMonster(9300007);
-	}
+function act() {
+  if (rm.getMapId() == 922010300) {
+    rm.spawnMonster(9300007);
+    rm.spawnMonster(9300007);
+    rm.spawnMonster(9300007);
+  }
 }

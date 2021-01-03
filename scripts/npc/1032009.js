@@ -38,27 +38,31 @@ var bm;
 var ride;
 
 function start() {
-	status = -1;
-	bm = cm.getEventManager("Boats");
-	action(1, 0, 0);
+  status = -1;
+  bm = cm.getEventManager("Boats");
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if(mode == -1) {
-		cm.dispose();
-		return;
-	} else {
-		status++;
-		if(mode == 0) {
-			cm.sendOk("We will reach our destination on time. Go ahead and talk to others, and before you know it, we'll be there already.");
-			cm.dispose();
-			return;
-		}
-		if(status == 0) {
-			cm.sendYesNo("You want to leave the waiting room? You may, but your ticket will not be refunded. Are you sure you still want to leave this room?");
-		} else if(status == 1) {
-			cm.warp(101000300);
-			cm.dispose();
-		}
-	}
+  if (mode == -1) {
+    cm.dispose();
+    return;
+  } else {
+    status++;
+    if (mode == 0) {
+      cm.sendOk(
+        "We will reach our destination on time. Go ahead and talk to others, and before you know it, we'll be there already."
+      );
+      cm.dispose();
+      return;
+    }
+    if (status == 0) {
+      cm.sendYesNo(
+        "You want to leave the waiting room? You may, but your ticket will not be refunded. Are you sure you still want to leave this room?"
+      );
+    } else if (status == 1) {
+      cm.warp(101000300);
+      cm.dispose();
+    }
+  }
 }

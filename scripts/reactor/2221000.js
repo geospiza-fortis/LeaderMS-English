@@ -21,12 +21,12 @@
 */
 
 /* @Author Lerk
- * 
+ *
  * 2221000.js: KFT Reactor - Yellow King Goblin
- * 
-*/
+ *
+ */
 
-function act(){
-	rm.spawnMonster(7130400);
-	rm.mapMessage(5, "Ai vem o Amarelo Rei dos Duendes!");
+function act() {
+  rm.spawnMonster(7130400);
+  rm.mapMessage(5, "Ai vem o Amarelo Rei dos Duendes!");
 }

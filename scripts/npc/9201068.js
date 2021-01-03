@@ -24,38 +24,38 @@ close = false;
 oldSelection = -1;
 
 function start() {
-    var text = "Hello , I am the ticket gate.";
-    if(cm.haveItem(4031713))
-        text += " Which ticket do you want to use? You will be warped immediately.#b";
-    else
-        close = true;
-    if(cm.haveItem(4031713))
-        text += "\r\n#L0##t4031713#";
-    if(close){
-        cm.sendOk(text);
-        cm.dispose();
-    }else
-        cm.sendSimple(text);
+  var text = "Hello , I am the ticket gate.";
+  if (cm.haveItem(4031713))
+    text +=
+      " Which ticket do you want to use? You will be warped immediately.#b";
+  else close = true;
+  if (cm.haveItem(4031713)) text += "\r\n#L0##t4031713#";
+  if (close) {
+    cm.sendOk(text);
+    cm.dispose();
+  } else cm.sendSimple(text);
 }
 
 function action(mode, type, selection) {
-    status++;
-    if (mode != 1) {
-        if(mode == 0)
-            cm.sendNext("You must have some business to take care of here, right?");
-        cm.dispose();
-        return;
+  status++;
+  if (mode != 1) {
+    if (mode == 0)
+      cm.sendNext("You must have some business to take care of here, right?");
+    cm.dispose();
+    return;
+  }
+  if (status == 0) {
+    if (selection == 0) {
+      cm.sendYesNo(
+        "It seems like there is still plenty of room on this ride. Please keep your ticket ready so I can let you on. The journey may be long, but you will get to your destination safely. What do you think? Do you want to go on this ride?"
+      );
     }
-    if (status == 0) {
-        if(selection == 0){
-            cm.sendYesNo("It seems like there is still plenty of room on this ride. Please keep your ticket ready so I can let you on. The journey may be long, but you will get to your destination safely. What do you think? Do you want to go on this ride?");
-        }
-        oldSelection = selection;
-    } else if(status == 1){
-        if(oldSelection == 0){
-            cm.gainItem(4031713, -1);
-            cm.warp(103000100);
-        }
-        cm.dispose();
+    oldSelection = selection;
+  } else if (status == 1) {
+    if (oldSelection == 0) {
+      cm.gainItem(4031713, -1);
+      cm.warp(103000100);
     }
+    cm.dispose();
+  }
 }
