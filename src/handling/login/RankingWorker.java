@@ -50,21 +50,6 @@ public class RankingWorker implements Runnable {
     try {
       con = DatabaseConnection.getConnection();
       con.setAutoCommit(false);
-      if (ChannelServer.getInstance(1) != null) {
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        if (
-          day == Calendar.SUNDAY &&
-          System.currentTimeMillis() -
-          ChannelServer.getInstance(1).getLordLastUpdate() >
-          4 *
-          24 *
-          60 *
-          60 *
-          1000
-        ) {
-          resetLord();
-        }
-      }
       updateRanking(null);
       updateRanking(MapleJob.BEGINNER);
       updateRanking(MapleJob.WARRIOR);
@@ -83,46 +68,6 @@ public class RankingWorker implements Runnable {
       } catch (SQLException ex2) {
         log.error("Could not rollback unfinished ranking transaction", ex2);
       }
-    }
-  }
-
-  private void resetLord() {
-    try {
-      ChannelServer
-        .getInstance(1)
-        .setLordLastUpdate(System.currentTimeMillis());
-      ChannelServer.getInstance(1).saveLordLastUpdate();
-      ChannelServer
-        .getInstance(1)
-        .getWorldInterface()
-        .broadcastMessage(
-          "",
-          MaplePacketCreator
-            .serverNotice(6, "[Lord] Lord voting has been reset!")
-            .getBytes()
-        );
-      for (ChannelServer cs : ChannelServer.getAllInstances()) {
-        for (MapleCharacter mc : cs.getPlayerStorage().getAllCharacters()) {
-          if ((mc.isLord())) {
-            mc
-              .getClient()
-              .getSession()
-              .write(
-                MaplePacketCreator.serverNotice(
-                  6,
-                  "[Lord] You have lost your lord status."
-                )
-              );
-            mc.setLord(false);
-          }
-        }
-      }
-      PreparedStatement ps = con.prepareStatement("DELETE FROM lordvotes");
-      ps.executeUpdate();
-      ps = con.prepareStatement("DELETE FROM lordvoted");
-      ps.executeUpdate();
-    } catch (Exception ex) {
-      ex.printStackTrace();
     }
   }
 

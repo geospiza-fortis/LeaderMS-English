@@ -155,8 +155,6 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
 
   private Map<MapleSquadType, MapleSquad> mapleSquads = new HashMap<MapleSquadType, MapleSquad>();
   private MarketEngine me = new MarketEngine();
-  private long lordLastUpdate = 0;
-  private int lordId = 0;
 
   private ChannelServer(String key) {
     mapFactory =
@@ -924,84 +922,6 @@ public class ChannelServer implements Runnable, ChannelServerMBean {
 
   public MarketEngine getMarket() {
     return me;
-  }
-
-  public long getLordLastUpdate() {
-    return lordLastUpdate;
-  }
-
-  public void setLordLastUpdate(long lordLastUpdate) {
-    this.lordLastUpdate = lordLastUpdate;
-  }
-
-  public void saveLordLastUpdate() {
-    File file = new File("lordlastupdate.txt");
-    FileOutputStream o = null;
-    try {
-      o = new FileOutputStream(file);
-    } catch (FileNotFoundException ex) {
-      Logger
-        .getLogger(ChannelServer.class.getName())
-        .log(Level.SEVERE, null, ex);
-    }
-    String write = String.valueOf(lordLastUpdate);
-    for (int i = 0; i < write.length(); i++) {
-      try {
-        o.write((int) (write.charAt(i)));
-      } catch (IOException ex) {
-        Logger
-          .getLogger(ChannelServer.class.getName())
-          .log(Level.SEVERE, null, ex);
-      }
-    }
-    if (o != null) {
-      try {
-        o.close();
-      } catch (IOException ex) {
-        Logger
-          .getLogger(ChannelServer.class.getName())
-          .log(Level.SEVERE, null, ex);
-      }
-    }
-  }
-
-  public int getLordId() {
-    return lordId;
-  }
-
-  public void setLordId(int lordId) {
-    this.lordId = lordId;
-  }
-
-  public void saveLordId() {
-    File file = new File("lordid.txt");
-    FileOutputStream o = null;
-    try {
-      o = new FileOutputStream(file);
-    } catch (FileNotFoundException ex) {
-      Logger
-        .getLogger(ChannelServer.class.getName())
-        .log(Level.SEVERE, null, ex);
-    }
-    String write = String.valueOf(lordId);
-    for (int i = 0; i < write.length(); i++) {
-      try {
-        o.write((int) (write.charAt(i)));
-      } catch (IOException ex) {
-        Logger
-          .getLogger(ChannelServer.class.getName())
-          .log(Level.SEVERE, null, ex);
-      }
-    }
-    if (o != null) {
-      try {
-        o.close();
-      } catch (IOException ex) {
-        Logger
-          .getLogger(ChannelServer.class.getName())
-          .log(Level.SEVERE, null, ex);
-      }
-    }
   }
 
   public boolean allowMTS() {
