@@ -230,17 +230,6 @@ CREATE TABLE IF NOT EXISTS `cheatlog` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
--- CREATE TABLE IF NOT EXISTS `cooldowns` (
---   `id` int(11) NOT NULL AUTO_INCREMENT,
---   `charid` int(11) NOT NULL,
---   `SkillID` int(11) NOT NULL,
---   `length` bigint(20) unsigned NOT NULL,
---   `StartTime` bigint(20) unsigned NOT NULL,
---   PRIMARY KEY (`id`),
---   UNIQUE KEY `charid` (`charid`,`SkillID`),
--- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
 CREATE TABLE IF NOT EXISTS `dueypackages` (
   `PackageId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `RecieverId` int(10) unsigned NOT NULL,
@@ -469,23 +458,6 @@ CREATE TABLE IF NOT EXISTS `iplog` (
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-
--- CREATE TABLE IF NOT EXISTS `jobchanges` (
---   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
---   `cid` int(10) unsigned NOT NULL,
---   `jobid` int(10) unsigned NOT NULL,
---   PRIMARY KEY (`id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
--- CREATE TABLE IF NOT EXISTS `jobs` (
---   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
---   `characterid` int(11) NOT NULL DEFAULT '0',
---   `jobid` int(11) NOT NULL DEFAULT '0',
---   PRIMARY KEY (`id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
 CREATE TABLE IF NOT EXISTS `keymap` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `characterid` int(11) NOT NULL DEFAULT '0',
@@ -503,7 +475,6 @@ CREATE TABLE IF NOT EXISTS `loginserver` (
   `world` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`loginserverid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
 
 
 CREATE TABLE IF NOT EXISTS `macbans` (
@@ -612,15 +583,6 @@ CREATE TABLE IF NOT EXISTS `nxcode` (
   `item` int(11) NOT NULL DEFAULT '10000',
   PRIMARY KEY (`code`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
--- CREATE TABLE IF NOT EXISTS `nxcode_track` (
---   `ID` int(6) NOT NULL AUTO_INCREMENT,
---   `IP` varchar(15) NOT NULL DEFAULT '000.000.000.000',
---   `Day` int(2) NOT NULL,
---   PRIMARY KEY (`ID`),
---   KEY `IP` (`IP`,`Day`)
--- ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `pets` (
@@ -768,7 +730,6 @@ CREATE TABLE IF NOT EXISTS `shopitems` (
   KEY `shopid` (`shopid`),
   UNIQUE (`shopid`,`itemid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=996534 ;
-
 
 
 CREATE TABLE IF NOT EXISTS `shops` (

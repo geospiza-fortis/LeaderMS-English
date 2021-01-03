@@ -333,19 +333,15 @@ public class CommandProcessor implements CommandProcessorMBean {
         );
         if (
           definitionCommandPair != null &&
-          (
-            player.getGMLevel() >=
-            definitionCommandPair.getDefinition().getRequiredLevel()
-          ) ||
-          player.isLord() &&
-          definitionCommandPair.getDefinition().getRequiredLevel() == 50
+          player.getGMLevel() >=
+          definitionCommandPair.getDefinition().getRequiredLevel()
         ) {
           synchronized (gmlog) {
-            if (
-              definitionCommandPair.getDefinition().getRequiredLevel() > 0
-            ) gmlog.add( //							gmlog.add(new Pair<MapleCharacter, String>(player, line));
-              new Pair<String, String>(c.getPlayer().getName(), line)
-            );
+            if (definitionCommandPair.getDefinition().getRequiredLevel() > 0) {
+              gmlog.add(
+                new Pair<String, String>(c.getPlayer().getName(), line)
+              );
+            }
           }
           try {
             definitionCommandPair.getCommand().execute(c, mc, splitted);

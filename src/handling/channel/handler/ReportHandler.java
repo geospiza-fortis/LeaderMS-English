@@ -38,14 +38,6 @@ public class ReportHandler extends AbstractMaplePacketHandler {
       " reported " +
       c.getChannelServer().getMarket().getCharacterName(reportedCharId)
     );
-    for (ChannelServer cs : ChannelServer.getAllInstances()) {
-      for (MapleCharacter mc : cs.getPlayerStorage().getAllCharacters()) {
-        if (mc.getId() == reportedCharId) {
-          mc.setLogchat(true);
-          mc.setLastChatLog(System.currentTimeMillis());
-        }
-      }
-    }
     boolean reported = addReportEntry(
       c.getPlayer().getId(),
       reportedCharId,

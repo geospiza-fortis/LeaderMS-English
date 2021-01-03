@@ -71,6 +71,18 @@ mvn spotless:apply
 This code is janky. To make significant changes, you will need to know how to
 debug java code.
 
+## `/usr/bin/env: ‘bash\r’: No such file or directory`
+
+To fix this, we need to remove Windows line endings.
+
+```bash
+docker-compose run --rm world bash
+apt install dos2unix
+dos2unix bin/*
+```
+
+Then rebuild using `docker-compose build`.
+
 ### building code
 
 To ensure that code is built every time you re-run the server:

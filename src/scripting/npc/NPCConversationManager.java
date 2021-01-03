@@ -1530,33 +1530,6 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
   }
 
-  public int applyForLord() {
-    return c.getPlayer().applyForLord();
-  }
-
-  public String getLords() {
-    Connection con = DatabaseConnection.getConnection();
-    String ret = "";
-    try {
-      PreparedStatement ps = con.prepareStatement("SELECT * FROM lordvotes");
-      ResultSet rs = ps.executeQuery();
-      while (rs.next()) {
-        int votes = rs.getInt("votes");
-        int charid = rs.getInt("charid");
-        String name = c.getChannelServer().getMarket().getCharacterName(charid);
-        ret +=
-          "#L" + charid + "##b" + name + "#k #evotes#n: " + votes + "\\r\\n";
-      }
-      return ret;
-    } catch (Exception ex) {
-      return "There was a database error.\\r\\n";
-    }
-  }
-
-  public boolean voteForLord(int cid) {
-    return c.getPlayer().voteForLord(cid);
-  }
-
   public String getCharName(int id) {
     return c.getChannelServer().getMarket().getCharacterName(id);
   }
